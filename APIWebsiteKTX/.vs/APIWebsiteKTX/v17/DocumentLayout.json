@@ -1,53 +1,53 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\",
+  "WorkspaceRootPath": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\apiktxwebsite\\apiwebsitektx\\apiwebsitektx\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\api_websitektx_khoaluan\\apiwebsitektx\\apiwebsitektx\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|solutionrelative:apiwebsitektx\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\apiktxwebsite\\apiwebsitektx\\apiwebsitektx\\models\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\api_websitektx_khoaluan\\apiwebsitektx\\apiwebsitektx\\models\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|solutionrelative:apiwebsitektx\\models\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\apiktxwebsite\\apiwebsitektx\\apiwebsitektx\\models\\nguoidung.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\api_websitektx_khoaluan\\apiwebsitektx\\apiwebsitektx\\models\\nguoidung.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|solutionrelative:apiwebsitektx\\models\\nguoidung.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\apiktxwebsite\\apiwebsitektx\\apiwebsitektx\\models\\sinhvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\api_websitektx_khoaluan\\apiwebsitektx\\apiwebsitektx\\models\\sinhvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|solutionrelative:apiwebsitektx\\models\\sinhvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\apiktxwebsite\\apiwebsitektx\\apiwebsitektx\\controllers\\viphamcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\api_websitektx_khoaluan\\apiwebsitektx\\apiwebsitektx\\controllers\\viphamcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|solutionrelative:apiwebsitektx\\controllers\\viphamcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\apiktxwebsite\\apiwebsitektx\\apiwebsitektx\\data\\ktxcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\api_websitektx_khoaluan\\apiwebsitektx\\apiwebsitektx\\data\\ktxcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|solutionrelative:apiwebsitektx\\data\\ktxcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\apiktxwebsite\\apiwebsitektx\\apiwebsitektx\\data\\dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\api_websitektx_khoaluan\\apiwebsitektx\\apiwebsitektx\\data\\dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|solutionrelative:apiwebsitektx\\data\\dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\apiktxwebsite\\apiwebsitektx\\apiwebsitektx\\controllers\\sinhviencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\api_websitektx_khoaluan\\apiwebsitektx\\apiwebsitektx\\controllers\\sinhviencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|solutionrelative:apiwebsitektx\\controllers\\sinhviencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\apiktxwebsite\\apiwebsitektx\\apiwebsitektx\\controllers\\namhoccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\api_websitektx_khoaluan\\apiwebsitektx\\apiwebsitektx\\controllers\\namhoccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|solutionrelative:apiwebsitektx\\controllers\\namhoccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\apiktxwebsite\\apiwebsitektx\\apiwebsitektx\\controllers\\phongcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\api_websitektx_khoaluan\\apiwebsitektx\\apiwebsitektx\\controllers\\phongcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|solutionrelative:apiwebsitektx\\controllers\\phongcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\apiktxwebsite\\apiwebsitektx\\apiwebsitektx\\models\\trangthietbi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\api_websitektx_khoaluan\\apiwebsitektx\\apiwebsitektx\\models\\trangthietbi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|solutionrelative:apiwebsitektx\\models\\trangthietbi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\apiktxwebsite\\apiwebsitektx\\apiwebsitektx\\models\\tang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|p:\\hk8\\doanktx\\api_websitektx_khoaluan\\apiwebsitektx\\apiwebsitektx\\models\\tang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44BFAC25-F420-4B10-A4B7-8B6C1EFC9BA0}|APIWebsiteKTX\\APIWebsiteKTX.csproj|solutionrelative:apiwebsitektx\\models\\tang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -58,21 +58,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 10,
               "Title": "TrangThietBi.cs",
-              "DocumentMoniker": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\TrangThietBi.cs",
+              "DocumentMoniker": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\TrangThietBi.cs",
               "RelativeDocumentMoniker": "APIWebsiteKTX\\Models\\TrangThietBi.cs",
-              "ToolTip": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\TrangThietBi.cs",
+              "ToolTip": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\TrangThietBi.cs",
               "RelativeToolTip": "APIWebsiteKTX\\Models\\TrangThietBi.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-07T20:41:52.555Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Bookmark",
@@ -86,48 +89,45 @@
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "SinhVien.cs",
-              "DocumentMoniker": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\SinhVien.cs",
+              "DocumentMoniker": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\SinhVien.cs",
               "RelativeDocumentMoniker": "APIWebsiteKTX\\Models\\SinhVien.cs",
-              "ToolTip": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\SinhVien.cs",
+              "ToolTip": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\SinhVien.cs",
               "RelativeToolTip": "APIWebsiteKTX\\Models\\SinhVien.cs",
               "ViewState": "AgIAAA8AAAAAAAAAAAAywBEAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T21:51:38.784Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-07T21:51:38.784Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "ViPhamController.cs",
-              "DocumentMoniker": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\ViPhamController.cs",
+              "DocumentMoniker": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\ViPhamController.cs",
               "RelativeDocumentMoniker": "APIWebsiteKTX\\Controllers\\ViPhamController.cs",
-              "ToolTip": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\ViPhamController.cs",
+              "ToolTip": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\ViPhamController.cs",
               "RelativeToolTip": "APIWebsiteKTX\\Controllers\\ViPhamController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T21:20:27.431Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-07T21:20:27.431Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
               "Title": "DBConText.cs",
-              "DocumentMoniker": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Data\\DBConText.cs",
+              "DocumentMoniker": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Data\\DBConText.cs",
               "RelativeDocumentMoniker": "APIWebsiteKTX\\Data\\DBConText.cs",
-              "ToolTip": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Data\\DBConText.cs",
+              "ToolTip": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Data\\DBConText.cs",
               "RelativeToolTip": "APIWebsiteKTX\\Data\\DBConText.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T21:20:24.413Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-07T21:20:24.413Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "AuthController.cs",
-              "DocumentMoniker": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\AuthController.cs",
+              "DocumentMoniker": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "APIWebsiteKTX\\Controllers\\AuthController.cs",
-              "ToolTip": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\AuthController.cs",
+              "ToolTip": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\AuthController.cs",
               "RelativeToolTip": "APIWebsiteKTX\\Controllers\\AuthController.cs",
               "ViewState": "AgIAAEcAAAAAAAAAAAAAwGMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -138,92 +138,85 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "LoginDto.cs",
-              "DocumentMoniker": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\LoginDto.cs",
+              "DocumentMoniker": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\LoginDto.cs",
               "RelativeDocumentMoniker": "APIWebsiteKTX\\Models\\LoginDto.cs",
-              "ToolTip": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\LoginDto.cs",
+              "ToolTip": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\LoginDto.cs",
               "RelativeToolTip": "APIWebsiteKTX\\Models\\LoginDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T21:17:53.786Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-07T21:17:53.786Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "NguoiDung.cs",
-              "DocumentMoniker": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\NguoiDung.cs",
+              "DocumentMoniker": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\NguoiDung.cs",
               "RelativeDocumentMoniker": "APIWebsiteKTX\\Models\\NguoiDung.cs",
-              "ToolTip": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\NguoiDung.cs",
+              "ToolTip": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\NguoiDung.cs",
               "RelativeToolTip": "APIWebsiteKTX\\Models\\NguoiDung.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T21:17:00.971Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-07T21:17:00.971Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
               "Title": "KTXConText.cs",
-              "DocumentMoniker": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Data\\KTXConText.cs",
+              "DocumentMoniker": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Data\\KTXConText.cs",
               "RelativeDocumentMoniker": "APIWebsiteKTX\\Data\\KTXConText.cs",
-              "ToolTip": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Data\\KTXConText.cs",
+              "ToolTip": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Data\\KTXConText.cs",
               "RelativeToolTip": "APIWebsiteKTX\\Data\\KTXConText.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T21:15:28.87Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-07T21:15:28.87Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
               "Title": "NamHocController.cs",
-              "DocumentMoniker": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\NamHocController.cs",
+              "DocumentMoniker": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\NamHocController.cs",
               "RelativeDocumentMoniker": "APIWebsiteKTX\\Controllers\\NamHocController.cs",
-              "ToolTip": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\NamHocController.cs",
+              "ToolTip": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\NamHocController.cs",
               "RelativeToolTip": "APIWebsiteKTX\\Controllers\\NamHocController.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAABkAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T20:53:55.58Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-07T20:53:55.58Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
               "Title": "PhongController.cs",
-              "DocumentMoniker": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\PhongController.cs",
+              "DocumentMoniker": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\PhongController.cs",
               "RelativeDocumentMoniker": "APIWebsiteKTX\\Controllers\\PhongController.cs",
-              "ToolTip": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\PhongController.cs",
+              "ToolTip": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\PhongController.cs",
               "RelativeToolTip": "APIWebsiteKTX\\Controllers\\PhongController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T20:48:47.722Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-07T20:48:47.722Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
               "Title": "SinhVienController.cs",
-              "DocumentMoniker": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\SinhVienController.cs",
+              "DocumentMoniker": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\SinhVienController.cs",
               "RelativeDocumentMoniker": "APIWebsiteKTX\\Controllers\\SinhVienController.cs",
-              "ToolTip": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\SinhVienController.cs",
+              "ToolTip": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Controllers\\SinhVienController.cs",
               "RelativeToolTip": "APIWebsiteKTX\\Controllers\\SinhVienController.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAA2wB8AAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T20:45:10.211Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-07T20:45:10.211Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
               "Title": "Tang.cs",
-              "DocumentMoniker": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\Tang.cs",
+              "DocumentMoniker": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\Tang.cs",
               "RelativeDocumentMoniker": "APIWebsiteKTX\\Models\\Tang.cs",
-              "ToolTip": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\Tang.cs",
+              "ToolTip": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\Models\\Tang.cs",
               "RelativeToolTip": "APIWebsiteKTX\\Models\\Tang.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T20:41:46.373Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-07T20:41:46.373Z"
             }
           ]
         }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IMvG/UIi+ME=",
+  "dgSpecHash": "O+x7HOfuTgc=",
   "success": true,
-  "projectFilePath": "P:\\HK8\\doanktx\\apiktxwebsite\\APIWebsiteKTX\\APIWebsiteKTX\\APIWebsiteKTX.csproj",
+  "projectFilePath": "P:\\HK8\\doanktx\\API_WEBSITEKTX_KHOALUAN\\APIWebsiteKTX\\APIWebsiteKTX\\APIWebsiteKTX.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MSI PC\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\MSI PC\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
