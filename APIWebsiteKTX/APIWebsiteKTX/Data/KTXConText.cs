@@ -1,4 +1,5 @@
-﻿using APIWebsiteKTX.Models;
+﻿using APIWebsiteKTX.Controllers;
+using APIWebsiteKTX.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
@@ -29,5 +30,15 @@ namespace APIWebsiteKTX.Data
         public DbSet<TrangThietBi> TrangThietBi { get; set; }
         public DbSet<ViPham> ViPham { get; set; }
         public DbSet<YeuCauSuaChua> YeuCauSuaChua { get; set; }
+        // 1. Thêm DbSet cho DTO trả về từ sp_GetRooms
+        public DbSet<PhongController.RoomDto> RoomDtos { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Đánh dấu RoomDto là keyless (không ánh xạ tới bảng thực)
+            modelBuilder.Entity<PhongController.RoomDto>().HasNoKey().ToView(null);
+        }
     }
 }

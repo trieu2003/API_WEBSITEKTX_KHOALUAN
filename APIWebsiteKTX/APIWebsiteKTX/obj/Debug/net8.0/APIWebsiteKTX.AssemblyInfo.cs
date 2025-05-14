@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("APIWebsiteKTX")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1ee5708a6f5fbf9fa330e8f06feeba81cc62085c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4980e3bac93c5c694714998d36654bbadd92a2ab")]
 [assembly: System.Reflection.AssemblyProductAttribute("APIWebsiteKTX")]
 [assembly: System.Reflection.AssemblyTitleAttribute("APIWebsiteKTX")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
