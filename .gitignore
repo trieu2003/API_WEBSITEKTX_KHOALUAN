@@ -1,0 +1,72 @@
+﻿## Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Build Results
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+## NuGet
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## ASP.NET
+App_Data/
+App_publish/
+*.Publish.xml
+
+## User-specific files
+*.rsuser
+*.suo
+*.user
+*.userprefs
+
+## Rider (JetBrains IDE)
+.idea/
+*.sln.iml
+
+## Backup & Others
+*.bak
+*.tmp
+*.log
+*.vspscc
+*.vssscc
+
+## Configuration files
+appsettings.*.json
+secrets.json
+
+## DotNet CLI
+*.dbmdl
+*.dotCover
+
+## Entity Framework
+Migrations/
+
+## Test Results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+## Others
+_ReSharper*/
+*.DotSettings.user
+*.ncrunch*
+*.cache
+*.config.user
