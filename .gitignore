@@ -1,4 +1,54 @@
-﻿## Visual Studio
+﻿## Build results
+bin/
+obj/
+out/
+
+## Visual Studio folders
+.vs/
+*.user
+*.suo
+
+## ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+## User-specific files
+*.user
+*.userosscache
+*.sln.docstates
+
+## SQL Server LocalDB
+*.mdf
+*.ldf
+
+## Logs
+*.log
+
+## IIS Express
+.vs/
+.vscode/
+*.vspscc
+*.vssscc
+
+## Rider
+.idea/
+
+## Debug and Release folders
+**/Debug/
+**/Release/
+
+## NuGet
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+
+## Others
+*.db-shm
+*.db-wal
+*.db
+
+## Visual Studio
 .vs/
 .vscode/
 *.user
