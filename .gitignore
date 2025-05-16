@@ -5,7 +5,8 @@
 *.suo
 *.userosscache
 *.sln.docstates
-
+*.db-shm
+*.db-wal
 ## Build Results
 bin/
 obj/
