@@ -1,5 +1,6 @@
 ﻿USE MASTER
-DROP DATABASE KTX
+ALTER DATABASE KTX SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+DROP DATABASE KTX;
 USE MASTER
 CREATE DATABASE KTX
 USE [KTX]
@@ -131,6 +132,7 @@ CREATE TABLE [dbo].[HopDongNoiTru](
 	[MaHopDong] [int] IDENTITY(1,1) NOT NULL,
 	[MaSV] [nvarchar](20) NULL,
 	[MaGiuong] [nvarchar](50) NULL,
+	[MaPhong] [nvarchar](50) NULL,
 	[NgayDangKy] [date] NULL,
 	[NgayBatDau] [date] NULL,
 	[NgayKetThuc] [date] NULL,
@@ -296,12 +298,12 @@ CREATE TABLE [dbo].[Phong](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Sinh viên]    Script Date: 5/19/2025 7:12:31 AM ******/
+/****** Object:  Table [dbo].[SinhVien]    Script Date: 5/19/2025 7:12:31 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[Sinh viên](
+CREATE TABLE [dbo].[SinhVien](
 	[MaSV] [nvarchar](20) NOT NULL,
 	[MaNguoiDung] [int] NULL,
 	[HoTen] [nvarchar](100) NULL,
@@ -316,7 +318,7 @@ CREATE TABLE [dbo].[Sinh viên](
 	[TrangThai] [nvarchar](50) NULL,
 	[AnhDaiDien] [nvarchar](50) NULL,
 	[MaKhoa] [nvarchar](50) NULL,
- CONSTRAINT [PK__Sinh viên__2725081A4026EF04] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK__SinhVien__2725081A4026EF04] PRIMARY KEY CLUSTERED 
 (
 	[MaSV] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -12610,8 +12612,8 @@ ALTER TABLE [dbo].[NhanVien] ADD  CONSTRAINT [UQ__NhanVien__C539D763BD4F179D] UN
 	[MaNguoiDung] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [UQ__Sinh viên__C539D7631733605D]    Script Date: 5/19/2025 7:12:31 AM ******/
-ALTER TABLE [dbo].[Sinh viên] ADD  CONSTRAINT [UQ__Sinh viên__C539D7631733605D] UNIQUE NONCLUSTERED 
+/****** Object:  Index [UQ__SinhVien__C539D7631733605D]    Script Date: 5/19/2025 7:12:31 AM ******/
+ALTER TABLE [dbo].[SinhVien] ADD  CONSTRAINT [UQ__SinhVien__C539D7631733605D] UNIQUE NONCLUSTERED 
 (
 	[MaNguoiDung] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -12642,14 +12644,14 @@ ALTER TABLE [dbo].[DatChoTruoc]  WITH CHECK ADD FOREIGN KEY([MaChiTietPhong])
 REFERENCES [dbo].[ChiTietPhong] ([MaChiTietPhong])
 GO
 ALTER TABLE [dbo].[DatChoTruoc]  WITH CHECK ADD  CONSTRAINT [FK__DatChoTruo__MaSV__32E0915F] FOREIGN KEY([MaSV])
-REFERENCES [dbo].[Sinh viên] ([MaSV])
+REFERENCES [dbo].[SinhVien] ([MaSV])
 GO
 ALTER TABLE [dbo].[DatChoTruoc] CHECK CONSTRAINT [FK__DatChoTruo__MaSV__32E0915F]
 GO
-ALTER TABLE [dbo].[DiemDanh]  WITH CHECK ADD  CONSTRAINT [FK_DiemDanh_Sinh viên] FOREIGN KEY([MaSV])
-REFERENCES [dbo].[Sinh viên] ([MaSV])
+ALTER TABLE [dbo].[DiemDanh]  WITH CHECK ADD  CONSTRAINT [FK_DiemDanh_SinhVien] FOREIGN KEY([MaSV])
+REFERENCES [dbo].[SinhVien] ([MaSV])
 GO
-ALTER TABLE [dbo].[DiemDanh] CHECK CONSTRAINT [FK_DiemDanh_Sinh viên]
+ALTER TABLE [dbo].[DiemDanh] CHECK CONSTRAINT [FK_DiemDanh_SinhVien]
 GO
 ALTER TABLE [dbo].[DienNuoc]  WITH CHECK ADD  CONSTRAINT [FK__DienNuoc__MaMucG__3E52440B] FOREIGN KEY([MaMucGia])
 REFERENCES [dbo].[MucGiaDienNuoc] ([MaMucGia])
@@ -12666,10 +12668,11 @@ REFERENCES [dbo].[Phong] ([MaPhong])
 GO
 ALTER TABLE [dbo].[DienNuoc] CHECK CONSTRAINT [FK__DienNuoc__MaPhon__3D5E1FD2]
 GO
-ALTER TABLE [dbo].[HopDongNoiTru]  WITH CHECK ADD  CONSTRAINT [FK__HopDongNo__MaGiu__3A81B327] FOREIGN KEY([MaGiuong])
+ALTER TABLE [dbo].[HopDongNoiTru]  WITH CHECK ADD  CONSTRAINT FK_HopDongNoiTru_Giuong  FOREIGN KEY([MaGiuong])
 REFERENCES [dbo].[Giuong] ([MaGiuong])
 GO
-ALTER TABLE [dbo].[HopDongNoiTru] CHECK CONSTRAINT [FK__HopDongNo__MaPho__3A81B327]
+ALTER TABLE [dbo].[HopDongNoiTru]  WITH CHECK ADD  CONSTRAINT FK_HopDongNoiTru_Phong  FOREIGN KEY([MaPhong])
+REFERENCES [dbo].[Phong] ([MaPhong])
 GO
 ALTER TABLE [dbo].[HopDongNoiTru]  WITH CHECK ADD  CONSTRAINT [FK__HopDongNoi__MaNV__398D8EEE] FOREIGN KEY([MaNV])
 REFERENCES [dbo].[NhanVien] ([MaNV])
@@ -12677,7 +12680,7 @@ GO
 ALTER TABLE [dbo].[HopDongNoiTru] CHECK CONSTRAINT [FK__HopDongNoi__MaNV__398D8EEE]
 GO
 ALTER TABLE [dbo].[HopDongNoiTru]  WITH CHECK ADD  CONSTRAINT [FK__HopDongNoi__MaSV__38996AB5] FOREIGN KEY([MaSV])
-REFERENCES [dbo].[Sinh viên] ([MaSV])
+REFERENCES [dbo].[SinhVien] ([MaSV])
 GO
 ALTER TABLE [dbo].[HopDongNoiTru] CHECK CONSTRAINT [FK__HopDongNoi__MaSV__38996AB5]
 GO
@@ -12711,15 +12714,15 @@ REFERENCES [dbo].[Tang] ([MaTang])
 GO
 ALTER TABLE [dbo].[Phong] CHECK CONSTRAINT [FK_Phong_Tang]
 GO
-ALTER TABLE [dbo].[Sinh viên]  WITH CHECK ADD  CONSTRAINT [FK__Sinh viên__MaNguo__182C9B23] FOREIGN KEY([MaNguoiDung])
+ALTER TABLE [dbo].[SinhVien]  WITH CHECK ADD  CONSTRAINT [FK__SinhVien__MaNguo__182C9B23] FOREIGN KEY([MaNguoiDung])
 REFERENCES [dbo].[NguoiDung] ([MaNguoiDung])
 GO
-ALTER TABLE [dbo].[Sinh viên] CHECK CONSTRAINT [FK__Sinh viên__MaNguo__182C9B23]
+ALTER TABLE [dbo].[SinhVien] CHECK CONSTRAINT [FK__SinhVien__MaNguo__182C9B23]
 GO
-ALTER TABLE [dbo].[Sinh viên]  WITH CHECK ADD  CONSTRAINT [FK_Sinh viên_Khoa] FOREIGN KEY([MaKhoa])
+ALTER TABLE [dbo].[SinhVien]  WITH CHECK ADD  CONSTRAINT [FK_SinhVien_Khoa] FOREIGN KEY([MaKhoa])
 REFERENCES [dbo].[Khoa] ([MaKhoa])
 GO
-ALTER TABLE [dbo].[Sinh viên] CHECK CONSTRAINT [FK_Sinh viên_Khoa]
+ALTER TABLE [dbo].[SinhVien] CHECK CONSTRAINT [FK_SinhVien_Khoa]
 GO
 ALTER TABLE [dbo].[ViPham]  WITH CHECK ADD FOREIGN KEY([MaNoiQuy])
 REFERENCES [dbo].[NoiQuy] ([MaNoiQuy])
@@ -12730,7 +12733,7 @@ GO
 ALTER TABLE [dbo].[ViPham] CHECK CONSTRAINT [FK__ViPham__MaNV__4CA06362]
 GO
 ALTER TABLE [dbo].[ViPham]  WITH CHECK ADD  CONSTRAINT [FK__ViPham__MaSV__4AB81AF0] FOREIGN KEY([MaSV])
-REFERENCES [dbo].[Sinh viên] ([MaSV])
+REFERENCES [dbo].[SinhVien] ([MaSV])
 GO
 ALTER TABLE [dbo].[ViPham] CHECK CONSTRAINT [FK__ViPham__MaSV__4AB81AF0]
 GO
@@ -12745,7 +12748,7 @@ GO
 ALTER TABLE [dbo].[YeuCauSuaChua] CHECK CONSTRAINT [FK__YeuCauSuaC__MaNV__2C3393D0]
 GO
 ALTER TABLE [dbo].[YeuCauSuaChua]  WITH CHECK ADD  CONSTRAINT [FK__YeuCauSuaC__MaSV__2A4B4B5E] FOREIGN KEY([MaSV])
-REFERENCES [dbo].[Sinh viên] ([MaSV])
+REFERENCES [dbo].[SinhVien] ([MaSV])
 GO
 ALTER TABLE [dbo].[YeuCauSuaChua] CHECK CONSTRAINT [FK__YeuCauSuaC__MaSV__2A4B4B5E]
 GO
