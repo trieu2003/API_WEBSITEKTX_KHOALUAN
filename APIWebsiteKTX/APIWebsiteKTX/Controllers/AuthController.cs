@@ -39,6 +39,7 @@ namespace APIWebsiteKTX.Controllers
                         sv.MaSV,
                         sv.MaNguoiDung,
                         sv.HoTen,
+                        sv.GioiTinh,
                         sv.NgaySinh,
                         sv.Lop,
                         sv.SDT,
@@ -47,35 +48,18 @@ namespace APIWebsiteKTX.Controllers
                         sv.SDTGiaDinh,
                         sv.SoHoKhau,
                         sv.TrangThai,
-                        sv.AnhDaiDien,  // <- sửa dòng này
+                        sv.AnhDaiDien,  
                         sv.MaKhoa
                     })
                     .FirstOrDefaultAsync();
             }
             else if (user.VaiTro == "Nhân viên")
             {
-                userInfo = await _context.NhanVien
-                    .Where(nv => nv.MaNguoiDung == user.MaNguoiDung)
-                    .Select(nv => new {
-                        nv.MaNV,
-                        nv.MaNguoiDung,
-                        nv.HoTen,
-                        nv.NgaySinh,
-                        nv.GioiTinh,
-                        nv.TrinhDo,
-                        nv.ChucVu,
-                        nv.Email,
-                        nv.SDT
-                    })
-                    .FirstOrDefaultAsync();
+                return Unauthorized("Website không có chức năng cho quản trị viên hoặc nhân viên");
             }
             else if (user.VaiTro == "Admin")
             {
-                userInfo = new
-                {
-                    HoTen = "Quản trị viên",
-                    QuyenHan = "Tất cả chức năng"
-                };
+                return Unauthorized("Website không có chức năng cho quản trị viên hoặc nhân viên");
             }
 
             if (userInfo == null)

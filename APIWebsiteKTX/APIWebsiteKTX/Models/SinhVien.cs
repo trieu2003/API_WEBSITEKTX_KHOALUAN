@@ -8,7 +8,9 @@ namespace APIWebsiteKTX.Models
         public string MaSV { get; set; }        // Mã sinh viên
         public int? MaNguoiDung { get; set; }   // Mã người dùng (nullable)
         public string? HoTen { get; set; }       // Họ tên
-        public DateTime? NgaySinh { get; set; } // Ngày sinh (nullable, kiểu DateTime)
+
+        public string GioiTinh { get; set; }       // Giới tính
+        public string NgaySinh { get; set; } // Ngày sinh (nullable, kiểu DateTime)
         public string Lop { get; set; }         // Lớp
         public string SDT { get; set; }         // Số điện thoại
         public string Email { get; set; }       // Email
@@ -25,7 +27,8 @@ namespace APIWebsiteKTX.Models
         public string MaSV { get; set; }                // Mã sinh viên
         public int? MaNguoiDung { get; set; }           // Mã người dùng
         public string HoTen { get; set; }               // Họ tên
-        public DateTime? NgaySinh { get; set; }         // Ngày sinh
+        public string GioiTinh { get; set; }            // Giới tính
+        public string NgaySinh { get; set; }         // Ngày sinh
         public string Lop { get; set; }                 // Lớp
         public string SDT { get; set; }                 // Số điện thoại
         public string Email { get; set; }               // Email

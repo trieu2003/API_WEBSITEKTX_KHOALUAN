@@ -6,7 +6,7 @@ namespace APIWebsiteKTX.Models
     {
         // Các thuộc tính của thiết bị
         [Key]
-        public int MaThietBi { get; set; }    // Mã thiết bị
+        public string MaThietBi { get; set; }    // Mã thiết bị
         public string TenThietBi { get; set; } // Tên thiết bị
         public string MoTa { get; set; } // Loại thiết bị (ví dụ: máy lạnh, tủ lạnh, quạt...)
         public int SoLuong { get; set; }    // Tình trạng thiết bị (true - đang sử dụng, false - không sử dụng)

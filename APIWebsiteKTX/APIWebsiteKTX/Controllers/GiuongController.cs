@@ -1,4 +1,4 @@
-
+﻿
 using APIWebsiteKTX.Data;
 using APIWebsiteKTX.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +16,43 @@ namespace APIWebsiteKTX.Controllers
         private readonly KTXContext _context;
 
         public GiuongController(KTXContext context)
-        {
+        {   
             _context = context;
+        }
+        // New endpoint to get all available beds
+        [HttpGet("available")]
+        public async Task<ActionResult<IEnumerable<object>>> GetAvailableBeds()
+        {
+            var availableBeds = await _context.Giuong
+                .Where(g => g.TrangThai == "Trống")
+                .Join(_context.ChiTietPhong,
+                    giuong => giuong.MaGiuong,
+                    chiTietPhong => chiTietPhong.Giuong,
+                    (giuong, chiTietPhong) => new { giuong, chiTietPhong })
+                .Join(_context.Phong,
+                    gct => gct.chiTietPhong.MaPhong,
+                    phong => phong.MaPhong,
+                    (gct, phong) => new { gct.giuong, phong })
+                .Join(_context.LoaiPhong,
+                    gp => gp.phong.MaLoaiPhong,
+                    loaiPhong => loaiPhong.MaLoaiPhong,
+                    (gp, loaiPhong) => new
+                    {
+                        maGiuong = gp.giuong.MaGiuong,
+                        maPhong = gp.phong.MaPhong,
+                        tenPhong = gp.phong.TenPhong,
+                        tenLoaiPhong = loaiPhong.TenLoai,
+                        trangThai = gp.giuong.TrangThai,
+                        tenThietBi = _context.ChiTietPhong
+                            .Where(ctp => ctp.Giuong == gp.giuong.MaGiuong)
+                            .Join(_context.TrangThietBi,
+                                ctp => ctp.MaThietBi,
+                                thietBi => thietBi.MaThietBi,
+                                (ctp, thietBi) => thietBi.TenThietBi)
+                            .ToList()
+                    })
+                .ToListAsync();
+            return Ok(availableBeds); // Ensures application/json
         }
 
         [HttpGet]

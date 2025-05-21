@@ -7,6 +7,7 @@ namespace APIWebsiteKTX.Models
         [Key]
         public int MaHopDong { get; set; }
         public string MaSV { get; set; }
+        public string MaGiuong { get; set; }
         public string MaPhong { get; set; }
         public int? MaMucGia { get; set; }
         public DateTime? NgayDangKy { get; set; }

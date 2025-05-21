@@ -6,6 +6,7 @@ namespace APIWebsiteKTX.Models
     {
         [Key]
         public string MaGiuong { get; set; }
-        public string TenGiuong { get; set; }
-    }
+        public string TrangThai { get; set; }
+        public string MaPhong { get; set; }
+    }   
 }
