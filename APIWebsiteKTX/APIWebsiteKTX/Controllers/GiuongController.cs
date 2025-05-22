@@ -23,36 +23,41 @@ namespace APIWebsiteKTX.Controllers
         [HttpGet("available")]
         public async Task<ActionResult<IEnumerable<object>>> GetAvailableBeds()
         {
-            var availableBeds = await _context.Giuong
-                .Where(g => g.TrangThai == "Trống")
-                .Join(_context.ChiTietPhong,
-                    giuong => giuong.MaGiuong,
-                    chiTietPhong => chiTietPhong.Giuong,
-                    (giuong, chiTietPhong) => new { giuong, chiTietPhong })
-                .Join(_context.Phong,
-                    gct => gct.chiTietPhong.MaPhong,
-                    phong => phong.MaPhong,
-                    (gct, phong) => new { gct.giuong, phong })
-                .Join(_context.LoaiPhong,
-                    gp => gp.phong.MaLoaiPhong,
-                    loaiPhong => loaiPhong.MaLoaiPhong,
-                    (gp, loaiPhong) => new
-                    {
-                        maGiuong = gp.giuong.MaGiuong,
-                        maPhong = gp.phong.MaPhong,
-                        tenPhong = gp.phong.TenPhong,
-                        tenLoaiPhong = loaiPhong.TenLoai,
-                        trangThai = gp.giuong.TrangThai,
-                        tenThietBi = _context.ChiTietPhong
-                            .Where(ctp => ctp.Giuong == gp.giuong.MaGiuong)
-                            .Join(_context.TrangThietBi,
-                                ctp => ctp.MaThietBi,
-                                thietBi => thietBi.MaThietBi,
-                                (ctp, thietBi) => thietBi.TenThietBi)
-                            .ToList()
-                    })
-                .ToListAsync();
-            return Ok(availableBeds); // Ensures application/json
+            // Bước 1: Lấy danh sách giường trống kèm thông tin phòng và loại phòng
+            var beds = await (
+                from g in _context.Giuong
+                where g.TrangThai == "Trống"
+                join ctp in _context.ChiTietPhong on g.MaGiuong equals ctp.Giuong
+                join p in _context.Phong on ctp.MaPhong equals p.MaPhong
+                join lp in _context.LoaiPhong on p.MaLoaiPhong equals lp.MaLoaiPhong
+                select new
+                {
+                    MaGiuong = g.MaGiuong,
+                    MaPhong = p.MaPhong,
+                    TenPhong = p.TenPhong,
+                    TenLoai = lp.TenLoai,
+                    TrangThai = g.TrangThai
+                }).ToListAsync();
+
+            // Bước 2: Sau khi lấy về, truy vấn thiết bị cho từng giường
+            var result = beds.Select(b => new
+            {
+                b.MaGiuong,
+                b.MaPhong,
+                b.TenPhong,
+                b.TenLoai,
+                b.TrangThai,
+                TenThietBi = _context.ChiTietPhong
+                    .Where(ctp => ctp.Giuong == b.MaGiuong)
+                    .Join(_context.TrangThietBi,
+                        ctp => ctp.MaThietBi,
+                        tb => tb.MaThietBi,
+                        (ctp, tb) => tb.TenThietBi)
+                    .Distinct()
+                    .ToList()
+            });
+
+            return Ok(result);
         }
 
         [HttpGet]

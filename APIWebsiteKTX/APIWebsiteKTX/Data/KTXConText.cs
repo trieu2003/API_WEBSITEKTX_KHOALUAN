@@ -39,6 +39,8 @@ namespace APIWebsiteKTX.Data
 
             // Đánh dấu RoomDto là keyless (không ánh xạ tới bảng thực)
             modelBuilder.Entity<PhongController.RoomDto>().HasNoKey().ToView(null);
+            modelBuilder.Entity<HopDongNoiTru>().ToTable("HopDongNoiTru", "dbo");
+            modelBuilder.Entity<HopDongNoiTru>().HasKey(h => new { h.MaSV, h.MaGiuong, h.MaPhong });
         }
     }
 }

@@ -1,4 +1,4 @@
-
+﻿
 using APIWebsiteKTX.Data;
 using APIWebsiteKTX.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +19,28 @@ namespace APIWebsiteKTX.Controllers
         {
             _context = context;
         }
-
+        [HttpPost("DangKyHopDong")]
+        public async Task<IActionResult> DangKyHopDong([FromBody] HopDongNoiTru model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            model.NgayDangKy = DateTime.Now;
+            model.NgayBatDau = DateTime.Now;
+            try
+            {
+                _context.HopDongNoiTru.Add(model);
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Đăng ký hợp đồng thành công" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = "Đã xảy ra lỗi",
+                    error = ex.InnerException?.Message ?? ex.Message
+                });
+            }
+        }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HopDongNoiTru>>> GetAll()
         {
