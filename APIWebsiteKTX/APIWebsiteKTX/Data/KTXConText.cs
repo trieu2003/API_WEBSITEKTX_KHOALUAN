@@ -30,17 +30,64 @@ namespace APIWebsiteKTX.Data
         public DbSet<TrangThietBi> TrangThietBi { get; set; }
         public DbSet<ViPham> ViPham { get; set; }
         public DbSet<YeuCauSuaChua> YeuCauSuaChua { get; set; }
-        // 1. Thêm DbSet cho DTO trả về từ sp_GetRooms
-        public DbSet<PhongController.RoomDto> RoomDtos { get; set; }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             // Đánh dấu RoomDto là keyless (không ánh xạ tới bảng thực)
-            modelBuilder.Entity<PhongController.RoomDto>().HasNoKey().ToView(null);
             modelBuilder.Entity<HopDongNoiTru>().ToTable("HopDongNoiTru", "dbo");
             modelBuilder.Entity<HopDongNoiTru>().HasKey(h => new { h.MaSV, h.MaGiuong, h.MaPhong });
+            modelBuilder.Entity<Phong>()
+           .HasKey(p => p.MaPhong);
+
+            modelBuilder.Entity<LoaiPhong>()
+                .HasKey(lp => lp.MaLoaiPhong);
+
+            modelBuilder.Entity<Tang>()
+                .HasKey(t => t.MaTang);
+
+            modelBuilder.Entity<ChiTietPhong>()
+                .HasKey(ctp => ctp.MaChiTietPhong);
+
+            modelBuilder.Entity<TrangThietBi>()
+                .HasKey(tb => tb.MaThietBi);
+
+            modelBuilder.Entity<Giuong>()
+                .HasKey(g => g.MaGiuong);
+
+            // Quan hệ Phong - LoaiPhong
+            modelBuilder.Entity<Phong>()
+                .HasOne(p => p.LoaiPhong)
+                .WithMany()
+                .HasForeignKey(p => p.MaLoaiPhong);
+
+            // Quan hệ Phong - Tang
+            modelBuilder.Entity<Phong>()
+                .HasOne(p => p.Tang)
+                .WithMany()
+                .HasForeignKey(p => p.MaTang);
+
+            // Quan hệ Phong - ChiTietPhong
+            modelBuilder.Entity<ChiTietPhong>()
+                .HasOne(ctp => ctp.Phong)
+                .WithMany(p => p.ChiTietPhongs)
+                .HasForeignKey(ctp => ctp.MaPhong);
+
+            // Quan hệ ChiTietPhong - TrangThietBi
+            modelBuilder.Entity<ChiTietPhong>()
+                .HasOne(ctp => ctp.TrangThietBi)
+                .WithMany()
+                .HasForeignKey(ctp => ctp.MaThietBi)
+                .IsRequired(false); // MaThietBi có thể null
+
+            // Quan hệ ChiTietPhong - Giuong
+            modelBuilder.Entity<ChiTietPhong>()
+                .HasOne(ctp => ctp.GiuongInfo)
+                .WithMany()
+                .HasForeignKey(ctp => ctp.Giuong)
+                .IsRequired(false); // Giuong có thể null
+
         }
     }
 }

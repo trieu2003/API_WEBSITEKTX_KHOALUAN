@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace APIWebsiteKTX.Models
 {
-    public class TrangThietBi
+    public class TrangThietBiDTO
     {
-        [Key]
         public string MaThietBi { get; set; }
         public string TenThietBi { get; set; }
         public string MoTa { get; set; }

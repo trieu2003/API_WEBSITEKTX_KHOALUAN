@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace APIWebsiteKTX.Models
 {
-    public class Giuong
+    public class GiuongDTO
     {
-        [Key]
         public string MaGiuong { get; set; }
         public string TrangThai { get; set; }
-    }   
+    }
 }

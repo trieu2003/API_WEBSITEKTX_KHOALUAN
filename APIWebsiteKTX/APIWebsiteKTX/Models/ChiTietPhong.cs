@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APIWebsiteKTX.Models
 {
@@ -6,10 +7,14 @@ namespace APIWebsiteKTX.Models
     {
         [Key]
         public int MaChiTietPhong { get; set; }
+
+        [ForeignKey("Phong")]
         public string MaPhong { get; set; }
         public string MaThietBi { get; set; }
         public string Giuong { get; set; }
-        public string TrangThai { get; set; }
+        public Phong Phong { get; set; }
+        public TrangThietBi TrangThietBi { get; set; }
+        public Giuong GiuongInfo { get; set; }
     }
 }
 

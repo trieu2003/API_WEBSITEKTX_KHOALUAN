@@ -1,16 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APIWebsiteKTX.Models
 {
     public class Phong
     {
-        [Key]
-        public string MaPhong { get; set; }  // Room ID
-        public string TenPhong { get; set; }  // Room Name or Type
-        public string MaLoaiPhong { get; set; }  // Room Type ID
-        public int MaTang { get; set; }  // Capacity
-   //     public decimal MucPhi { get; set; }  // Fee
-        public string TrangThai { get; set; }  // Room Status (e.g., Available, Occupied)
-    //    public string MaKhoa { get; set; }  // Associated Faculty or Department
+        [Key] public string MaPhong { get; set; }
+        public string TenPhong { get; set; }
+        public string MaLoaiPhong { get; set; }
+        public string MaTang { get; set; }
+        public string TrangThai { get; set; }
+        [ForeignKey("MaLoaiPhong")]
+        public LoaiPhong LoaiPhong { get; set; }
+
+        [ForeignKey("MaTang")]
+        public Tang Tang { get; set; }
+
+        public ICollection<ChiTietPhong> ChiTietPhongs { get; set; }
     }
 }
