@@ -30,15 +30,49 @@ namespace APIWebsiteKTX.Data
         public DbSet<TrangThietBi> TrangThietBi { get; set; }
         public DbSet<ViPham> ViPham { get; set; }
         public DbSet<YeuCauSuaChua> YeuCauSuaChua { get; set; }
-        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
             // Đánh dấu RoomDto là keyless (không ánh xạ tới bảng thực)
+            modelBuilder.Entity<SinhVien>().ToTable("SinhVien")
+           .HasKey(s => s.MaSV); // Define primary key for SinhVien
+
+            modelBuilder.Entity<Khoa>().ToTable("Khoa")
+                .HasKey(k => k.MaKhoa); // Define primary key for Khoa
+
+            // Define the relationship between SinhVien and Khoa
+            modelBuilder.Entity<SinhVien>()
+                .HasOne(s => s.Khoa)
+                .WithMany() // No navigation property back to SinhVien
+                .HasForeignKey(s => s.MaKhoa)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+
+            // Define the relationship between SinhVien and NguoiDung
+            modelBuilder.Entity<SinhVien>()
+                .HasOne(s => s.NguoiDung)
+                .WithOne()
+                .HasForeignKey<SinhVien>(s => s.MaNguoiDung)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+            modelBuilder.Entity<NguoiDung>().ToTable("NguoiDung")
+            .HasKey(u => u.MaNguoiDung); // Define primary key for NguoiDung
+            // Define the relationship between SinhVien and Khoa
+            modelBuilder.Entity<SinhVien>()
+                .HasOne(s => s.Khoa)
+                .WithMany() // Khoa can have many SinhVien, no navigation property back to SinhVien
+                .HasForeignKey(s => s.MaKhoa)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+            modelBuilder.Entity<SinhVien>()
+           .HasKey(sv => sv.MaSV);
+            modelBuilder.Entity<NguoiDung>()
+            .HasKey(nd => nd.MaNguoiDung);
             modelBuilder.Entity<NoiQuy>()
             .HasKey(nq => nq.MaNoiQuy);
-
+            // Define the relationship between SinhVien and NguoiDung
+            modelBuilder.Entity<SinhVien>()
+                .HasOne(s => s.NguoiDung)
+                .WithOne()
+                .HasForeignKey<SinhVien>(s => s.MaNguoiDung)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<HopDongNoiTru>().ToTable("HopDongNoiTru", "dbo");
             modelBuilder.Entity<HopDongNoiTru>().HasKey(h => new { h.MaSV, h.MaGiuong, h.MaPhong });
             modelBuilder.Entity<Phong>()
@@ -58,7 +92,10 @@ namespace APIWebsiteKTX.Data
 
             modelBuilder.Entity<Giuong>()
                 .HasKey(g => g.MaGiuong);
-
+            modelBuilder.Entity<SinhVien>()
+            .HasKey(sv => sv.MaSV);
+            modelBuilder.Entity<NguoiDung>()
+            .HasKey(nd => nd.MaNguoiDung);
             // Quan hệ Phong - LoaiPhong
             modelBuilder.Entity<Phong>()
                 .HasOne(p => p.LoaiPhong)
@@ -90,6 +127,7 @@ namespace APIWebsiteKTX.Data
                 .WithMany()
                 .HasForeignKey(ctp => ctp.Giuong)
                 .IsRequired(false); // Giuong có thể null
+           
 
         }
     }
