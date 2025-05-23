@@ -1,5 +1,6 @@
 ﻿
 using APIWebsiteKTX.Data;
+using APIWebsiteKTX.DTO;
 using APIWebsiteKTX.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;

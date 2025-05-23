@@ -1,5 +1,6 @@
-
+﻿
 using APIWebsiteKTX.Data;
+using APIWebsiteKTX.DTO;
 using APIWebsiteKTX.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,65 +20,31 @@ namespace APIWebsiteKTX.Controllers
         {
             _context = context;
         }
-
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<NoiQuy>>> GetAll()
+        public async Task<ActionResult<IEnumerable<NoiQuyDTO>>> GetRules()
         {
-            return await _context.NoiQuy.ToListAsync();
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<NoiQuy>> Get(int id)
-        {
-            var item = await _context.NoiQuy.FindAsync(id);
-            if (item == null)
+            try
             {
-                return NotFound();
+                var rules = await _context.NoiQuy
+                    .Select(nq => new NoiQuyDTO
+                    {
+                        MaNoiQuy = nq.MaNoiQuy,
+                        NoiDung = nq.NoiDung
+                    })
+                    .ToListAsync();
+
+                if (!rules.Any())
+                {
+                    return Ok(new { status = "success", message = "Không có nội quy nào", data = new List<NoiQuyDTO>() });
+                }
+
+                return Ok(new { status = "success", data = rules });
             }
-            return item;
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<NoiQuy>> Post(NoiQuy model)
-        {
-            _context.NoiQuy.Add(model);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new { id = GetKey(model) }, model);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, NoiQuy model)
-        {
-            if (!ModelExists(id))
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(500, new { status = "error", message = "Lỗi server", error = ex.Message });
             }
-            _context.Entry(model).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return NoContent();
         }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var model = await _context.NoiQuy.FindAsync(id);
-            if (model == null)
-            {
-                return NotFound();
-            }
-            _context.NoiQuy.Remove(model);
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-
-        private bool ModelExists(int id)
-        {
-            return _context.NoiQuy.Find(id) != null;
-        }
-
-        private object GetKey(NoiQuy model)
-        {
-            return model.GetType().GetProperty("Id")?.GetValue(model);
-        }
+        
     }
 }

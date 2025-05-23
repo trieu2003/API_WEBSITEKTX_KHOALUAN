@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-
-namespace APIWebsiteKTX.Models
+using System.ComponentModel.DataAnnotations.Schema;
+namespace APIWebsiteKTX.DTO
 {
     public class TrangThietBiDTO
     {

@@ -1,7 +1,9 @@
+using APIWebsiteKTX.DTO;
+using APIWebsiteKTX.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace APIWebsiteKTX.Models
+namespace APIWebsiteKTX.DTO
 {
     public class PhongDTO
     {

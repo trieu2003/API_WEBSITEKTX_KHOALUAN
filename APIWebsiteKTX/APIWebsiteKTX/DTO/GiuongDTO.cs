@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace APIWebsiteKTX.Models
+namespace APIWebsiteKTX.DTO
 {
     public class GiuongDTO
     {
