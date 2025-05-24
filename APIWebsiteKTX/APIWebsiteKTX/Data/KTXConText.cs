@@ -127,8 +127,8 @@ namespace APIWebsiteKTX.Data
                 .WithMany()
                 .HasForeignKey(ctp => ctp.Giuong)
                 .IsRequired(false); // Giuong có thể null
-           
 
+            
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using APIWebsiteKTX.Data;
 using Microsoft.AspNetCore.Identity.Data;
 using KTXApi.DTO;
+using APIWebsiteKTX.DTO;
 
 namespace APIWebsiteKTX.Controllers
 {
@@ -99,7 +100,77 @@ namespace APIWebsiteKTX.Controllers
             return Ok(response);
         }
 
+        [HttpPut("change-password")]
+        public async Task<ActionResult<ChangePasswordResponseDTO>> ChangePassword([FromBody] ChangPasswordDTO request)
+        {
+            try
+            {
+                // Kiểm tra dữ liệu đầu vào
+                if (string.IsNullOrEmpty(request.MaSV) || string.IsNullOrEmpty(request.OldPassword) || string.IsNullOrEmpty(request.NewPassword))
+                {
+                    return BadRequest(new ChangePasswordResponseDTO
+                    {
+                        Status = "error",
+                        Message = "Mã sinh viên, mật khẩu cũ và mật khẩu mới không được để trống"
+                    });
+                }
 
+                // Tìm sinh viên dựa trên MaSV
+                var sinhVien = await _context.SinhVien
+                    .Include(sv => sv.NguoiDung)
+                    .FirstOrDefaultAsync(sv => sv.MaSV == request.MaSV);
+
+                if (sinhVien == null || sinhVien.NguoiDung == null)
+                {
+                    return NotFound(new ChangePasswordResponseDTO
+                    {
+                        Status = "error",
+                        Message = "Mã sinh viên không tồn tại"
+                    });
+                }
+
+                // Xác thực mật khẩu cũ
+                if (!BCrypt.Net.BCrypt.Verify(request.OldPassword, sinhVien.NguoiDung.MatKhau))
+                {
+                    return BadRequest(new ChangePasswordResponseDTO
+                    {
+                        Status = "error",
+                        Message = "Mật khẩu cũ không đúng"
+                    });
+                }
+
+                // Kiểm tra mật khẩu mới (ví dụ: tối thiểu 6 ký tự)
+                if (request.NewPassword.Length < 6)
+                {
+                    return BadRequest(new ChangePasswordResponseDTO
+                    {
+                        Status = "error",
+                        Message = "Mật khẩu mới phải có ít nhất 6 ký tự"
+                    });
+                }
+
+                // Mã hóa mật khẩu mới và cập nhật
+                sinhVien.NguoiDung.MatKhau = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+                _context.NguoiDung.Update(sinhVien.NguoiDung);
+                await _context.SaveChangesAsync();
+
+                return Ok(new ChangePasswordResponseDTO
+                {
+                    Status = "success",
+                    Message = "Đổi mật khẩu thành công"
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ChangePasswordResponseDTO
+                {
+                    Status = "error",
+                    Message = "Lỗi server",
+                    // Chỉ trả về chi tiết lỗi trong môi trường phát triển
+                    Error = ex.Message
+                });
+            }
+        }
 
 
     }

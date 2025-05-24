@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace APIWebsiteKTX.Models
 {
     public class SinhVien
@@ -19,6 +20,7 @@ namespace APIWebsiteKTX.Models
         public string? MaKhoa { get; set; } // Nullable to match schema
 
         public Khoa?  Khoa { get; set; } // Navigation property
+        [ForeignKey("MaNguoiDung")]
         public NguoiDung? NguoiDung { get; set; } // Navigation property
     }
 
