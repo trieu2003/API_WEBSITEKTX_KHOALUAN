@@ -1,5 +1,6 @@
-
+﻿
 using APIWebsiteKTX.Data;
+using APIWebsiteKTX.DTO;
 using APIWebsiteKTX.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,64 +21,94 @@ namespace APIWebsiteKTX.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<YeuCauSuaChua>>> GetAll()
+        [HttpPost("submit")]
+        public async Task<IActionResult> SubmitRepairRequest([FromBody] RepairRequestDTO request)
         {
-            return await _context.YeuCauSuaChua.ToListAsync();
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<YeuCauSuaChua>> Get(int id)
-        {
-            var item = await _context.YeuCauSuaChua.FindAsync(id);
-            if (item == null)
+            if (request == null || request.ChiTietSuaChua == null || !request.ChiTietSuaChua.Any())
             {
-                return NotFound();
+                return BadRequest(new { message = "Vui lòng chọn ít nhất một thiết bị cần sửa chữa." });
             }
-            return item;
-        }
 
-        [HttpPost]
-        public async Task<ActionResult<YeuCauSuaChua>> Post(YeuCauSuaChua model)
-        {
-            _context.YeuCauSuaChua.Add(model);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new { id = GetKey(model) }, model);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, YeuCauSuaChua model)
-        {
-            if (!ModelExists(id))
+            // Validate MoTaLoi for each repair detail
+            if (request.ChiTietSuaChua.Any(ct => string.IsNullOrWhiteSpace(ct.MoTaLoi)))
             {
-                return NotFound();
+                return BadRequest(new { message = "Vui lòng nhập nội dung mô tả lỗi cho thiết bị." });
             }
-            _context.Entry(model).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var model = await _context.YeuCauSuaChua.FindAsync(id);
-            if (model == null)
+            // Check if student exists and has a valid contract
+            var hopDong = await _context.HopDongNoiTru
+                .Where(hd => hd.MaSV == request.MaSV
+                    && hd.TrangThaiDuyet == "Đã duyệt"
+                    && hd.TrangThai != "Đã kết thúc"
+                    && hd.NgayBatDau <= DateTime.Today
+                    && (hd.NgayKetThuc == null || hd.NgayKetThuc >= DateTime.Today))
+                .FirstOrDefaultAsync();
+
+            if (hopDong == null)
             {
-                return NotFound();
+                return BadRequest(new { message = "Sinh viên không có hợp đồng nội trú hợp lệ." });
             }
-            _context.YeuCauSuaChua.Remove(model);
+
+            // Validate equipment belongs to the student's room
+            var chiTietPhong = await _context.ChiTietPhong
+                .Where(ctp => ctp.MaPhong == hopDong.MaPhong)
+                .Select(ctp => ctp.MaThietBi)
+                .ToListAsync();
+
+            var invalidThietBi = request.ChiTietSuaChua
+                .Where(ct => !chiTietPhong.Contains(ct.MaThietBi))
+                .Select(ct => ct.MaThietBi)
+                .ToList();
+
+            if (invalidThietBi.Any())
+            {
+                return BadRequest(new { message = $"Thiết bị {string.Join(", ", invalidThietBi)} không thuộc phòng của bạn, vui lòng chọn lại." });
+            }
+
+            // Validate equipment status
+            var thietBi = await _context.TrangThietBi
+                .Where(tb => request.ChiTietSuaChua.Select(ct => ct.MaThietBi).Contains(tb.MaThietBi))
+                .ToListAsync();
+
+            var invalidStatus = thietBi
+                .Where(tb => tb.TrangThai == "Hỏng hoàn toàn" || tb.TrangThai == "Đã loại bỏ")
+                .Select(tb => tb.MaThietBi)
+                .ToList();
+
+            if (invalidStatus.Any())
+            {
+                return BadRequest(new { message = $"Thiết bị {string.Join(", ", invalidStatus)} không thể sửa chữa do trạng thái không hợp lệ." });
+            }
+
+            // Create new repair request
+            var yeuCauSuaChua = new YeuCauSuaChua
+            {
+                MaSV = request.MaSV,
+                MaPhong = hopDong.MaPhong,
+                MoTa = request.MoTa,
+                NgayGui = DateTime.Today,
+                TrangThai = "Chờ xử lý",
+                MaNV = null
+            };
+
+            _context.YeuCauSuaChua.Add(yeuCauSuaChua);
             await _context.SaveChangesAsync();
-            return NoContent();
-        }
 
-        private bool ModelExists(int id)
-        {
-            return _context.YeuCauSuaChua.Find(id) != null;
-        }
+            // Add repair details
+            foreach (var chiTiet in request.ChiTietSuaChua)
+            {
+                var chiTietSuaChua = new ChiTietSuaChua
+                {
+                    MaYCSC = yeuCauSuaChua.MaYCSC,
+                    MaThietBi = chiTiet.MaThietBi,
+                    MoTaLoi = chiTiet.MoTaLoi
+                };
+                _context.ChiTietSuaChua.Add(chiTietSuaChua);
+            }
 
-        private object GetKey(YeuCauSuaChua model)
-        {
-            return model.GetType().GetProperty("Id")?.GetValue(model);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Yêu cầu sửa chữa đã được gửi thành công và đang chờ xử lý." });
         }
     }
 }

@@ -30,6 +30,7 @@ namespace APIWebsiteKTX.Data
         public DbSet<TrangThietBi> TrangThietBi { get; set; }
         public DbSet<ViPham> ViPham { get; set; }
         public DbSet<YeuCauSuaChua> YeuCauSuaChua { get; set; }
+        public DbSet<ChiTietSuaChua> ChiTietSuaChua { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -127,8 +128,40 @@ namespace APIWebsiteKTX.Data
                 .WithMany()
                 .HasForeignKey(ctp => ctp.Giuong)
                 .IsRequired(false); // Giuong có thể null
+            modelBuilder.Entity<YeuCauSuaChua>()
+               .HasKey(y => y.MaYCSC);
 
-            
+            modelBuilder.Entity<YeuCauSuaChua>()
+                .HasOne(y => y.SinhVien)
+                .WithMany()
+                .HasForeignKey(y => y.MaSV);
+
+            modelBuilder.Entity<YeuCauSuaChua>()
+                 .HasOne(y => y.Phong)
+                 .WithMany()
+                 .HasForeignKey(y => y.MaPhong);
+
+            modelBuilder.Entity<ChiTietSuaChua>()
+                .HasOne(c => c.YeuCauSuaChua)
+                .WithMany()
+                .HasForeignKey(c => c.MaYCSC);
+            modelBuilder.Entity<ChiTietSuaChua>()
+               .HasKey(c => c.MaChiTiet);
+            modelBuilder.Entity<ChiTietSuaChua>()
+                   .HasOne(c => c.YeuCauSuaChua)
+                   .WithMany()
+                   .HasForeignKey(c => c.MaYCSC);
+
+            modelBuilder.Entity<ChiTietSuaChua>()
+                .HasOne(c => c.TrangThietBi)
+                .WithMany()
+                .HasForeignKey(c => c.MaThietBi);
+
+            modelBuilder.Entity<YeuCauSuaChua>()
+                .HasOne(y => y.NhanVien)
+                .WithMany()
+                .HasForeignKey(y => y.MaNV)
+                .IsRequired(false); // MaNV is nullable
         }
     }
 }
