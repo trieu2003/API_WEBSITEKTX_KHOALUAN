@@ -19,5 +19,6 @@ namespace APIWebsiteKTX.Models
         public string? MinhChungThanhToan { get; set; }
         public string? MaNamHoc { get; set; }
         public string? MaNV { get; set; }
+        public Phong Phong { get; set; }
     }
 }

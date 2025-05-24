@@ -1,5 +1,6 @@
 ﻿
 using APIWebsiteKTX.Data;
+using APIWebsiteKTX.DTO;
 using APIWebsiteKTX.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -41,64 +42,82 @@ namespace APIWebsiteKTX.Controllers
                 });
             }
         }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<HopDongNoiTru>>> GetAll()
+        [HttpPost("GiaHanHopDong")]
+        public async Task<IActionResult> ExtendContract([FromBody] ExtendContractRequestDto request)
         {
-            return await _context.HopDongNoiTru.ToListAsync();
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<HopDongNoiTru>> Get(int id)
-        {
-            var item = await _context.HopDongNoiTru.FindAsync(id);
-            if (item == null)
+            // Validate input
+            if (request == null)
             {
-                return NotFound();
+                return BadRequest(new { message = "Dữ liệu yêu cầu không hợp lệ." });
             }
-            return item;
-        }
 
-        [HttpPost]
-        public async Task<ActionResult<HopDongNoiTru>> Post(HopDongNoiTru model)
-        {
-            _context.HopDongNoiTru.Add(model);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new { id = GetKey(model) }, model);
-        }
+            // Check if student exists and has a valid contract
+            var hopDong = await _context.HopDongNoiTru
+                .Where(hd => hd.MaSV == request.MaSV
+                    && hd.TrangThaiDuyet == "Đã duyệt"
+                    && hd.TrangThai != "Đã kết thúc"
+                    && hd.NgayBatDau <= DateTime.Today)
+                .Include(hd => hd.Phong)
+                .FirstOrDefaultAsync();
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, HopDongNoiTru model)
-        {
-            if (!ModelExists(id))
+            if (hopDong == null)
             {
-                return NotFound();
+                return BadRequest(new { message = "Sinh viên không có hợp đồng nội trú hợp lệ." });
             }
-            _context.Entry(model).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var model = await _context.HopDongNoiTru.FindAsync(id);
-            if (model == null)
+            // Check if contract is within the allowed extension period (e.g., within 30 days after NgayKetThuc)
+            var maxExtensionDate = hopDong.NgayKetThuc?.AddDays(30) ?? DateTime.MaxValue;
+            if (DateTime.Today > maxExtensionDate)
             {
-                return NotFound();
+                return BadRequest(new { message = "Hợp đồng đã hết hạn và không thể gia hạn. Vui lòng đăng ký nội trú mới." });
             }
-            _context.HopDongNoiTru.Remove(model);
+
+            // Validate new end date
+            if (request.NgayKetThucMoi <= DateTime.Today)
+            {
+                return BadRequest(new { message = "Thời gian gia hạn không hợp lệ. Vui lòng nhập lại thời gian phù hợp." });
+            }
+
+            // Check maximum extension period (e.g., 6 months)
+            var maxExtensionPeriod = hopDong.NgayKetThuc?.AddMonths(6) ?? DateTime.MaxValue;
+            if (request.NgayKetThucMoi > maxExtensionPeriod)
+            {
+                return BadRequest(new { message = "Thời gian gia hạn vượt quá giới hạn tối đa (6 tháng)." });
+            }
+
+            // Check room availability
+            var phong = await _context.Phong
+                .Where(p => p.MaPhong == hopDong.MaPhong)
+                .FirstOrDefaultAsync();
+
+            if (phong == null || phong.TrangThai == "Đã đủ chỗ" || phong.TrangThai == "Đang sửa chữa")
+            {
+                return BadRequest(new { message = "Phòng hiện không khả dụng để gia hạn. Vui lòng liên hệ nhân viên." });
+            }
+
+            // Validate MaNamHoc
+            var namHoc = await _context.NamHoc
+                .Where(nh => nh.MaNamHoc == request.MaNamHoc)
+                .FirstOrDefaultAsync();
+
+            if (namHoc == null)
+            {
+                return BadRequest(new { message = "Mã năm học không hợp lệ." });
+            }
+
+            // Update contract
+            hopDong.NgayKetThuc = request.NgayKetThucMoi;
+            hopDong.TrangThaiDuyet = "Chờ duyệt";
+            hopDong.TrangThai = string.IsNullOrEmpty(request.PhuongThucThanhToan) ? hopDong.TrangThai : "Chờ Thanh Toán";
+            hopDong.PhuongThucThanhToan = request.PhuongThucThanhToan ?? hopDong.PhuongThucThanhToan;
+            hopDong.DotDangKy = request.DotDangKy ?? hopDong.DotDangKy;
+            hopDong.MaNamHoc = request.MaNamHoc;
+            hopDong.MaNV = null;
+
             await _context.SaveChangesAsync();
-            return NoContent();
-        }
 
-        private bool ModelExists(int id)
-        {
-            return _context.HopDongNoiTru.Find(id) != null;
+            return Ok(new { message = "Yêu cầu gia hạn đã được gửi thành công và đang chờ duyệt." });
         }
-
-        private object GetKey(HopDongNoiTru model)
-        {
-            return model.GetType().GetProperty("Id")?.GetValue(model);
-        }
+        
     }
 }
