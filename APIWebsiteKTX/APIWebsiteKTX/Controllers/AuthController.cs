@@ -5,6 +5,11 @@ using APIWebsiteKTX.Data;
 using Microsoft.AspNetCore.Identity.Data;
 using KTXApi.DTO;
 using APIWebsiteKTX.DTO;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace APIWebsiteKTX.Controllers
 {
@@ -13,12 +18,14 @@ namespace APIWebsiteKTX.Controllers
     public class AuthController : ControllerBase
     {
         private readonly KTXContext _context;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(KTXContext context)
+        public AuthController(KTXContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
-        [HttpPost("update-passwords")]
+        [HttpPost("update-passwords")]//đây là api mã hóa tất cả mật khẩu trong csdl trong trường hợp chưa mã hóa
         public async Task<IActionResult> UpdatePasswords()
         {
             var users = await _context.NguoiDung
@@ -78,7 +85,10 @@ namespace APIWebsiteKTX.Controllers
                 return Unauthorized(new { message = "User is not registered as a student" });
             }
 
-            // Create response with student information
+            // Generate JWT token
+            var token = GenerateJwtToken(user);
+
+            // Create response with student information and token
             var response = new StudentResponse
             {
                 MaSV = student.MaSV,
@@ -94,14 +104,38 @@ namespace APIWebsiteKTX.Controllers
                 TrangThai = student.TrangThai,
                 AnhDaiDien = student.AnhDaiDien,
                 MaKhoa = student.MaKhoa,
-                TenKhoa = student.Khoa?.TenKhoa
+                TenKhoa = student.Khoa?.TenKhoa,
+                Token = token
             };
 
             return Ok(response);
         }
 
+        private string GenerateJwtToken(NguoiDung user)
+        {
+            var claims = new[]
+            {
+            new Claim(JwtRegisteredClaimNames.Sub, user.MaNguoiDung.ToString()),
+            new Claim(JwtRegisteredClaimNames.Name, user.TenDangNhap),
+            new Claim(ClaimTypes.Role, user.VaiTro ?? "Sinh viên"),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(int.Parse(_configuration["Jwt:ExpiryMinutes"])),
+                signingCredentials: creds);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
         [HttpPut("change-password")]
-        public async Task<ActionResult<ChangePasswordResponseDTO>> ChangePassword([FromBody] ChangPasswordDTO request)
+        public async Task<ActionResult<ChangePasswordResponseDTO>> ChangePassword([FromBody] DoiMatKhauDTO request)
         {
             try
             {

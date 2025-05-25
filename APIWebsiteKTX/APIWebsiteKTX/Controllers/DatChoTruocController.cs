@@ -1,5 +1,6 @@
-
+﻿
 using APIWebsiteKTX.Data;
+using APIWebsiteKTX.DTO;
 using APIWebsiteKTX.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,64 +21,65 @@ namespace APIWebsiteKTX.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<DatChoTruoc>>> GetAll()
+        [HttpPost("DatChoTruoc")]
+        public async Task<IActionResult> ReserveDormitory([FromBody] DatChoTruocRequestDTO request)
         {
-            return await _context.DatChoTruoc.ToListAsync();
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<DatChoTruoc>> Get(int id)
-        {
-            var item = await _context.DatChoTruoc.FindAsync(id);
-            if (item == null)
+            // Validate input
+            if (request == null)
             {
-                return NotFound();
+                return BadRequest(new { message = "Dữ liệu yêu cầu không hợp lệ." });
             }
-            return item;
-        }
 
-        [HttpPost]
-        public async Task<ActionResult<DatChoTruoc>> Post(DatChoTruoc model)
-        {
-            _context.DatChoTruoc.Add(model);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new { id = GetKey(model) }, model);
-        }
+            // Validate student
+            var sinhVien = await _context.SinhVien
+                .Where(sv => sv.MaSV == request.MaSV && sv.MaKhoa != null)
+                .FirstOrDefaultAsync();
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, DatChoTruoc model)
-        {
-            if (!ModelExists(id))
+            if (sinhVien == null)
             {
-                return NotFound();
+                return BadRequest(new { message = "Sinh viên không thuộc trường, không thể đặt chỗ trước." });
             }
-            _context.Entry(model).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var model = await _context.DatChoTruoc.FindAsync(id);
-            if (model == null)
+            // Validate stay period
+            if (request.HanDat <= DateTime.Today)
             {
-                return NotFound();
+                return BadRequest(new { message = "Hạn đặt không hợp lệ. Vui lòng chọn ngày trong tương lai." });
             }
-            _context.DatChoTruoc.Remove(model);
+
+            // Validate MaChiTietPhong if provided
+            //if (request.MaChiTietPhong.HasValue)
+            //{
+            //    var chiTietPhong = await _context.ChiTietPhong
+            //        .Where(ctp => ctp.MaChiTietPhong == request.MaChiTietPhong && ctp.Giuong == "Trống")
+            //        .Include(ctp => ctp.Phong)
+            //        .FirstOrDefaultAsync();
+
+            //    if (chiTietPhong == null)
+            //    {
+            //        return BadRequest(new { message = "Giường không khả dụng hoặc không tồn tại." });
+            //    }
+
+            //    if (chiTietPhong.Phong.TrangThai == "Đã đủ chỗ" || chiTietPhong.Phong.TrangThai == "Đang sửa chữa")
+            //    {
+            //        return BadRequest(new { message = "Phòng không khả dụng để đặt chỗ trước." });
+            //    }
+            //}
+
+            // Create reservation
+            var datChoTruoc = new DatChoTruoc
+            {
+                MaSV = request.MaSV,
+                MaChiTietPhong = request.MaChiTietPhong,
+                NgayDat = DateTime.Today,
+                HanDat = request.HanDat,
+                TrangThai = "Chờ xác nhận"
+            };
+
+            _context.DatChoTruoc.Add(datChoTruoc);
             await _context.SaveChangesAsync();
-            return NoContent();
-        }
 
-        private bool ModelExists(int id)
-        {
-            return _context.DatChoTruoc.Find(id) != null;
-        }
-
-        private object GetKey(DatChoTruoc model)
-        {
-            return model.GetType().GetProperty("Id")?.GetValue(model);
+            // Optional: Send email notification (implementation omitted for brevity)
+            return Ok(new { message = "Yêu cầu đặt chỗ trước đã được gửi thành công và đang chờ xử lý." });
         }
     }
 }

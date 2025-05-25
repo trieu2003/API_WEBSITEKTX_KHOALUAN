@@ -1,6 +1,6 @@
 namespace APIWebsiteKTX.DTO
 {
-    public class ChangPasswordDTO
+    public class DoiMatKhauDTO
     {
         public string MaSV { get; set; }
         public string OldPassword { get; set; }

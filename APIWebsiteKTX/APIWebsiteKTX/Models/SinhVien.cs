@@ -40,5 +40,6 @@ namespace APIWebsiteKTX.Models
         public string? AnhDaiDien { get; set; }
         public string? MaKhoa { get; set; }
         public string? TenKhoa { get; set; }
+        public string Token { get; set; }
     }
 }
