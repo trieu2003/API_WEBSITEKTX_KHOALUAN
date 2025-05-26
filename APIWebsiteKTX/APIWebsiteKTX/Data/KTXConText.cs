@@ -124,10 +124,12 @@ namespace APIWebsiteKTX.Data
 
             // Quan hệ ChiTietPhong - Giuong
             modelBuilder.Entity<ChiTietPhong>()
-                .HasOne(ctp => ctp.GiuongInfo)
+                .HasOne(ctp => ctp.Giuong)
                 .WithMany()
-                .HasForeignKey(ctp => ctp.Giuong)
-                .IsRequired(false); // Giuong có thể null
+                .HasForeignKey(ctp => ctp.MaGiuong);
+            modelBuilder.Entity<ChiTietPhong>()
+                .Property(ctp => ctp.MaGiuong)
+                .HasColumnName("Giuong");
             modelBuilder.Entity<YeuCauSuaChua>()
                .HasKey(y => y.MaYCSC);
 

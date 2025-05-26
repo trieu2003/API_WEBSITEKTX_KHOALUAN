@@ -35,7 +35,7 @@ namespace APIWebsiteKTX.Controllers
                     .Include(p => p.ChiTietPhongs)
                         .ThenInclude(ctp => ctp.TrangThietBi)
                     .Include(p => p.ChiTietPhongs)
-                        .ThenInclude(ctp => ctp.GiuongInfo)
+                        .ThenInclude(ctp => ctp.Giuong)
                     .FirstOrDefaultAsync(p => p.MaPhong == maPhong);
 
                 if (room == null)
@@ -65,11 +65,11 @@ namespace APIWebsiteKTX.Controllers
                             TrangThai = ctp.TrangThietBi.TrangThai
                         }).Distinct().ToList(),
                     Giuongs = room.ChiTietPhongs
-                        .Where(ctp => ctp.Giuong != null && ctp.GiuongInfo != null)
+                        .Where(ctp => ctp.Giuong != null && ctp.Giuong != null)
                         .Select(ctp => new GiuongDTO
                         {
-                            MaGiuong = ctp.GiuongInfo.MaGiuong,
-                            TrangThai = ctp.GiuongInfo.TrangThai
+                            MaGiuong = ctp.Giuong.MaGiuong,
+                            TrangThai = ctp.Giuong.TrangThai
                         }).Distinct().ToList()
                 };
 

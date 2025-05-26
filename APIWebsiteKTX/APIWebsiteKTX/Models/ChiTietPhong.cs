@@ -10,11 +10,14 @@ namespace APIWebsiteKTX.Models
 
         [ForeignKey("Phong")]
         public string MaPhong { get; set; }
+
         public string MaThietBi { get; set; }
-        public string Giuong { get; set; }
+        [ForeignKey("Giuong")]
+        [Column("Giuong")]
+        public string MaGiuong { get; set; }
         public Phong Phong { get; set; }
         public TrangThietBi TrangThietBi { get; set; }
-        public Giuong GiuongInfo { get; set; }
+        public Giuong Giuong { get; set; }
     }
 }
 

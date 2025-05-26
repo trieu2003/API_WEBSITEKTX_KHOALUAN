@@ -5,6 +5,7 @@ namespace APIWebsiteKTX.Models
     public class HopDongNoiTru
     {
         [Key]
+        public int MaHopDong { get; set; }
         public string MaSV { get; set; }
         public string MaGiuong { get; set; }
         public string MaPhong { get; set; }
