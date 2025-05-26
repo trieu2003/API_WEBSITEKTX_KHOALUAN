@@ -21,6 +21,7 @@ namespace APIWebsiteKTX.Controllers
             _context = context;
         }
 
+        // done  chưa chốt
         [HttpPost("DatChoTruoc")]
         public async Task<IActionResult> ReserveDormitory([FromBody] DatChoTruocRequestDTO request)
         {

@@ -19,7 +19,7 @@ namespace APIWebsiteKTX.Controllers
         {   
             _context = context;
         }
-        // New endpoint to get all available beds
+        // lấy giường trống
         [HttpGet("available")]
         public async Task<ActionResult<IEnumerable<object>>> GetAvailableBeds()
         {

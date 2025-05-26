@@ -20,6 +20,7 @@ namespace APIWebsiteKTX.Controllers
         {
             _context = context;
         }
+        // chạy đuọc
         [HttpPost("DangKyHopDong")]
         public async Task<IActionResult> DangKyHopDong([FromBody] HopDongNoiTru model)
         {
@@ -42,6 +43,8 @@ namespace APIWebsiteKTX.Controllers
                 });
             }
         }
+
+        // r 
         [HttpPost("GiaHanHopDong")]
         public async Task<IActionResult> ExtendContract([FromBody] ExtendContractRequestDto request)
         {
