@@ -60,10 +60,12 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[DatChoTruoc](
 	[MaDatCho] [int] IDENTITY(1,1) NOT NULL,
-	[MaSV] [nvarchar](20) NULL,
+	[MaSV] [nvarchar](20) NOT NULL,
+	[SDT] [nvarchar](20) NOT NULL,
+	[Email] [nvarchar](20) NULL,
 	[MaChiTietPhong] [int] NULL,
 	[NgayDat] [date] NULL,
-	[HanDat] [date] NULL,
+	[HanDat] [nvarchar](50) NULL,
 	[TrangThai] [nvarchar](50) NULL,
 PRIMARY KEY CLUSTERED 
 (
