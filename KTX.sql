@@ -12213,12 +12213,6 @@ INSERT [dbo].[ChiTietPhong] ([MaPhong], [MaThietBi], [Giuong]) VALUES (N'KTX-02-
 INSERT [dbo].[ChiTietPhong] ([MaPhong], [MaThietBi], [Giuong]) VALUES (N'KTX-02-01', N'TB008', N'KTX-02-01-09')
 INSERT [dbo].[ChiTietPhong] ([MaPhong], [MaThietBi], [Giuong]) VALUES (N'KTX-02-01', N'TB008', N'KTX-02-01-10')
 GO
-SET IDENTITY_INSERT [dbo].[HopDongNoiTru] ON 
-
-INSERT [dbo].[HopDongNoiTru] ([MaHopDong], [MaSV], [MaPhong], [NgayDangKy], [NgayBatDau], [NgayKetThuc], [DotDangKy], [NhomTruong], [TrangThai], [TrangThaiDuyet], [PhuongThucThanhToan], [MinhChungThanhToan], [MaNamHoc], [MaNV]) VALUES (2, N'2001216060', NULL, CAST(N'2024-05-01' AS Date), CAST(N'2024-05-01' AS Date), CAST(N'2026-05-31' AS Date), N'Đợt 1', N'1         ', N'Đang Sử Dụng', N'Đã Duyệt', N'Chuyển Khoản', N'Chứng từ điện tử', N'NH2023    ', N'NV001')
-INSERT [dbo].[HopDongNoiTru] ([MaHopDong], [MaSV], [MaPhong], [NgayDangKy], [NgayBatDau], [NgayKetThuc], [DotDangKy], [NhomTruong], [TrangThai], [TrangThaiDuyet], [PhuongThucThanhToan], [MinhChungThanhToan], [MaNamHoc], [MaNV]) VALUES (3, N'2001216121', NULL, CAST(N'2024-05-01' AS Date), CAST(N'2024-05-01' AS Date), CAST(N'2026-09-23' AS Date), N'Đợt 1', NULL, N'Đang Sử Dụng', N'Đã duyệt', N'Tiền mặt', N'Chứng từ điện tử', N'NH2023    ', N'NV001')
-SET IDENTITY_INSERT [dbo].[HopDongNoiTru] OFF
-GO
 INSERT [dbo].[Khoa] ([MaKhoa], [TenKhoa]) VALUES (N'CNTT', N'Công nghệ thông tin')
 INSERT [dbo].[Khoa] ([MaKhoa], [TenKhoa]) VALUES (N'KT', N'Kế toán')
 INSERT [dbo].[Khoa] ([MaKhoa], [TenKhoa]) VALUES (N'NN', N'Ngoại ngữ')
@@ -12447,50 +12441,50 @@ INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-01-02', N'Phòng 01-02', N'LP001', N'T1        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-01-03', N'Phòng 01-03', N'LP001', N'T1        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-01-04', N'Phòng 01-04', N'LP001', N'T1        ', N'Trống')
-INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-01-05', N'Phòng 01-05', N'LP001', N'T1        ', N'Đã sử dụng')
+INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-01-05', N'Phòng 01-05', N'LP001', N'T1        ', N'Đã đủ người')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-01-06', N'Phòng 01-06', N'LP001', N'T1        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-01-07', N'Phòng 01-07', N'LP001', N'T1        ', N'Trống')
-INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-01-08', N'Phòng 01-08', N'LP001', N'T1        ', N'Đã sử dụng')
+INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-01-08', N'Phòng 01-08', N'LP001', N'T1        ', N'Đã đủ người')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-01-09', N'Phòng 01-09', N'LP001', N'T1        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-01-10', N'Phòng 01-10', N'LP001', N'T1        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-02-01', N'Phòng 02-01', N'LP001', N'T2        ', N'Trống')
-INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-02-02', N'Phòng 02-02', N'LP001', N'T2        ', N'Đã sử dụng')
+INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-02-02', N'Phòng 02-02', N'LP001', N'T2        ', N'Đã đủ người')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-02-03', N'Phòng 02-03', N'LP001', N'T2        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-02-04', N'Phòng 02-04', N'LP001', N'T2        ', N'Trống')
-INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-02-05', N'Phòng 02-05', N'LP001', N'T2        ', N'Đã sử dụng')
+INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-02-05', N'Phòng 02-05', N'LP001', N'T2        ', N'Đã đủ người')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-02-06', N'Phòng 02-06', N'LP001', N'T2        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-02-07', N'Phòng 02-07', N'LP001', N'T2        ', N'Trống')
-INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-02-08', N'Phòng 02-08', N'LP001', N'T2        ', N'Đã sử dụng')
+INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-02-08', N'Phòng 02-08', N'LP001', N'T2        ', N'Đã đủ người')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-02-09', N'Phòng 02-09', N'LP001', N'T2        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-02-10', N'Phòng 02-10', N'LP001', N'T2        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-03-01', N'Phòng 03-01', N'LP001', N'T3        ', N'Trống')
-INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-03-02', N'Phòng 03-02', N'LP001', N'T3        ', N'Đã sử dụng')
+INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-03-02', N'Phòng 03-02', N'LP001', N'T3        ', N'Đã đủ người')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-03-03', N'Phòng 03-03', N'LP001', N'T3        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-03-04', N'Phòng 03-04', N'LP001', N'T3        ', N'Trống')
-INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-03-05', N'Phòng 03-05', N'LP001', N'T3        ', N'Đã sử dụng')
+INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-03-05', N'Phòng 03-05', N'LP001', N'T3        ', N'Đã đủ người')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-03-06', N'Phòng 03-06', N'LP001', N'T3        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-03-07', N'Phòng 03-07', N'LP001', N'T3        ', N'Trống')
-INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-03-08', N'Phòng 03-08', N'LP001', N'T3        ', N'Đã sử dụng')
+INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-03-08', N'Phòng 03-08', N'LP001', N'T3        ', N'Đã đủ người')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-03-09', N'Phòng 03-09', N'LP001', N'T3        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-03-10', N'Phòng 03-10', N'LP001', N'T3        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-04-01', N'Phòng 04-01', N'LP002', N'T4        ', N'Trống')
-INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-04-02', N'Phòng 04-02', N'LP002', N'T4        ', N'Đã sử dụng')
+INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-04-02', N'Phòng 04-02', N'LP002', N'T4        ', N'Đã đủ người')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-04-03', N'Phòng 04-03', N'LP002', N'T4        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-04-04', N'Phòng 04-04', N'LP002', N'T4        ', N'Trống')
-INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-04-05', N'Phòng 04-05', N'LP002', N'T4        ', N'Đã sử dụng')
+INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-04-05', N'Phòng 04-05', N'LP002', N'T4        ', N'Đã đủ người')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-04-06', N'Phòng 04-06', N'LP002', N'T4        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-04-07', N'Phòng 04-07', N'LP002', N'T4        ', N'Trống')
-INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-04-08', N'Phòng 04-08', N'LP002', N'T4        ', N'Đã sử dụng')
+INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-04-08', N'Phòng 04-08', N'LP002', N'T4        ', N'Đã đủ người')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-04-09', N'Phòng 04-09', N'LP002', N'T4        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-04-10', N'Phòng 04-10', N'LP002', N'T4        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-05-01', N'Phòng 05-01', N'LP002', N'T5        ', N'Trống')
-INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-05-02', N'Phòng 05-02', N'LP002', N'T5        ', N'Đã sử dụng')
+INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-05-02', N'Phòng 05-02', N'LP002', N'T5        ', N'Đã đủ người')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-05-03', N'Phòng 05-03', N'LP002', N'T5        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-05-04', N'Phòng 05-04', N'LP002', N'T5        ', N'Trống')
-INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-05-05', N'Phòng 05-05', N'LP002', N'T5        ', N'Đã sử dụng')
+INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-05-05', N'Phòng 05-05', N'LP002', N'T5        ', N'Đã đủ người')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-05-06', N'Phòng 05-06', N'LP002', N'T5        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-05-07', N'Phòng 05-07', N'LP002', N'T5        ', N'Trống')
-INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-05-08', N'Phòng 05-08', N'LP002', N'T5        ', N'Đã sử dụng')
+INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-05-08', N'Phòng 05-08', N'LP002', N'T5        ', N'Đã đủ người')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-05-09', N'Phòng 05-09', N'LP002', N'T5        ', N'Trống')
 INSERT [dbo].[Phong] ([MaPhong], [TenPhong], [MaLoaiPhong], [MaTang], [TrangThai]) VALUES (N'KTX-05-10', N'Phòng 05-10', N'LP002', N'T5        ', N'Trống')
 GO
@@ -12579,15 +12573,15 @@ INSERT [dbo].[SinhVien] ([MaSV], [MaNguoiDung], [HoTen], [GioiTinh], [NgaySinh],
 INSERT [dbo].[SinhVien] ([MaSV], [MaNguoiDung], [HoTen], [GioiTinh], [NgaySinh], [Lop], [SDT], [Email], [SoCanCuoc], [SDTGiaDinh], [SoHoKhau], [TrangThai], [AnhDaiDien], [MaKhoa]) VALUES (N'2001216414', 99, N'Đào Quí Mùi', N'Nam', N'2003-06-15', N'12DHTH13', N'0356543218', N'muidao156@example.com', N'123426789041', N'0930123458', N'85Q30/TPHCM', N'Đang Học', N'muidao156.jpg', N'CNTT')
 INSERT [dbo].[SinhVien] ([MaSV], [MaNguoiDung], [HoTen], [GioiTinh], [NgaySinh], [Lop], [SDT], [Email], [SoCanCuoc], [SDTGiaDinh], [SoHoKhau], [TrangThai], [AnhDaiDien], [MaKhoa]) VALUES (N'2001215850', 100, N'Huỳnh Vĩ Khang', N'Nam', N'2002-05-28', N'12DHTH17', N'0767487840', N'huynhvikhang6a13@gmail.com', N'123426789041', N'0930123458', N'85Q30/TPHCM', N'Đang Học', N'vikhang2805.jpg', N'CNTT')
 GO
-INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T1        ', N'Tầng 1')
-INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T2        ', N'Tầng 2')
-INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T3        ', N'Tầng 3')
-INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T4        ', N'Tầng 4')
-INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T5        ', N'Tầng 5')
-INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T6        ', N'Tầng 6')
-INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T7        ', N'Tầng 7')
-INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T8        ', N'Tầng 8')
-INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T9        ', N'Tầng 9')
+INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T1', N'Tầng 1')
+INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T2', N'Tầng 2')
+INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T3', N'Tầng 3')
+INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T4', N'Tầng 4')
+INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T5', N'Tầng 5')
+INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T6', N'Tầng 6')
+INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T7', N'Tầng 7')
+INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T8', N'Tầng 8')
+INSERT [dbo].[Tang] ([MaTang], [TenTang]) VALUES (N'T9', N'Tầng 9')
 GO
 SET IDENTITY_INSERT [dbo].[ViPham] ON 
 
@@ -12611,7 +12605,7 @@ INSERT [dbo].[HopDongNoiTru] (
     [MaSV], [MaGiuong], [MaPhong], [NgayDangKy], [NgayBatDau], [NgayKetThuc], 
     [DotDangKy], [NhomTruong], [TrangThai], [TrangThaiDuyet], 
     [PhuongThucThanhToan], [MinhChungThanhToan], [MaNamHoc], [MaNV]
-) VALUES 
+) VALUES
 -- NH2023 (2023-2024)
 (N'2001216001', N'KTX-01-01-01', N'KTX-01-01', CAST(N'2023-07-01' AS Date), CAST(N'2023-09-01' AS Date), CAST(N'2024-06-30' AS Date), 
  N'Đợt 1', N'SV001', N'Đã ký', N'Đã duyệt', 
@@ -12796,7 +12790,14 @@ INSERT [dbo].[HopDongNoiTru] (
 (N'2001216414', N'KTX-01-08-03', N'KTX-01-08', CAST(N'2025-05-04' AS Date), CAST(N'2025-09-01' AS Date), CAST(N'2026-06-30' AS Date), 
  N'Đợt 1', N'2001216414', N'Đã ký', N'Đã duyệt', N'Tiền mặt', N'TXN2025023', N'NH2025', N'NV001');
 GO
-
+SET IDENTITY_INSERT [dbo].[PhieuThu] ON;
+INSERT [dbo].[PhieuThu] ([MaHopDong], [NgayLap], [TongTien], [TrangThai], [MaNV]) VALUES
+(4, CAST(N'2024-09-01' AS Date), 1500000, N'Đã thanh toán', N'NV001'),
+(5, CAST(N'2024-09-01' AS Date), 1500000, N'Đã thanh toán', N'NV002'),
+(6, CAST(N'2024-09-01' AS Date), 1600000, N'Đã thanh toán', N'NV003'),
+(7, CAST(N'2024-07-01' AS Date), 1600000, N'Đã thanh toán', N'NV001'),
+(8, CAST(N'2025-05-10' AS Date), 1700000, N'Đã thanh toán', N'NV001')
+SET IDENTITY_INSERT [dbo].[PhieuThu] OFF;
 /****** Object:  Index [UQ__NguoiDun__55F68FC09F9CAE7D]    Script Date: 5/19/2025 7:12:31 AM ******/
 ALTER TABLE [dbo].[NguoiDung] ADD UNIQUE NONCLUSTERED 
 (
