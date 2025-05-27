@@ -89,7 +89,7 @@ namespace APIWebsiteKTX.Controllers
             var token = GenerateJwtToken(user);
 
             // Create response with student information and token
-            var response = new StudentResponse
+            var response = new SinhVienResponseDTO
             {
                 MaSV = student.MaSV,
                 HoTen = student.HoTen,
