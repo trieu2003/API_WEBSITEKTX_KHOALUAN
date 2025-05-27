@@ -54,6 +54,13 @@ namespace APIWebsiteKTX.Data
                 .WithOne()
                 .HasForeignKey<SinhVien>(s => s.MaNguoiDung)
                 .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+
+            modelBuilder.Entity<SinhVien>()
+                .HasOne(s => s.NguoiDung)
+                .WithOne()
+                .HasForeignKey<SinhVien>(s => s.MaNguoiDung)
+                .IsRequired(false);
+
             modelBuilder.Entity<NguoiDung>().ToTable("NguoiDung")
             .HasKey(u => u.MaNguoiDung); // Define primary key for NguoiDung
             // Define the relationship between SinhVien and Khoa
@@ -64,8 +71,10 @@ namespace APIWebsiteKTX.Data
                 .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
             modelBuilder.Entity<SinhVien>()
            .HasKey(sv => sv.MaSV);
+
             modelBuilder.Entity<NguoiDung>()
             .HasKey(nd => nd.MaNguoiDung);
+
             modelBuilder.Entity<NoiQuy>()
             .HasKey(nq => nq.MaNoiQuy);
             // Define the relationship between SinhVien and NguoiDung
