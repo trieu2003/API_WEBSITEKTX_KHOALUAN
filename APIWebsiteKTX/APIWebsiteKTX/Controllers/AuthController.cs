@@ -25,11 +25,10 @@ namespace APIWebsiteKTX.Controllers
             _context = context;
             _configuration = configuration;
         }
-        [HttpPost("update-passwords")]//đây là api mã hóa tất cả mật khẩu trong csdl trong trường hợp chưa mã hóa
+        [HttpPost("MaHoa-MatKhau")]//đây là api mã hóa tất cả mật khẩu trong csdl trong trường hợp chưa mã hóa
         public async Task<IActionResult> UpdatePasswords()
         {
             var users = await _context.NguoiDung
-                .Where(u => u.VaiTro == "Sinh viên")
                 .ToListAsync();
 
             foreach (var user in users)
