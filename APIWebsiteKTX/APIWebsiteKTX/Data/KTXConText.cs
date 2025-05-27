@@ -18,6 +18,7 @@ namespace APIWebsiteKTX.Data
         public DbSet<Khoa> Khoa { get; set; }
         public DbSet<LoaiPhong> LoaiPhong { get; set; }
 
+
         public DbSet<MucGiaDienNuoc> MucGiaDienNuoc { get; set; }
         public DbSet<NamHoc> NamHoc { get; set; }
         public DbSet<NguoiDung> NguoiDung { get; set; }
@@ -87,8 +88,32 @@ namespace APIWebsiteKTX.Data
             modelBuilder.Entity<HopDongNoiTru>().HasKey(h => new { h.MaSV, h.MaGiuong, h.MaPhong });
             modelBuilder.Entity<Phong>()
            .HasKey(p => p.MaPhong);
+            // Configure HopDongNoiTru
+            modelBuilder.Entity<HopDongNoiTru>()
+                .HasKey(h => h.MaHopDong);
+            modelBuilder.Entity<HopDongNoiTru>()
+                .HasOne(h => h.SinhVien)
+                .WithMany()
+                .HasForeignKey(h => h.MaSV);
+            // Configure PhieuThu
+            modelBuilder.Entity<PhieuThu>()
+                .HasKey(p => p.MaPhieuThu);
 
+            modelBuilder.Entity<PhieuThu>()
+                .HasOne(p => p.HopDongNoiTru)
+                .WithMany()
+                .HasForeignKey(p => p.MaHopDong);
+
+            // Configure ChiTietPhieuThu
+            modelBuilder.Entity<ChiTietPhieuThu>()
+                .HasKey(c => c.MaChiTiet);
+
+            modelBuilder.Entity<ChiTietPhieuThu>()
+                .HasOne(c => c.PhieuThu)
+                .WithMany()
+                .HasForeignKey(c => c.MaPhieuThu);
             modelBuilder.Entity<LoaiPhong>()
+
                 .HasKey(lp => lp.MaLoaiPhong);
 
             modelBuilder.Entity<Tang>()
