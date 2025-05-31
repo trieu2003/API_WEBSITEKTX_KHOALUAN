@@ -27,7 +27,6 @@ namespace APIWebsiteKTX.Models
     public class StudentResponse
     {
         public string? VaiTro { get; set; }
-
         public string? MaSV { get; set; }
         public string? HoTen { get; set; }
         public string? GioiTinh { get; set; }

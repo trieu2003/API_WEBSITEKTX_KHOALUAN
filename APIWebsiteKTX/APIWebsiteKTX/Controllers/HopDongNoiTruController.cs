@@ -20,18 +20,52 @@ namespace APIWebsiteKTX.Controllers
         {
             _context = context;
         }
-        // chạy đuọc
+        // ràng buộc ngày kết thúc nhỏ hơn hoặc bằng 1 năm kể từ ngày kết thúc đăng ký hợp đồng
         [HttpPost("DangKyHopDong")]
-        public async Task<IActionResult> DangKyHopDong([FromBody] HopDongNoiTru model)
+        public async Task<IActionResult> DangKyHopDong([FromBody] HopDongNoiTruRequest model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            model.NgayDangKy = DateTime.Now;
-            model.NgayBatDau = DateTime.Now;
+
+            // Gán ngày đăng ký và ngày bắt đầu nếu chưa có
+            model.NgayDangKy ??= DateTime.Now;
+            model.NgayBatDau ??= DateTime.Now;
+
+            // Kiểm tra ràng buộc ngày kết thúc >= 1 năm so với ngày đăng ký
+            if (model.NgayKetThuc.HasValue)
+            {
+                var khoangCach = model.NgayKetThuc.Value - model.NgayDangKy.Value;
+                if (khoangCach.TotalDays < 365)
+                {
+                    return BadRequest(new
+                    {
+                        message = "Ngày kết thúc phải cách ít nhất 1 năm so với ngày đăng ký."
+                    });
+                }
+            }
+
             try
             {
-                _context.HopDongNoiTru.Add(model);
+                var hopDong = new HopDongNoiTru
+                {
+                    MaSV = model.MaSV,
+                    MaGiuong = model.MaGiuong,
+                    MaPhong = model.MaPhong,
+                    NgayDangKy = model.NgayDangKy.Value,
+                    NgayBatDau = model.NgayBatDau.Value,
+                    NgayKetThuc = model.NgayKetThuc,
+                    DotDangKy = model.DotDangKy,
+                    NhomTruong = model.NhomTruong,
+                    TrangThai = model.TrangThai ?? "Chưa duyệt",
+                    TrangThaiDuyet = model.TrangThaiDuyet ?? "Chờ duyệt",
+                    PhuongThucThanhToan = model.PhuongThucThanhToan,
+                    MinhChungThanhToan = model.MinhChungThanhToan,// khúc này cho thể cho sinh viên upload file minh chứng thanh toán hoặc để thanh toán sau
+                    MaNamHoc = model.MaNamHoc
+                };
+
+                _context.HopDongNoiTru.Add(hopDong);
                 await _context.SaveChangesAsync();
+
                 return Ok(new { message = "Đăng ký hợp đồng thành công" });
             }
             catch (Exception ex)
@@ -43,6 +77,7 @@ namespace APIWebsiteKTX.Controllers
                 });
             }
         }
+
 
         // r 
         [HttpPost("GiaHanHopDong")]
