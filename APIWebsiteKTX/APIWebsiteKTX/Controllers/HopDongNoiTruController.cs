@@ -20,28 +20,34 @@ namespace APIWebsiteKTX.Controllers
         {
             _context = context;
         }
-        // ràng buộc ngày kết thúc nhỏ hơn hoặc bằng 1 năm kể từ ngày kết thúc đăng ký hợp đồng
         [HttpPost("DangKyHopDong")]
         public async Task<IActionResult> DangKyHopDong([FromBody] HopDongNoiTruRequest model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // Gán ngày đăng ký và ngày bắt đầu nếu chưa có
-            model.NgayDangKy ??= DateTime.Now;
-            model.NgayBatDau ??= DateTime.Now;
+            var ngayDangKy = DateTime.Now;
+            var ngayBatDau = ngayDangKy;
 
-            // Kiểm tra ràng buộc ngày kết thúc >= 1 năm so với ngày đăng ký
-            if (model.NgayKetThuc.HasValue)
+            // ✅ Tự động xác định DotDangKy theo tháng
+            string dotDangKy;
+            int thang = ngayDangKy.Month;
+            if (thang >= 9 && thang <= 12)
+                dotDangKy = "Học kỳ 1";
+            else if (thang >= 1 && thang <= 6)
+                dotDangKy = "Học kỳ 2";
+            else
+                dotDangKy = "Học kỳ hè";
+
+            // ✅ Lấy mã năm học từ bảng NamHoc dựa trên năm hiện tại
+            string maNamHoc = "NH" + ngayDangKy.Year;
+            var namHoc = await _context.NamHoc.FirstOrDefaultAsync(n => n.MaNamHoc == maNamHoc);
+            if (namHoc == null)
             {
-                var khoangCach = model.NgayKetThuc.Value - model.NgayDangKy.Value;
-                if (khoangCach.TotalDays < 365)
+                return BadRequest(new
                 {
-                    return BadRequest(new
-                    {
-                        message = "Ngày kết thúc phải cách ít nhất 1 năm so với ngày đăng ký."
-                    });
-                }
+                    message = $"Không tìm thấy mã năm học '{maNamHoc}' trong hệ thống."
+                });
             }
 
             try
@@ -51,16 +57,14 @@ namespace APIWebsiteKTX.Controllers
                     MaSV = model.MaSV,
                     MaGiuong = model.MaGiuong,
                     MaPhong = model.MaPhong,
-                    NgayDangKy = model.NgayDangKy.Value,
-                    NgayBatDau = model.NgayBatDau.Value,
-                    NgayKetThuc = model.NgayKetThuc,
-                    DotDangKy = model.DotDangKy,
-                    NhomTruong = model.NhomTruong,
-                    TrangThai = model.TrangThai ?? "Chưa duyệt",
-                    TrangThaiDuyet = model.TrangThaiDuyet ?? "Chờ duyệt",
-                    PhuongThucThanhToan = model.PhuongThucThanhToan,
-                    MinhChungThanhToan = model.MinhChungThanhToan,// khúc này cho thể cho sinh viên upload file minh chứng thanh toán hoặc để thanh toán sau
-                    MaNamHoc = model.MaNamHoc
+                    NgayDangKy = ngayDangKy,
+                    NgayBatDau = ngayBatDau,
+                    NgayKetThuc = ngayBatDau.AddYears(1),
+                    DotDangKy = dotDangKy,
+                    NhomTruong = null,
+                    TrangThai = "Chưa duyệt",
+                    TrangThaiDuyet = "Chờ duyệt",
+                    MaNamHoc = maNamHoc
                 };
 
                 _context.HopDongNoiTru.Add(hopDong);
