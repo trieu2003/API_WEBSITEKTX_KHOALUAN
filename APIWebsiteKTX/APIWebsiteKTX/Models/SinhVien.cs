@@ -26,6 +26,8 @@ namespace APIWebsiteKTX.Models
 
     public class StudentResponse
     {
+        public string? VaiTro { get; set; }
+
         public string? MaSV { get; set; }
         public string? HoTen { get; set; }
         public string? GioiTinh { get; set; }
@@ -41,5 +43,7 @@ namespace APIWebsiteKTX.Models
         public string? MaKhoa { get; set; }
         public string? TenKhoa { get; set; }
         public string Token { get; set; }
+        public int MaNguoiDung { get; internal set; }
+        public string TenNguoiDung { get; internal set; }
     }
 }

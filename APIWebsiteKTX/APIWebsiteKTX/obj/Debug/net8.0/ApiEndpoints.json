@@ -1,6 +1,32 @@
 [
   {
     "ContainingType": "APIWebsiteKTX.Controllers.AuthController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/Auth/change-password",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "APIWebsiteKTX.DTO.DoiMatKhauDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "APIWebsiteKTX.DTO.ChangePasswordResponseDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
     "HttpMethod": "POST",
@@ -8,444 +34,34 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "loginDto",
-        "Type": "APIWebsiteKTX.Models.LoginDto",
+        "Name": "request",
+        "Type": "KTXApi.DTO.LoginRequestDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "APIWebsiteKTX.Controllers.ChiTietPhieuThuController",
-    "Method": "GetAll",
-    "RelativePath": "api/ChiTietPhieuThu",
-    "HttpMethod": "GET",
+    "ContainingType": "APIWebsiteKTX.Controllers.AuthController",
+    "Method": "UpdatePasswords",
+    "RelativePath": "api/Auth/update-passwords",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.ChiTietPhieuThu, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
-    "ContainingType": "APIWebsiteKTX.Controllers.ChiTietPhieuThuController",
-    "Method": "Post",
-    "RelativePath": "api/ChiTietPhieuThu",
+    "ContainingType": "APIWebsiteKTX.Controllers.DatChoTruocController",
+    "Method": "ReserveDormitory",
+    "RelativePath": "api/DatChoTruoc/DatChoTruoc",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.ChiTietPhieuThu",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.ChiTietPhieuThu",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.ChiTietPhieuThuController",
-    "Method": "Get",
-    "RelativePath": "api/ChiTietPhieuThu/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.ChiTietPhieuThu",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.ChiTietPhieuThuController",
-    "Method": "Put",
-    "RelativePath": "api/ChiTietPhieuThu/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.ChiTietPhieuThu",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.ChiTietPhieuThuController",
-    "Method": "Delete",
-    "RelativePath": "api/ChiTietPhieuThu/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.ChiTietPhongController",
-    "Method": "GetAll",
-    "RelativePath": "api/ChiTietPhong",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.ChiTietPhong, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.ChiTietPhongController",
-    "Method": "Post",
-    "RelativePath": "api/ChiTietPhong",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.ChiTietPhong",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.ChiTietPhong",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.ChiTietPhongController",
-    "Method": "Get",
-    "RelativePath": "api/ChiTietPhong/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.ChiTietPhong",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.ChiTietPhongController",
-    "Method": "Put",
-    "RelativePath": "api/ChiTietPhong/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.ChiTietPhong",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.ChiTietPhongController",
-    "Method": "Delete",
-    "RelativePath": "api/ChiTietPhong/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.DatChoTruocController",
-    "Method": "GetAll",
-    "RelativePath": "api/DatChoTruoc",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.DatChoTruoc, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.DatChoTruocController",
-    "Method": "Post",
-    "RelativePath": "api/DatChoTruoc",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.DatChoTruoc",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.DatChoTruoc",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.DatChoTruocController",
-    "Method": "Get",
-    "RelativePath": "api/DatChoTruoc/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.DatChoTruoc",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.DatChoTruocController",
-    "Method": "Put",
-    "RelativePath": "api/DatChoTruoc/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.DatChoTruoc",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.DatChoTruocController",
-    "Method": "Delete",
-    "RelativePath": "api/DatChoTruoc/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.DienNuocController",
-    "Method": "GetAll",
-    "RelativePath": "api/DienNuoc",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.DienNuoc, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.DienNuocController",
-    "Method": "Post",
-    "RelativePath": "api/DienNuoc",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.DienNuoc",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.DienNuoc",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.DienNuocController",
-    "Method": "Get",
-    "RelativePath": "api/DienNuoc/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.DienNuoc",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.DienNuocController",
-    "Method": "Put",
-    "RelativePath": "api/DienNuoc/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.DienNuoc",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.DienNuocController",
-    "Method": "Delete",
-    "RelativePath": "api/DienNuoc/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "request",
+        "Type": "APIWebsiteKTX.DTO.DatChoTruocRequestDTO",
         "IsRequired": true
       }
     ],
@@ -453,124 +69,15 @@
   },
   {
     "ContainingType": "APIWebsiteKTX.Controllers.GiuongController",
-    "Method": "GetAll",
-    "RelativePath": "api/Giuong",
+    "Method": "GetAvailableBeds",
+    "RelativePath": "api/Giuong/available",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.Giuong, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.GiuongController",
-    "Method": "Post",
-    "RelativePath": "api/Giuong",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.Giuong",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.Giuong",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.GiuongController",
-    "Method": "Get",
-    "RelativePath": "api/Giuong/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.Giuong",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.GiuongController",
-    "Method": "Put",
-    "RelativePath": "api/Giuong/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.Giuong",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.GiuongController",
-    "Method": "Delete",
-    "RelativePath": "api/Giuong/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.HopDongNoiTruController",
-    "Method": "GetAll",
-    "RelativePath": "api/HopDongNoiTru",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.HopDongNoiTru, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -582,8 +89,8 @@
   },
   {
     "ContainingType": "APIWebsiteKTX.Controllers.HopDongNoiTruController",
-    "Method": "Post",
-    "RelativePath": "api/HopDongNoiTru",
+    "Method": "DangKyHopDong",
+    "RelativePath": "api/HopDongNoiTru/DangKyHopDong",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -594,730 +101,19 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.HopDongNoiTru",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.HopDongNoiTruController",
-    "Method": "Get",
-    "RelativePath": "api/HopDongNoiTru/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.HopDongNoiTru",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.HopDongNoiTruController",
-    "Method": "Put",
-    "RelativePath": "api/HopDongNoiTru/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.HopDongNoiTru",
-        "IsRequired": true
-      }
-    ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "APIWebsiteKTX.Controllers.HopDongNoiTruController",
-    "Method": "Delete",
-    "RelativePath": "api/HopDongNoiTru/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.KhoaController",
-    "Method": "GetAll",
-    "RelativePath": "api/Khoa",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.Khoa, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.KhoaController",
-    "Method": "Post",
-    "RelativePath": "api/Khoa",
+    "Method": "ExtendContract",
+    "RelativePath": "api/HopDongNoiTru/GiaHanHopDong",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.Khoa",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.Khoa",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.KhoaController",
-    "Method": "Get",
-    "RelativePath": "api/Khoa/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.Khoa",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.KhoaController",
-    "Method": "Put",
-    "RelativePath": "api/Khoa/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.Khoa",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.KhoaController",
-    "Method": "Delete",
-    "RelativePath": "api/Khoa/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.LoaiPhongController",
-    "Method": "GetAll",
-    "RelativePath": "api/LoaiPhong",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.LoaiPhong, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.LoaiPhongController",
-    "Method": "Post",
-    "RelativePath": "api/LoaiPhong",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.LoaiPhong",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.LoaiPhong",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.LoaiPhongController",
-    "Method": "Get",
-    "RelativePath": "api/LoaiPhong/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.LoaiPhong",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.LoaiPhongController",
-    "Method": "Put",
-    "RelativePath": "api/LoaiPhong/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.LoaiPhong",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.LoaiPhongController",
-    "Method": "Delete",
-    "RelativePath": "api/LoaiPhong/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.MucGiaDienNuocController",
-    "Method": "GetAll",
-    "RelativePath": "api/MucGiaDienNuoc",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.MucGiaDienNuoc, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.MucGiaDienNuocController",
-    "Method": "Post",
-    "RelativePath": "api/MucGiaDienNuoc",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.MucGiaDienNuoc",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.MucGiaDienNuoc",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.MucGiaDienNuocController",
-    "Method": "Get",
-    "RelativePath": "api/MucGiaDienNuoc/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.MucGiaDienNuoc",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.MucGiaDienNuocController",
-    "Method": "Put",
-    "RelativePath": "api/MucGiaDienNuoc/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.MucGiaDienNuoc",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.MucGiaDienNuocController",
-    "Method": "Delete",
-    "RelativePath": "api/MucGiaDienNuoc/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NamHocController",
-    "Method": "GetAll",
-    "RelativePath": "api/NamHoc",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.NamHoc, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NamHocController",
-    "Method": "Post",
-    "RelativePath": "api/NamHoc",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.NamHoc",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.NamHoc",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NamHocController",
-    "Method": "Get",
-    "RelativePath": "api/NamHoc/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.NamHoc",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NamHocController",
-    "Method": "Put",
-    "RelativePath": "api/NamHoc/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.NamHoc",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NamHocController",
-    "Method": "Delete",
-    "RelativePath": "api/NamHoc/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NguoiDungController",
-    "Method": "GetAll",
-    "RelativePath": "api/NguoiDung",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.NguoiDung, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NguoiDungController",
-    "Method": "Post",
-    "RelativePath": "api/NguoiDung",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.NguoiDung",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.NguoiDung",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NguoiDungController",
-    "Method": "Get",
-    "RelativePath": "api/NguoiDung/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.NguoiDung",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NguoiDungController",
-    "Method": "Put",
-    "RelativePath": "api/NguoiDung/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.NguoiDung",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NguoiDungController",
-    "Method": "Delete",
-    "RelativePath": "api/NguoiDung/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NhanVienController",
-    "Method": "GetAll",
-    "RelativePath": "api/NhanVien",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.NhanVien, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NhanVienController",
-    "Method": "Post",
-    "RelativePath": "api/NhanVien",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.NhanVien",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.NhanVien",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NhanVienController",
-    "Method": "Get",
-    "RelativePath": "api/NhanVien/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.NhanVien",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NhanVienController",
-    "Method": "Put",
-    "RelativePath": "api/NhanVien/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.NhanVien",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NhanVienController",
-    "Method": "Delete",
-    "RelativePath": "api/NhanVien/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "request",
+        "Type": "APIWebsiteKTX.DTO.ExtendContractRequestDto",
         "IsRequired": true
       }
     ],
@@ -1325,7 +121,7 @@
   },
   {
     "ContainingType": "APIWebsiteKTX.Controllers.NoiQuyController",
-    "Method": "GetAll",
+    "Method": "GetRules",
     "RelativePath": "api/NoiQuy",
     "HttpMethod": "GET",
     "IsController": true,
@@ -1333,7 +129,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.NoiQuy, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.DTO.NoiQuyDTO, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1345,232 +141,8 @@
   },
   {
     "ContainingType": "APIWebsiteKTX.Controllers.NoiQuyController",
-    "Method": "Post",
-    "RelativePath": "api/NoiQuy",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.NoiQuy",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.NoiQuy",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NoiQuyController",
-    "Method": "Get",
-    "RelativePath": "api/NoiQuy/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.NoiQuy",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NoiQuyController",
-    "Method": "Put",
-    "RelativePath": "api/NoiQuy/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.NoiQuy",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.NoiQuyController",
-    "Method": "Delete",
-    "RelativePath": "api/NoiQuy/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.PhieuThuController",
-    "Method": "GetAll",
-    "RelativePath": "api/PhieuThu",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.PhieuThu, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.PhieuThuController",
-    "Method": "Post",
-    "RelativePath": "api/PhieuThu",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.PhieuThu",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.PhieuThu",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.PhieuThuController",
-    "Method": "Get",
-    "RelativePath": "api/PhieuThu/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.PhieuThu",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.PhieuThuController",
-    "Method": "Put",
-    "RelativePath": "api/PhieuThu/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.PhieuThu",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.PhieuThuController",
-    "Method": "Delete",
-    "RelativePath": "api/PhieuThu/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.PhongController",
-    "Method": "GetRooms",
-    "RelativePath": "api/Phong",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "trangThai",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Controllers.PhongController\u002BRoomDto, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.PhongController",
-    "Method": "GetRoomDetails",
-    "RelativePath": "api/Phong/{maPhong}",
+    "Method": "GetChiTietPhongByPhong",
+    "RelativePath": "api/NoiQuy/chitietphong-by-phong/{maPhong}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1581,340 +153,119 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Controllers.PhongController\u002BRoomDetailDto",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
-    "ContainingType": "APIWebsiteKTX.Controllers.SinhVienController",
-    "Method": "GetSinhViens",
-    "RelativePath": "api/SinhVien",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.SinhVienDto, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.SinhVienController",
-    "Method": "PostSinhVien",
-    "RelativePath": "api/SinhVien",
+    "ContainingType": "APIWebsiteKTX.Controllers.NoiQuyController",
+    "Method": "DangKyGiuong",
+    "RelativePath": "api/NoiQuy/dang-ky",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "sinhVien",
-        "Type": "APIWebsiteKTX.Models.SinhVien",
+        "Name": "hopDong",
+        "Type": "APIWebsiteKTX.Models.HopDongNoiTru",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.SinhVien",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
-    "ContainingType": "APIWebsiteKTX.Controllers.SinhVienController",
-    "Method": "GetSinhVien",
-    "RelativePath": "api/SinhVien/{id}",
+    "ContainingType": "APIWebsiteKTX.Controllers.NoiQuyController",
+    "Method": "GetGiuongByChiTietPhong",
+    "RelativePath": "api/NoiQuy/giuong-by-chitietphong/{maChiTietPhong}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.SinhVienDto",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.SinhVienController",
-    "Method": "PutSinhVien",
-    "RelativePath": "api/SinhVien/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "sinhVien",
-        "Type": "APIWebsiteKTX.Models.SinhVien",
+        "Name": "maChiTietPhong",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "APIWebsiteKTX.Controllers.SinhVienController",
-    "Method": "DeleteSinhVien",
-    "RelativePath": "api/SinhVien/{id}",
-    "HttpMethod": "DELETE",
+    "ContainingType": "APIWebsiteKTX.Controllers.NoiQuyController",
+    "Method": "GetGiuongTrongByChiTietPhong",
+    "RelativePath": "api/NoiQuy/giuong-trong-by-chitietphong/{maChiTietPhong}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.String",
+        "Name": "maChiTietPhong",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "APIWebsiteKTX.Controllers.TangController",
-    "Method": "GetAll",
-    "RelativePath": "api/Tang",
+    "ContainingType": "APIWebsiteKTX.Controllers.NoiQuyController",
+    "Method": "GetAllPhong",
+    "RelativePath": "api/NoiQuy/phong",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.Tang, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
-    "ContainingType": "APIWebsiteKTX.Controllers.TangController",
+    "ContainingType": "APIWebsiteKTX.Controllers.NoiQuyController",
+    "Method": "GetPhongByTang",
+    "RelativePath": "api/NoiQuy/phong-by-tang/{maTang}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maTang",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.NoiQuyController",
+    "Method": "GetAllTang",
+    "RelativePath": "api/NoiQuy/tang",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.PhongController",
+    "Method": "CheckIn",
+    "RelativePath": "api/Phong/nhan-phong",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "APIWebsiteKTX.DTO.NhanPhongRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.PhongController",
     "Method": "Post",
-    "RelativePath": "api/Tang",
+    "RelativePath": "api/Phong/tra-phong",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.Tang",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.Tang",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.TangController",
-    "Method": "Get",
-    "RelativePath": "api/Tang/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.Tang",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.TangController",
-    "Method": "Put",
-    "RelativePath": "api/Tang/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.Tang",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.TangController",
-    "Method": "Delete",
-    "RelativePath": "api/Tang/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.TrangThietBiController",
-    "Method": "GetAll",
-    "RelativePath": "api/TrangThietBi",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.TrangThietBi, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.TrangThietBiController",
-    "Method": "Post",
-    "RelativePath": "api/TrangThietBi",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.TrangThietBi",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.TrangThietBi",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.TrangThietBiController",
-    "Method": "Get",
-    "RelativePath": "api/TrangThietBi/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.TrangThietBi",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.TrangThietBiController",
-    "Method": "Put",
-    "RelativePath": "api/TrangThietBi/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.TrangThietBi",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.TrangThietBiController",
-    "Method": "Delete",
-    "RelativePath": "api/TrangThietBi/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "request",
+        "Type": "APIWebsiteKTX.DTO.TraPhongRequestDTO",
         "IsRequired": true
       }
     ],
@@ -2031,108 +382,15 @@
   },
   {
     "ContainingType": "APIWebsiteKTX.Controllers.YeuCauSuaChuaController",
-    "Method": "GetAll",
-    "RelativePath": "api/YeuCauSuaChua",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.YeuCauSuaChua, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.YeuCauSuaChuaController",
-    "Method": "Post",
-    "RelativePath": "api/YeuCauSuaChua",
+    "Method": "SubmitRepairRequest",
+    "RelativePath": "api/YeuCauSuaChua/submit",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.YeuCauSuaChua",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.YeuCauSuaChua",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.YeuCauSuaChuaController",
-    "Method": "Get",
-    "RelativePath": "api/YeuCauSuaChua/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.YeuCauSuaChua",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.YeuCauSuaChuaController",
-    "Method": "Put",
-    "RelativePath": "api/YeuCauSuaChua/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.YeuCauSuaChua",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.YeuCauSuaChuaController",
-    "Method": "Delete",
-    "RelativePath": "api/YeuCauSuaChua/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "request",
+        "Type": "APIWebsiteKTX.DTO.RepairRequestDTO",
         "IsRequired": true
       }
     ],

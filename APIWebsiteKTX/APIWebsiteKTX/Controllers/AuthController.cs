@@ -91,6 +91,9 @@ namespace APIWebsiteKTX.Controllers
             // Create response with student information and token
             var response = new StudentResponse
             {
+                VaiTro = user.VaiTro,
+                MaNguoiDung = user.MaNguoiDung,
+                TenNguoiDung = user.TenDangNhap,
                 MaSV = student.MaSV,
                 HoTen = student.HoTen,
                 GioiTinh = student.GioiTinh,
