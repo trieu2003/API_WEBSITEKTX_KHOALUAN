@@ -34,6 +34,9 @@ namespace APIWebsiteKTX.Data
         public DbSet<ChiTietSuaChua> ChiTietSuaChua { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<HopDongNoiTru>()
+                .Property(h => h.MaHopDong)
+                .ValueGeneratedOnAdd();
             base.OnModelCreating(modelBuilder);
             // Đánh dấu RoomDto là keyless (không ánh xạ tới bảng thực)
             modelBuilder.Entity<SinhVien>().ToTable("SinhVien")

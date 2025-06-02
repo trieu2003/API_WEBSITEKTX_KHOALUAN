@@ -1,11 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APIWebsiteKTX.Models
 {
     public class HopDongNoiTru
     {
         [Key]
-        public int MaHopDong { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int MaHopDong { get; set; } // Không gán khi thêm mới
+
         public string MaSV { get; set; }
         public string MaGiuong { get; set; }
         public string MaPhong { get; set; }
@@ -22,5 +25,12 @@ namespace APIWebsiteKTX.Models
         public string? MaNV { get; set; }
         public Phong Phong { get; set; }
         public SinhVien SinhVien { get; set; }
+    }
+    public class HopDongNoiTruRequest
+    {
+        [Key]
+        public string MaSV { get; set; }
+        public string MaGiuong { get; set; }
+        public string MaPhong { get; set; }
     }
 }
