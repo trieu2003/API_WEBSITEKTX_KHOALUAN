@@ -2,6 +2,7 @@ namespace APIWebsiteKTX.DTO
 {
     public class SinhVienRequestDTO
     {
+
         public string? MaSV { get; set; }
         public string? HoTen { get; set; }
         public string? GioiTinh { get; set; }
@@ -13,6 +14,9 @@ namespace APIWebsiteKTX.DTO
     }
     public class SinhVienResponseDTO
     {
+        public int MaNguoiDung { get; set; }
+        public string TenNguoiDung { get; set; } = string.Empty; // Assuming this is required, otherwise make it nullable
+        public string? VaiTro { get; set; }
         public string? MaSV { get; set; }
         public string? HoTen { get; set; }
         public string? GioiTinh { get; set; }

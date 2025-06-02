@@ -6,7 +6,6 @@ namespace APIWebsiteKTX.DTO
         public string SDT { get; set; }
         public string Email { get; set; }
         public string HanDat { get; set; }
-
     }
 }
 
