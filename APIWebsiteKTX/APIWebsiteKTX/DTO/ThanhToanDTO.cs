@@ -21,7 +21,7 @@ namespace APIWebsiteKTX.DTO
         public decimal TongTien { get; set; }
         public string TrangThai { get; set; }
         public string MaNV { get; set; }
-        public List<PhieuThuDTO> PhieuThus { get; set; }
+        public List<PhieuThu> PhieuThus { get; set; }
         public string Message { get; set; }
     }
 }

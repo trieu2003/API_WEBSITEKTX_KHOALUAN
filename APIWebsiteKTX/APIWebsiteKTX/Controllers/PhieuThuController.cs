@@ -20,49 +20,83 @@ namespace APIWebsiteKTX.Controllers
         {
             _context = context;
         }
-
-        [HttpGet("sinhvien/{maSV}")]
-        public async Task<IActionResult> GetPhieuThuBySinhVien(string maSV)
+        [HttpPost("xem-phieu-thu")]
+        public async Task<IActionResult> XemPhieuThu([FromBody] PhieuThuRequestDTO request)
         {
-            try
-            {
-                // Tìm tất cả hợp đồng của sinh viên
-                var hopDongIds = await _context.HopDongNoiTru
-                    .Where(hd => hd.MaSV == maSV)
-                    .Select(hd => hd.MaHopDong)
-                    .ToListAsync();
+            var maSV = request.MaSV;
 
-                if (!hopDongIds.Any())
+            var hopDong = await _context.HopDongNoiTru
+                .Where(h => h.MaSV == maSV && h.TrangThai == "Đã nhận phòng")
+                .FirstOrDefaultAsync();
+
+            if (hopDong == null)
+                return NotFound("Sinh viên không có hợp đồng đang ở.");
+
+            List<string> danhSachMaSV;
+
+            if (hopDong.NhomTruong.Trim().ToLower() == "true" && hopDong.NhomTruong != null)
+            {
+                danhSachMaSV = await _context.HopDongNoiTru
+                    .Where(h => h.MaPhong == hopDong.MaPhong && h.TrangThai == "Đã nhận phòng")
+                    .Select(h => h.MaSV)
+                    .ToListAsync();
+            }
+            else
+            {
+                danhSachMaSV = new List<string> { maSV };
+            }
+
+            var hopDongs = await _context.HopDongNoiTru
+                .Where(h => danhSachMaSV.Contains(h.MaSV))
+                .Select(h => new { h.MaHopDong, h.MaSV })
+                .ToListAsync();
+
+            var maHopDongs = hopDongs.Select(h => h.MaHopDong).ToList();
+
+            var svInfo = await _context.SinhVien
+                .Where(sv => danhSachMaSV.Contains(sv.MaSV))
+                .ToDictionaryAsync(sv => sv.MaSV, sv => sv.HoTen);
+
+            var phieuThus = await _context.PhieuThu
+                .Where(p => maHopDongs.Contains(p.MaHopDong))
+                .Select(p => new
                 {
-                    return NotFound(new { message = "Sinh viên không có hợp đồng nội trú nào." });
-                }
+                    p.MaPhieuThu,
+                    p.NgayLap,
+                    p.TongTien,
+                    p.TrangThai,
+                    p.MaNV,
+                    p.MaHopDong
+                })
+                .ToListAsync();
 
-                // Lấy phiếu thu theo hợp đồng
-                var phieuThus = await _context.PhieuThu
-                    .Where(pt => hopDongIds.Contains(pt.MaHopDong))
-                    .Select(pt => new PhieuThuDTO
-                    {
-                        MaPhieuThu = pt.MaPhieuThu,
-                        NgayLap = pt.NgayLap,
-                        TongTien = pt.TongTien,
-                        TrangThai = pt.TrangThai,
-                        MaNV = pt.MaNV,
-                        ChiTietPhieuThu = _context.ChiTietPhieuThu
-                            .Where(ct => ct.MaPhieuThu == pt.MaPhieuThu)
-                            .Select(ct => new ChiTietPhieuThuDTO
-                            {
-                                LoaiKhoanThu = ct.LoaiKhoanThu,
-                                SoTien = ct.SoTien
-                            }).ToList()
-                    })
-                    .ToListAsync();
-
-                return Ok(new { status = "success", data = phieuThus });
-            }
-            catch (Exception ex)
+            var result = phieuThus.Select(p =>
             {
-                return StatusCode(500, new { message = "Lỗi hệ thống", error = ex.Message });
-            }
+                var maSV = hopDongs.FirstOrDefault(h => h.MaHopDong == p.MaHopDong)?.MaSV;
+                var hoTen = maSV != null && svInfo.ContainsKey(maSV) ? svInfo[maSV] : "";
+
+                var chiTiet = _context.ChiTietPhieuThu
+                    .Where(c => c.MaPhieuThu == p.MaPhieuThu)
+                    .Select(c => new ChiTietPhieuThuDTO
+                    {
+                        LoaiKhoanThu = c.LoaiKhoanThu,
+                        SoTien = c.SoTien
+                    }).ToList();
+
+                return new PhieuThuResponseDTO
+                {
+                    MaPhieuThu = p.MaPhieuThu,
+                    NgayLap = p.NgayLap,
+                    TongTien = p.TongTien,
+                    TrangThai = p.TrangThai,
+                    MaNV = p.MaNV,
+                    MaSV = maSV,
+                    HoTen = hoTen,
+                    ChiTietPhieuThu = chiTiet
+                };
+            }).ToList();
+
+            return Ok(result);
         }
     }
 }
