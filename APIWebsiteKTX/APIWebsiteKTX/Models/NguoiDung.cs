@@ -9,5 +9,6 @@ namespace APIWebsiteKTX.Models
         public string MatKhau { get; set; }
         public string? VaiTro { get; set; }
         public string? OTP { get; set; }
+
     }
 }

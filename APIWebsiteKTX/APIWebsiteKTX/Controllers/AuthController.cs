@@ -2,7 +2,6 @@
 using APIWebsiteKTX.Models;
 using Microsoft.EntityFrameworkCore;
 using APIWebsiteKTX.Data;
-using Microsoft.AspNetCore.Identity.Data;
 using KTXApi.DTO;
 using APIWebsiteKTX.DTO;
 using Microsoft.IdentityModel.Tokens;
@@ -10,6 +9,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using MimeKit;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using System.Net.Mail;
+using System.Security.Cryptography;
 
 namespace APIWebsiteKTX.Controllers
 {
@@ -19,17 +23,127 @@ namespace APIWebsiteKTX.Controllers
     {
         private readonly KTXContext _context;
         private readonly IConfiguration _configuration;
+        private readonly EmailService _emailService;
 
-        public AuthController(KTXContext context, IConfiguration configuration)
+        public AuthController(KTXContext context, IConfiguration configuration, EmailService emailService)
         {
             _context = context;
             _configuration = configuration;
+            _emailService = emailService;
         }
-        [HttpPost("update-passwords")]//đây là api mã hóa tất cả mật khẩu trong csdl trong trường hợp chưa mã hóa
+        [HttpPost("request-otp")]
+        public async Task<IActionResult> RequestOtp([FromBody] RequestOtpDTO request)
+        {
+            try
+            {
+                // Validate input
+                if (request == null || string.IsNullOrEmpty(request.TenDangNhap))
+                {
+                    return BadRequest(new { message = "Tên đăng nhập không hợp lệ." });
+                }
+
+                // Find user
+                var user = await _context.NguoiDung
+                    .FirstOrDefaultAsync(u => u.TenDangNhap == request.TenDangNhap);
+
+                if (user == null)
+                {
+                    return NotFound(new { message = "Tên đăng nhập không tồn tại." });
+                }
+
+                // Find associated student
+                var student = await _context.SinhVien
+                    .FirstOrDefaultAsync(sv => sv.MaNguoiDung == user.MaNguoiDung);
+
+                if (student == null || string.IsNullOrEmpty(student.Email))
+                {
+                    return BadRequest(new { message = "Không tìm thấy email liên kết với tài khoản này. Vui lòng liên hệ nhân viên." });
+                }
+
+                // Generate OTP
+                var otp = GenerateOtp();
+                user.OTP = $"{otp}|{DateTime.UtcNow.AddMinutes(5):yyyy-MM-dd HH:mm:ss}";
+
+                // Save OTP
+                await _context.SaveChangesAsync();
+
+                // Send OTP via email
+                await _emailService.SendOtpEmail(student.Email, otp);
+
+                return Ok(new { message = "OTP đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Lỗi hệ thống. Vui lòng thử lại sau hoặc liên hệ nhân viên.", error = ex.Message });
+            }
+        }
+
+        [HttpPost("verify-otp")]
+        public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpDTO request)
+        {
+            try
+            {
+                // Validate input
+                if (request == null || string.IsNullOrEmpty(request.TenDangNhap) || string.IsNullOrEmpty(request.OTP) || string.IsNullOrEmpty(request.NewPassword))
+                {
+                    return BadRequest(new { message = "Dữ liệu yêu cầu không hợp lệ." });
+                }
+
+                // Find user
+                var user = await _context.NguoiDung
+                    .FirstOrDefaultAsync(u => u.TenDangNhap == request.TenDangNhap);
+
+                if (user == null)
+                {
+                    return NotFound(new { message = "Tên đăng nhập không tồn tại." });
+                }
+
+                // Validate OTP
+                if (string.IsNullOrEmpty(user.OTP))
+                {
+                    return BadRequest(new { message = "OTP không hợp lệ hoặc chưa được yêu cầu." });
+                }
+
+                var otpParts = user.OTP.Split('|');
+                if (otpParts.Length != 2 || otpParts[0] != request.OTP)
+                {
+                    return BadRequest(new { message = "OTP không đúng." });
+                }
+
+                if (!DateTime.TryParse(otpParts[1], out var expiryTime) || expiryTime < DateTime.UtcNow)
+                {
+                    user.OTP = null; // Clear expired OTP
+                    await _context.SaveChangesAsync();
+                    return BadRequest(new { message = "OTP đã hết hạn. Vui lòng yêu cầu OTP mới." });
+                }
+
+                // Update password
+                user.MatKhau = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+                user.OTP = null; // Clear OTP
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Mật khẩu đã được đặt lại thành công." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Lỗi hệ thống. Vui lòng thử lại sau hoặc liên hệ nhân viên.", error = ex.Message });
+            }
+        }
+
+        private static string GenerateOtp()
+        {
+            using var rng = RandomNumberGenerator.Create();
+            var bytes = new byte[4];
+            rng.GetBytes(bytes);
+            var random = BitConverter.ToUInt32(bytes, 0);
+            return (random % 1000000).ToString("D6"); // 6-digit OTP
+        }
+
+        [HttpPost("MaHoa-MatKhau")]//đây là api mã hóa tất cả mật khẩu trong csdl trong trường hợp chưa mã hóa
         public async Task<IActionResult> UpdatePasswords()
         {
             var users = await _context.NguoiDung
-                .Where(u => u.VaiTro == "Sinh viên")
                 .ToListAsync();
 
             foreach (var user in users)
@@ -89,7 +203,7 @@ namespace APIWebsiteKTX.Controllers
             var token = GenerateJwtToken(user);
 
             // Create response with student information and token
-            var response = new StudentResponse
+            var response = new SinhVienResponseDTO
             {
                 VaiTro = user.VaiTro,
                 MaNguoiDung = user.MaNguoiDung,
@@ -208,7 +322,5 @@ namespace APIWebsiteKTX.Controllers
                 });
             }
         }
-
-
     }
 }

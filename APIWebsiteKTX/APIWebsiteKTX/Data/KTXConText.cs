@@ -18,6 +18,7 @@ namespace APIWebsiteKTX.Data
         public DbSet<Khoa> Khoa { get; set; }
         public DbSet<LoaiPhong> LoaiPhong { get; set; }
 
+
         public DbSet<MucGiaDienNuoc> MucGiaDienNuoc { get; set; }
         public DbSet<NamHoc> NamHoc { get; set; }
         public DbSet<NguoiDung> NguoiDung { get; set; }
@@ -57,6 +58,13 @@ namespace APIWebsiteKTX.Data
                 .WithOne()
                 .HasForeignKey<SinhVien>(s => s.MaNguoiDung)
                 .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+
+            modelBuilder.Entity<SinhVien>()
+                .HasOne(s => s.NguoiDung)
+                .WithOne()
+                .HasForeignKey<SinhVien>(s => s.MaNguoiDung)
+                .IsRequired(false);
+
             modelBuilder.Entity<NguoiDung>().ToTable("NguoiDung")
             .HasKey(u => u.MaNguoiDung); // Define primary key for NguoiDung
             // Define the relationship between SinhVien and Khoa
@@ -67,8 +75,10 @@ namespace APIWebsiteKTX.Data
                 .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
             modelBuilder.Entity<SinhVien>()
            .HasKey(sv => sv.MaSV);
+
             modelBuilder.Entity<NguoiDung>()
             .HasKey(nd => nd.MaNguoiDung);
+
             modelBuilder.Entity<NoiQuy>()
             .HasKey(nq => nq.MaNoiQuy);
             // Define the relationship between SinhVien and NguoiDung
@@ -81,8 +91,32 @@ namespace APIWebsiteKTX.Data
             modelBuilder.Entity<HopDongNoiTru>().HasKey(h => new { h.MaSV, h.MaGiuong, h.MaPhong });
             modelBuilder.Entity<Phong>()
            .HasKey(p => p.MaPhong);
+            // Configure HopDongNoiTru
+            modelBuilder.Entity<HopDongNoiTru>()
+                .HasKey(h => h.MaHopDong);
+            modelBuilder.Entity<HopDongNoiTru>()
+                .HasOne(h => h.SinhVien)
+                .WithMany()
+                .HasForeignKey(h => h.MaSV);
+            // Configure PhieuThu
+            modelBuilder.Entity<PhieuThu>()
+                .HasKey(p => p.MaPhieuThu);
 
+            modelBuilder.Entity<PhieuThu>()
+                .HasOne(p => p.HopDongNoiTru)
+                .WithMany()
+                .HasForeignKey(p => p.MaHopDong);
+
+            // Configure ChiTietPhieuThu
+            modelBuilder.Entity<ChiTietPhieuThu>()
+                .HasKey(c => c.MaChiTiet);
+
+            modelBuilder.Entity<ChiTietPhieuThu>()
+                .HasOne(c => c.PhieuThu)
+                .WithMany()
+                .HasForeignKey(c => c.MaPhieuThu);
             modelBuilder.Entity<LoaiPhong>()
+
                 .HasKey(lp => lp.MaLoaiPhong);
 
             modelBuilder.Entity<Tang>()

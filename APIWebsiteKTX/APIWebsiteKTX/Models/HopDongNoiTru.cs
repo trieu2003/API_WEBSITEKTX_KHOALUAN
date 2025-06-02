@@ -24,6 +24,7 @@ namespace APIWebsiteKTX.Models
         public string? MaNamHoc { get; set; }
         public string? MaNV { get; set; }
         public Phong Phong { get; set; }
+        public SinhVien SinhVien { get; set; }
     }
     public class HopDongNoiTruRequest
     {

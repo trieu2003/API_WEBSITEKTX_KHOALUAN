@@ -1,4 +1,5 @@
-﻿using APIWebsiteKTX.Data;
+﻿using APIWebsiteKTX.Controllers;
+using APIWebsiteKTX.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -51,6 +52,10 @@ builder.Services.AddAuthentication(options =>
             Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
+builder.Services.AddDbContext<KTXContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("KTXConnection")));
+builder.Services.AddSingleton<EmailService>();
+
 var app = builder.Build();
 
 // Cấu hình middleware
