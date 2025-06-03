@@ -30,6 +30,7 @@ namespace APIWebsiteKTX.DTO
         public DateTime? NgayLapTu { get; set; }
         public DateTime? NgayLapDen { get; set; }
         public List<string>? LoaiKhoanThu { get; set; }  // hỗ trợ nhiều loại
+        public string? TenSinhVien { get; set; }
         public int Page { get; set; } = 1;               // phân trang
         public int PageSize { get; set; } = 10;
     }
