@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace APIWebsiteKTX.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController] 
     public class ThanhToanController : ControllerBase
     {
         private readonly KTXContext _context;
@@ -20,7 +20,63 @@ namespace APIWebsiteKTX.Controllers
         {
             _context = context;
         }
-        [HttpPost("process-payment")]
+        [HttpGet("{maSV}/hopdong-phong-phieuthu")]
+        public async Task<IActionResult> XemHopDongVaPhieuThuPhong(string maSV)
+        {
+            // Tìm hợp đồng với trạng thái "Đã nhận phòng"
+            var hopDong = await _context.HopDongNoiTru
+                .Where(h => h.MaSV == maSV && h.TrangThai != "Hủy")
+                .FirstOrDefaultAsync();
+
+            if (hopDong == null)
+                return NotFound("Không thể thanh toán vì hợp động của bạn bị hủy!.");
+
+            // Tìm các mã phiếu thu thuộc hợp đồng
+            var maPhieuThuPhong = await _context.ChiTietPhieuThu
+                .Where(c => c.LoaiKhoanThu == "Phí phòng")
+                .Join(_context.PhieuThu,
+                      c => c.MaPhieuThu,
+                      p => p.MaPhieuThu,
+                      (c, p) => new { c, p })
+                .Where(cp => cp.p.MaHopDong == hopDong.MaHopDong)
+                .Select(cp => cp.p.MaPhieuThu)
+                .Distinct()
+                .ToListAsync();
+
+            // Lấy danh sách phiếu thu liên quan đến khoản "Phí phòng"
+            var phieuThus = await _context.PhieuThu
+                .Where(p => maPhieuThuPhong.Contains(p.MaPhieuThu))
+                .Select(p => new PhieuThuResponseDTO
+                {
+                    MaPhieuThu = p.MaPhieuThu,
+                    NgayLap = p.NgayLap ,
+                    TongTien = p.TongTien,
+                    TrangThai = p.TrangThai,
+                    MaNV = p.MaNV,
+                    ChiTietPhieuThu = _context.ChiTietPhieuThu
+                        .Where(c => c.MaPhieuThu == p.MaPhieuThu && c.LoaiKhoanThu == "Phí phòng")
+                        .Select(c => new ChiTietPhieuThuDTO
+                        {
+                            LoaiKhoanThu = c.LoaiKhoanThu,
+                            SoTien = c.SoTien
+                        }).ToList()
+                }).ToListAsync();
+
+            // Ghép hợp đồng và phiếu thu
+            var result = new HopDongVaPhieuThuDTO
+            {
+                MaHopDong = hopDong.MaHopDong,
+                MaPhong = hopDong.MaPhong,
+                MaGiuong = hopDong.MaGiuong,
+                NgayBatDau = hopDong.NgayBatDau ?? DateTime.MinValue,
+                NgayKetThuc = hopDong.NgayKetThuc ?? DateTime.MinValue,
+                PhuongThucThanhToan = hopDong.PhuongThucThanhToan,
+                DanhSachPhieuThu = phieuThus
+            };
+
+            return Ok(result);
+        }
+        [HttpPost("room-payment")]
         public async Task<IActionResult> ProcessPayment([FromBody] ThanhToanRequestDTO request)
         {
             try
