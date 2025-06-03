@@ -103,7 +103,6 @@ namespace APIWebsiteKTX.Controllers
         {
             var maSV = request.MaSV;
 
-            // Lấy hợp đồng đang ở
             var hopDong = await _context.HopDongNoiTru
                 .FirstOrDefaultAsync(h => h.MaSV == maSV && h.TrangThai == "Đã nhận phòng");
 
@@ -132,28 +131,25 @@ namespace APIWebsiteKTX.Controllers
             var maHopDongs = hopDongs.Select(h => h.MaHopDong).ToList();
             var maSVTheoHopDong = hopDongs.ToDictionary(h => h.MaHopDong, h => h.MaSV);
 
-            // Lọc phiếu thu theo điều kiện
-            var phieuThuQuery = _context.PhieuThu
+            // Truy vấn phiếu thu chính
+            var query = _context.PhieuThu
                 .Where(p => maHopDongs.Contains(p.MaHopDong));
 
             if (!string.IsNullOrWhiteSpace(request.TrangThai))
-            {
-                phieuThuQuery = phieuThuQuery.Where(p => p.TrangThai == request.TrangThai);
-            }
+                query = query.Where(p => p.TrangThai == request.TrangThai);
 
             if (request.NgayLapTu.HasValue)
-            {
-                phieuThuQuery = phieuThuQuery.Where(p => p.NgayLap >= request.NgayLapTu);
-            }
+                query = query.Where(p => p.NgayLap >= request.NgayLapTu);
 
             if (request.NgayLapDen.HasValue)
-            {
-                phieuThuQuery = phieuThuQuery.Where(p => p.NgayLap <= request.NgayLapDen);
-            }
+                query = query.Where(p => p.NgayLap <= request.NgayLapDen);
 
+            var totalRecords = await query.CountAsync(); // tổng bản ghi trước phân trang
 
-            // Truy vấn phiếu thu thỏa điều kiện
-            var danhSachPhieu = await phieuThuQuery
+            var phieuThuList = await query
+                .OrderByDescending(p => p.NgayLap)
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize)
                 .Select(p => new
                 {
                     p.MaPhieuThu,
@@ -166,14 +162,15 @@ namespace APIWebsiteKTX.Controllers
 
             var result = new List<PhieuThuResponseDTO>();
 
-            foreach (var p in danhSachPhieu)
+            foreach (var p in phieuThuList)
             {
                 var chiTietQuery = _context.ChiTietPhieuThu
                     .Where(c => c.MaPhieuThu == p.MaPhieuThu);
 
-                if (!string.IsNullOrWhiteSpace(request.LoaiKhoanThu))
+                if (request.LoaiKhoanThu != null && request.LoaiKhoanThu.Any())
                 {
-                    chiTietQuery = chiTietQuery.Where(c => c.LoaiKhoanThu == request.LoaiKhoanThu);
+                    chiTietQuery = chiTietQuery
+                        .Where(c => request.LoaiKhoanThu.Contains(c.LoaiKhoanThu));
                 }
 
                 var chiTiet = await chiTietQuery
@@ -183,28 +180,33 @@ namespace APIWebsiteKTX.Controllers
                         SoTien = c.SoTien
                     }).ToListAsync();
 
-                // Bỏ qua nếu không có chi tiết khớp loại khoản thu
                 if (!chiTiet.Any()) continue;
 
-                var maSinhVien = maSVTheoHopDong.ContainsKey(p.MaHopDong) ? maSVTheoHopDong[p.MaHopDong] : "";
+                var maSinhVien = maSVTheoHopDong.TryGetValue(p.MaHopDong, out var msv) ? msv : "";
 
                 result.Add(new PhieuThuResponseDTO
                 {
-                    MaPhieuThu = p.MaPhieuThu,
-                    MaNV = p.MaNV,
-                    MaSV = maSinhVien,
-                    NgayLap = p.NgayLap,
                     HoTen = await _context.SinhVien
                         .Where(sv => sv.MaSV == maSinhVien)
                         .Select(sv => sv.HoTen)
                         .FirstOrDefaultAsync(),
+                    MaPhieuThu = p.MaPhieuThu,
+                    NgayLap = p.NgayLap,
                     TongTien = p.TongTien,
                     TrangThai = p.TrangThai,
+                    MaNV = p.MaNV,
+                    MaSV = maSinhVien,
                     ChiTietPhieuThu = chiTiet
                 });
             }
 
-            return Ok(result);
+            return Ok(new
+            {
+                currentPage = request.Page,
+                pageSize = request.PageSize,
+                totalRecords,
+                data = result
+            });
         }
     }
 }

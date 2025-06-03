@@ -25,15 +25,12 @@ namespace APIWebsiteKTX.DTO
     }
     public class LocPhieuThuRequestDTO
     {
-        [Required] // chỉ MaSV là bắt buộc
         public string MaSV { get; set; }
-
         public string? TrangThai { get; set; }
-
         public DateTime? NgayLapTu { get; set; }
-
         public DateTime? NgayLapDen { get; set; }
-
-        public string? LoaiKhoanThu { get; set; } 
+        public List<string>? LoaiKhoanThu { get; set; }  // hỗ trợ nhiều loại
+        public int Page { get; set; } = 1;               // phân trang
+        public int PageSize { get; set; } = 10;
     }
 }
