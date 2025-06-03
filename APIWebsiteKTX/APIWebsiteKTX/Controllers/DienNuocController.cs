@@ -1,4 +1,4 @@
-
+﻿
 using APIWebsiteKTX.Data;
 using APIWebsiteKTX.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +19,35 @@ namespace APIWebsiteKTX.Controllers
         {
             _context = context;
         }
+        [HttpGet("sinhvien/{maSV}/dien-nuoc")]
+        public async Task<IActionResult> XemDienNuocCuaPhong(string maSV)
+        {
+            // Tìm hợp đồng hiện tại của sinh viên
+            var hopDong = await _context.HopDongNoiTru
+                .Where(h => h.MaSV == maSV && h.TrangThai != "Hủy")
+                .FirstOrDefaultAsync();
 
-        
+            if (hopDong == null)
+                return NotFound("Không tìm thấy hợp đồng hiện tại của sinh viên.");
+
+            var maPhong = hopDong.MaPhong;
+
+            // Truy vấn các bản ghi điện nước của phòng
+            var dienNuocList = await _context.DienNuoc
+                .Where(d => d.MaPhong == maPhong)
+                .Select(d => new DienNuocDTO
+                {
+                    MaDN = d.MaDN,
+                    NgayBatDau = d.NgayBatDau ?? DateTime.MinValue,
+                    NgayKetThuc = d.NgayKetThuc ?? DateTime.MinValue,
+                    SoDienCu = d.SoDienCu ?? 0,
+                    SoDienMoi = d.SoDienMoi ?? 0,
+                    SoNuocCu = d.SoNuocCu ?? 0,
+                    SoNuocMoi = d.SoNuocMoi ?? 0
+                }).ToListAsync();
+
+            return Ok(dienNuocList);
+        }
+
     }
 }
