@@ -1,4 +1,4 @@
-public class DienNuocDTO
+﻿public class DienNuocDTO
 {
     public int MaDN { get; set; }
     public DateTime NgayBatDau { get; set; }
@@ -7,4 +7,14 @@ public class DienNuocDTO
     public int SoDienMoi { get; set; }
     public int SoNuocCu { get; set; }
     public int SoNuocMoi { get; set; }
+}
+public class ThanhToanDienNuocRequestDTO
+{
+    public string MaSV { get; set; }          // Mã sinh viên nhóm trưởng
+}
+public class ThanhToanDienNuocReponseDTO
+{
+    public int MaPhieuThu { get; set; }
+    public string MaSV { get; set; }
+    public decimal TongTien { get; set; }
 }

@@ -20,6 +20,67 @@ namespace APIWebsiteKTX.Controllers
         {
             _context = context;
         }
+        [HttpPost("truongnhom/thanh-toan-dien-nuoc")]
+        public async Task<IActionResult> TruongNhomThanhToanDienNuoc([FromBody] PhieuThuRequestDTO request)
+        {
+            var maSV = request.MaSV;
+
+            // 1. Xác minh trưởng nhóm
+            var hopDongTruongNhom = await _context.HopDongNoiTru
+                .Where(h => h.MaSV == maSV && h.TrangThai == "Đã nhận phòng" && h.NhomTruong.Trim().ToLower() == "true")
+                .FirstOrDefaultAsync();
+
+            if (hopDongTruongNhom == null)
+                return BadRequest("Sinh viên không phải là trưởng nhóm hoặc chưa nhận phòng.");
+
+            var maPhong = hopDongTruongNhom.MaPhong;
+
+            // 2. Lấy danh sách sinh viên cùng phòng
+            var danhSachHopDong = await _context.HopDongNoiTru
+                .Where(h => h.MaPhong == maPhong && h.TrangThai == "Đã nhận phòng")
+                .ToListAsync();
+
+            var danhSachMaHopDong = danhSachHopDong.Select(h => h.MaHopDong).ToList();
+            var maSVTheoHopDong = danhSachHopDong.ToDictionary(h => h.MaHopDong, h => h.MaSV);
+
+            // 3. Lấy các phiếu thu có "Tiền điện nước"
+            var phieuThuDienNuoc = await _context.PhieuThu
+                .Where(p => danhSachMaHopDong.Contains(p.MaHopDong))
+                .Where(p => _context.ChiTietPhieuThu
+                    .Any(c => c.MaPhieuThu == p.MaPhieuThu && c.LoaiKhoanThu == "Phí điện" || c.LoaiKhoanThu == "Phí nước"))
+                .ToListAsync();
+
+            // 4. Cập nhật trạng thái phiếu thu
+            var ketQua = new List<ThanhToanDienNuocReponseDTO>();
+
+            foreach (var pt in phieuThuDienNuoc)
+            {
+                pt.TrangThai = "Đã thanh toán";
+
+                var tongTien = pt.TongTien;
+                var maHopDong = pt.MaHopDong;
+                var maSinhVien = maSVTheoHopDong.ContainsKey(maHopDong)
+                    ? maSVTheoHopDong[maHopDong]
+                    : "";
+
+                ketQua.Add(new ThanhToanDienNuocReponseDTO
+                {
+                    MaPhieuThu = pt.MaPhieuThu,
+                    MaSV = maSinhVien,
+                    TongTien = tongTien
+                });
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                message = "Thanh toán thành công.",
+                tongSoPhieu = ketQua.Count,
+                tongTienThanhToan = ketQua.Sum(x => x.TongTien),
+                chiTiet = ketQua
+            });
+        }
         [HttpGet("{maSV}/hopdong-phong-phieuthu")]
         public async Task<IActionResult> XemHopDongVaPhieuThuPhong(string maSV)
         {

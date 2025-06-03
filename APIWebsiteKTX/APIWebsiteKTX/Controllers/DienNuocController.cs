@@ -24,11 +24,11 @@ namespace APIWebsiteKTX.Controllers
         {
             // Tìm hợp đồng hiện tại của sinh viên
             var hopDong = await _context.HopDongNoiTru
-                .Where(h => h.MaSV == maSV && h.TrangThai != "Hủy")
+                .Where(h => h.MaSV == maSV && h.TrangThai == "Đã nhận phòng" )
                 .FirstOrDefaultAsync();
 
             if (hopDong == null)
-                return NotFound("Không tìm thấy hợp đồng hiện tại của sinh viên.");
+                return NotFound("Vui lòng nhận phòng để xem điện nước.");
 
             var maPhong = hopDong.MaPhong;
 

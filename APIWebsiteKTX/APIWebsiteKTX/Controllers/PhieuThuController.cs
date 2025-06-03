@@ -30,11 +30,11 @@ namespace APIWebsiteKTX.Controllers
                 .FirstOrDefaultAsync();
 
             if (hopDong == null)
-                return NotFound("Sinh viên không có hợp đồng đang ở.");
+                return NotFound("Hợp đồng bạn đã hủy hoặc đã kết thúc.");
 
             List<string> danhSachMaSV;
 
-            if (hopDong.NhomTruong.Trim().ToLower() == "true" && hopDong.NhomTruong != null)
+            if (hopDong.NhomTruong.Trim().ToLower() == "true")
             {
                 danhSachMaSV = await _context.HopDongNoiTru
                     .Where(h => h.MaPhong == hopDong.MaPhong && h.TrangThai == "Đã nhận phòng")
