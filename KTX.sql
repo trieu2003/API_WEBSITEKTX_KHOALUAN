@@ -223,6 +223,7 @@ CREATE TABLE [dbo].[NguoiDung](
 	[MatKhau] [nvarchar](255) NOT NULL,
 	[VaiTro] [nvarchar](50) NULL,
 	[OTP] [nvarchar](50) NULL,
+	[Token] [varchar](1000) NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[MaNguoiDung] ASC

@@ -14,6 +14,7 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using System.Net.Mail;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APIWebsiteKTX.Controllers
 {
@@ -202,7 +203,12 @@ namespace APIWebsiteKTX.Controllers
             // Generate JWT token
             var token = GenerateJwtToken(user);
 
-            // Create response with student information and token
+            // Save token to database
+            user.Token = token;
+            _context.NguoiDung.Update(user);
+            await _context.SaveChangesAsync();
+
+            // Create response
             var response = new SinhVienResponseDTO
             {
                 VaiTro = user.VaiTro,
@@ -321,6 +327,33 @@ namespace APIWebsiteKTX.Controllers
                     Error = ex.Message
                 });
             }
+        }
+        [Authorize(Roles = "Sinh viên")]
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            // Lấy user ID từ JWT token
+            var userIdString = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
+            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+            {
+                return Unauthorized(new { message = "Token không hợp lệ hoặc không tìm thấy người dùng." });
+            }
+
+            // Tìm người dùng theo ID
+            var user = await _context.NguoiDung.FindAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound(new { message = "Người dùng không tồn tại." });
+            }
+
+            // Xóa token khỏi DB
+            user.Token = null;
+            _context.NguoiDung.Update(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Đăng xuất thành công." });
         }
     }
 }
