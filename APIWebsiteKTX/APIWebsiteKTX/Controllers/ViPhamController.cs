@@ -20,64 +20,30 @@ namespace APIWebsiteKTX.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ViPham>>> GetAll()
+        [HttpGet("vipham/sinhvien/{maSV}")]
+        public async Task<IActionResult> GetViPhamCuaSinhVien(string maSV)
         {
-            return await _context.ViPham.ToListAsync();
-        }
+            var danhSachViPham = await _context.ViPham
+                .Where(v => v.MaSV == maSV)
+                .Join(
+                    _context.NoiQuy,
+                    v => v.MaNoiQuy,
+                    nq => nq.MaNoiQuy,
+                    (v, nq) => new ViPhamResponseDTO
+                    {
+                        MaViPham = v.MaViPham,
+                        MaSV = v.MaSV,
+                        NoiDung = nq.NoiDung ?? "",
+                        GhiChu = v.GhiChu ?? "",
+                        HinhThucXuLy = v.HinhThucXuLy ?? "",
+                        MucDoXuLy = v.MucDoXuLy ?? "",
+                        MaNV = v.MaNV ?? "",
+                        FileBienBan = v.FileBienBan ?? ""
+                    }
+                )
+                .ToListAsync();
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ViPham>> Get(int id)
-        {
-            var item = await _context.ViPham.FindAsync(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            return item;
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<ViPham>> Post(ViPham model)
-        {
-            _context.ViPham.Add(model);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new { id = GetKey(model) }, model);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, ViPham model)
-        {
-            if (!ModelExists(id))
-            {
-                return NotFound();
-            }
-            _context.Entry(model).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var model = await _context.ViPham.FindAsync(id);
-            if (model == null)
-            {
-                return NotFound();
-            }
-            _context.ViPham.Remove(model);
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-
-        private bool ModelExists(int id)
-        {
-            return _context.ViPham.Find(id) != null;
-        }
-
-        private object GetKey(ViPham model)
-        {
-            return model.GetType().GetProperty("Id")?.GetValue(model);
+            return Ok(danhSachViPham);
         }
     }
 }
