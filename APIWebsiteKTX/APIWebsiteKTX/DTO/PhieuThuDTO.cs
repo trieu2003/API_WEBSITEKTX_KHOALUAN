@@ -1,3 +1,5 @@
+﻿using System.ComponentModel.DataAnnotations;
+
 namespace APIWebsiteKTX.DTO
 {
     public class PhieuThuRequestDTO
@@ -23,7 +25,15 @@ namespace APIWebsiteKTX.DTO
     }
     public class LocPhieuThuRequestDTO
     {
+        [Required] // chỉ MaSV là bắt buộc
         public string MaSV { get; set; }
-        public string TrangThai { get; set; }
+
+        public string? TrangThai { get; set; }
+
+        public DateTime? NgayLapTu { get; set; }
+
+        public DateTime? NgayLapDen { get; set; }
+
+        public string? LoaiKhoanThu { get; set; } 
     }
 }

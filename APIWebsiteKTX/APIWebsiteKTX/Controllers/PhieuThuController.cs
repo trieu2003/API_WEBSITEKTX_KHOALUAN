@@ -98,23 +98,20 @@ namespace APIWebsiteKTX.Controllers
 
             return Ok(result);
         }
-        [HttpPost("loc-theo-trangthai")]
-        public async Task<IActionResult> LocPhieuThuTheoTrangThai([FromBody] LocPhieuThuRequestDTO request)
+        [HttpPost("phieuthu/loc-nang-cao")]
+        public async Task<IActionResult> LocPhieuThuNangCao([FromBody] LocPhieuThuRequestDTO request)
         {
             var maSV = request.MaSV;
-            var trangThai = request.TrangThai;
 
-            // 1. Tìm hợp đồng hiện tại
+            // Lấy hợp đồng đang ở
             var hopDong = await _context.HopDongNoiTru
-                .Where(h => h.MaSV == maSV && h.TrangThai == "Đã nhận phòng")
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(h => h.MaSV == maSV && h.TrangThai == "Đã nhận phòng");
 
             if (hopDong == null)
-                return NotFound("Sinh viên không có hợp đồng đang ở.");
+                return NotFound("Không tìm thấy hợp đồng hiện tại của sinh viên.");
 
             List<string> danhSachMaSV;
 
-            // 2. Nếu là nhóm trưởng, lấy tất cả SV cùng phòng
             if (hopDong.NhomTruong.Trim().ToLower() == "true")
             {
                 danhSachMaSV = await _context.HopDongNoiTru
@@ -127,7 +124,6 @@ namespace APIWebsiteKTX.Controllers
                 danhSachMaSV = new List<string> { maSV };
             }
 
-            // 3. Lấy hợp đồng của các SV
             var hopDongs = await _context.HopDongNoiTru
                 .Where(h => danhSachMaSV.Contains(h.MaSV))
                 .Select(h => new { h.MaHopDong, h.MaSV })
@@ -136,46 +132,77 @@ namespace APIWebsiteKTX.Controllers
             var maHopDongs = hopDongs.Select(h => h.MaHopDong).ToList();
             var maSVTheoHopDong = hopDongs.ToDictionary(h => h.MaHopDong, h => h.MaSV);
 
-            // 4. Lọc phiếu thu theo trạng thái
-            var phieuThus = await _context.PhieuThu
-                .Where(p => maHopDongs.Contains(p.MaHopDong) && p.TrangThai == trangThai)
+            // Lọc phiếu thu theo điều kiện
+            var phieuThuQuery = _context.PhieuThu
+                .Where(p => maHopDongs.Contains(p.MaHopDong));
+
+            if (!string.IsNullOrWhiteSpace(request.TrangThai))
+            {
+                phieuThuQuery = phieuThuQuery.Where(p => p.TrangThai == request.TrangThai);
+            }
+
+            if (request.NgayLapTu.HasValue)
+            {
+                phieuThuQuery = phieuThuQuery.Where(p => p.NgayLap >= request.NgayLapTu);
+            }
+
+            if (request.NgayLapDen.HasValue)
+            {
+                phieuThuQuery = phieuThuQuery.Where(p => p.NgayLap <= request.NgayLapDen);
+            }
+
+
+            // Truy vấn phiếu thu thỏa điều kiện
+            var danhSachPhieu = await phieuThuQuery
                 .Select(p => new
                 {
                     p.MaPhieuThu,
+                    p.MaHopDong,
                     p.NgayLap,
                     p.TongTien,
                     p.TrangThai,
-                    p.MaNV,
-                    p.MaHopDong
+                    p.MaNV
                 }).ToListAsync();
 
-            var result = phieuThus.Select(p =>
-            {
-                var maSinhVien = maSVTheoHopDong.ContainsKey(p.MaHopDong) ? maSVTheoHopDong[p.MaHopDong] : "";
+            var result = new List<PhieuThuResponseDTO>();
 
-                var chiTiet = _context.ChiTietPhieuThu
-                    .Where(c => c.MaPhieuThu == p.MaPhieuThu)
+            foreach (var p in danhSachPhieu)
+            {
+                var chiTietQuery = _context.ChiTietPhieuThu
+                    .Where(c => c.MaPhieuThu == p.MaPhieuThu);
+
+                if (!string.IsNullOrWhiteSpace(request.LoaiKhoanThu))
+                {
+                    chiTietQuery = chiTietQuery.Where(c => c.LoaiKhoanThu == request.LoaiKhoanThu);
+                }
+
+                var chiTiet = await chiTietQuery
                     .Select(c => new ChiTietPhieuThuDTO
                     {
                         LoaiKhoanThu = c.LoaiKhoanThu,
                         SoTien = c.SoTien
-                    }).ToList();
+                    }).ToListAsync();
 
-                return new PhieuThuResponseDTO
+                // Bỏ qua nếu không có chi tiết khớp loại khoản thu
+                if (!chiTiet.Any()) continue;
+
+                var maSinhVien = maSVTheoHopDong.ContainsKey(p.MaHopDong) ? maSVTheoHopDong[p.MaHopDong] : "";
+
+                result.Add(new PhieuThuResponseDTO
                 {
                     MaPhieuThu = p.MaPhieuThu,
-                    NgayLap = p.NgayLap,
-                    TongTien = p.TongTien,
-                    TrangThai = p.TrangThai,
                     MaNV = p.MaNV,
-                    HoTen = _context.SinhVien
+                    MaSV = maSinhVien,
+                    NgayLap = p.NgayLap,
+                    HoTen = await _context.SinhVien
                         .Where(sv => sv.MaSV == maSinhVien)
                         .Select(sv => sv.HoTen)
-                        .FirstOrDefault(),
-                    MaSV = maSinhVien,
+                        .FirstOrDefaultAsync(),
+                    TongTien = p.TongTien,
+                    TrangThai = p.TrangThai,
                     ChiTietPhieuThu = chiTiet
-                };
-            }).ToList();
+                });
+            }
 
             return Ok(result);
         }
