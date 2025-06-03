@@ -21,4 +21,9 @@ namespace APIWebsiteKTX.DTO
         public string MaNV { get; set; }
         public List<ChiTietPhieuThuDTO> ChiTietPhieuThu { get; set; }
     }
+    public class LocPhieuThuRequestDTO
+    {
+        public string MaSV { get; set; }
+        public string TrangThai { get; set; }
+    }
 }
