@@ -17,7 +17,7 @@ namespace APIWebsiteKTX.Data
         public DbSet<Giuong> Giuong { get; set; }
         public DbSet<Khoa> Khoa { get; set; }
         public DbSet<LoaiPhong> LoaiPhong { get; set; }
-
+        public DbSet<DiemDanh> DiemDanh { get; set; }
 
         public DbSet<MucGiaDienNuoc> MucGiaDienNuoc { get; set; }
         public DbSet<NamHoc> NamHoc { get; set; }
@@ -34,6 +34,8 @@ namespace APIWebsiteKTX.Data
         public DbSet<ChiTietSuaChua> ChiTietSuaChua { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<DiemDanh>()
+                .HasKey(dd => dd.MaDiemDanh);
             modelBuilder.Entity<HopDongNoiTru>()
                 .Property(h => h.MaHopDong)
                 .ValueGeneratedOnAdd();
