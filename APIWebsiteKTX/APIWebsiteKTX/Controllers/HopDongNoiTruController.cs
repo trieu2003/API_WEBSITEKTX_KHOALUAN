@@ -26,10 +26,27 @@ namespace APIWebsiteKTX.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            // Kiểm tra input
+            if (string.IsNullOrEmpty(model.MaSV) || string.IsNullOrEmpty(model.MaGiuong) || string.IsNullOrEmpty(model.MaPhong))
+            {
+                return BadRequest(new { message = "Mã sinh viên, mã giường hoặc mã phòng không hợp lệ." });
+            }
+
+            // Kiểm tra giường
+            var giuong = await _context.Giuong.FirstOrDefaultAsync(g => g.MaGiuong == model.MaGiuong);
+            if (giuong == null)
+            {
+                return NotFound(new { message = "Giường không tồn tại." });
+            }
+            if (giuong.TrangThai != "Trống")
+            {
+                return BadRequest(new { message = "Giường đã được đăng ký hoặc không ở trạng thái trống." });
+            }
+
             var ngayDangKy = DateTime.Now;
             var ngayBatDau = ngayDangKy;
 
-            // ✅ Tự động xác định DotDangKy theo tháng
+            // Tự động xác định DotDangKy theo tháng
             string dotDangKy;
             int thang = ngayDangKy.Month;
             if (thang >= 9 && thang <= 12)
@@ -39,7 +56,7 @@ namespace APIWebsiteKTX.Controllers
             else
                 dotDangKy = "Học kỳ hè";
 
-            // ✅ Lấy mã năm học từ bảng NamHoc dựa trên năm hiện tại
+            // Lấy mã năm học từ bảng NamHoc dựa trên năm hiện tại
             string maNamHoc = "NH" + ngayDangKy.Year;
             var namHoc = await _context.NamHoc.FirstOrDefaultAsync(n => n.MaNamHoc == maNamHoc);
 
@@ -54,14 +71,12 @@ namespace APIWebsiteKTX.Controllers
                 };
 
                 _context.NamHoc.Add(newNamHoc);
-                await _context.SaveChangesAsync();
-
-                // Gán lại biến namHoc nếu bạn cần dùng tiếp
-                namHoc = newNamHoc;
             }
 
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                // Tạo hợp đồng
                 var hopDong = new HopDongNoiTru
                 {
                     MaSV = model.MaSV,
@@ -78,15 +93,25 @@ namespace APIWebsiteKTX.Controllers
                 };
 
                 _context.HopDongNoiTru.Add(hopDong);
-                await _context.SaveChangesAsync();
 
-                return Ok(new { message = "Đăng ký thành công" });
+                // Cập nhật trạng thái giường
+                giuong.TrangThai = "Đang chờ duyệt";
+                _context.Giuong.Update(giuong);
+
+                // Lưu thay đổi
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+
+
+                return Ok(new { message = "Đăng ký hợp đồng và cập nhật trạng thái giường thành công." });
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 return StatusCode(500, new
                 {
-                    message = "Đã xảy ra lỗi",
+                    message = "Đã xảy ra lỗi khi đăng ký hợp đồng.",
                     error = ex.InnerException?.Message ?? ex.Message
                 });
             }
