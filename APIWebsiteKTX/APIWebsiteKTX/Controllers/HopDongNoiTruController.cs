@@ -180,6 +180,39 @@ namespace APIWebsiteKTX.Controllers
             return Ok(new { message = "Yêu cầu gia hạn đã được gửi thành công và đang chờ duyệt." });
         }
 
+        [HttpGet("check/{maSV}")]
+        public async Task<ActionResult<ContractStatusResponse>> CheckContract(string maSV)
+        {
+            var contract = await _context.HopDongNoiTru
+                .Where(h => h.MaSV == maSV)
+                .Select(h => new
+                {
+                    h.MaHopDong,
+                    h.MaPhong,
+                    h.MaGiuong,
+                    h.NgayBatDau,
+                    h.NgayKetThuc,
+                    h.TrangThai,
+                    h.TrangThaiDuyet
+                })
+                .FirstOrDefaultAsync();
 
+            var response = new ContractStatusResponse();
+
+            if (contract == null)
+            {
+                response.HasContract = false;
+                response.Message = "Sinh viên chưa có hợp đồng nội trú.";
+                response.ContractDetails = null;
+            }
+            else
+            {
+                response.HasContract = true;
+                response.Message = "Sinh viên đã có hợp đồng nội trú.";
+                response.ContractDetails = contract;
+            }
+
+            return Ok(response);
+        }
     }
 }
