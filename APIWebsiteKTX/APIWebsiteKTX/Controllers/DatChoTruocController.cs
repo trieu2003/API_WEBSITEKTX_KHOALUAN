@@ -42,7 +42,7 @@ namespace APIWebsiteKTX.Controllers
                     MaChiTietPhong = null, // chưa chỉ định giường
                     NgayDat = DateTime.Today,
                     HanDat = request.HanDat,
-                    TrangThai = "Đang chờ xác nhận"
+                    TrangThai = "Chờ duyệt"
                 };
 
                 // Lưu vào database

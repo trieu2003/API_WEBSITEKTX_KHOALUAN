@@ -39,7 +39,7 @@ namespace APIWebsiteKTX.Controllers
             var hopDong = await _context.HopDongNoiTru
                 .Where(hd => hd.MaSV == request.MaSV
                     && hd.TrangThaiDuyet == "Đã duyệt"
-                    && hd.TrangThai == "Đã ký"
+                    && hd.TrangThai == "Đang sử dụng"
                     && hd.NgayBatDau <= DateTime.Today
                     && (hd.NgayKetThuc == null || hd.NgayKetThuc >= DateTime.Today))
                 .FirstOrDefaultAsync();

@@ -10,4 +10,5 @@ namespace APIWebsiteKTX.DTO
         public int? SoLuong { get; set; }
         public string TrangThai { get; set; }
     }
+
 }

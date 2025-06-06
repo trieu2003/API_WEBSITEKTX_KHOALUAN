@@ -23,19 +23,21 @@ namespace APIWebsiteKTX.Controllers
         [HttpGet("available")]
         public async Task<ActionResult<IEnumerable<object>>> GetAvailableBeds()
         {
-            // Bước 1: Lấy danh sách giường trống và thông tin phòng, loại phòng
+            // Bước 1: Lấy danh sách giường trống và thông tin phòng, loại phòng, tầng
             var beds = await (
                     from g in _context.Giuong
                     where g.TrangThai == "Trống"
                     join ctp in _context.ChiTietPhong on g.MaGiuong equals ctp.MaGiuong
                     join p in _context.Phong on ctp.MaPhong equals p.MaPhong
                     join lp in _context.LoaiPhong on p.MaLoaiPhong equals lp.MaLoaiPhong
+                    join t in _context.Tang on p.MaTang equals t.MaTang // Thêm JOIN với bảng Tang
                     select new
                     {
                         MaGiuong = g.MaGiuong,
                         MaPhong = p.MaPhong,
                         TenPhong = p.TenPhong,
                         TenLoai = lp.TenLoai,
+                        TenTang = t.TenTang, // Thêm cột TenTang
                         TrangThai = g.TrangThai
                     }).Distinct().ToListAsync();
 
@@ -57,6 +59,7 @@ namespace APIWebsiteKTX.Controllers
                 b.MaPhong,
                 b.TenPhong,
                 b.TenLoai,
+                b.TenTang, // Thêm TenTang vào kết quả
                 b.TrangThai,
                 DanhSachThietBi = thietBiTheoGiuong
                     .Where(t => t.MaGiuong == b.MaGiuong)
@@ -66,7 +69,6 @@ namespace APIWebsiteKTX.Controllers
             });
 
             return Ok(result);
-
         }
     }
 }

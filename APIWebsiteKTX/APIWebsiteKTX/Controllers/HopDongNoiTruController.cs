@@ -42,12 +42,22 @@ namespace APIWebsiteKTX.Controllers
             // ✅ Lấy mã năm học từ bảng NamHoc dựa trên năm hiện tại
             string maNamHoc = "NH" + ngayDangKy.Year;
             var namHoc = await _context.NamHoc.FirstOrDefaultAsync(n => n.MaNamHoc == maNamHoc);
+
             if (namHoc == null)
             {
-                return BadRequest(new
+                // Tạo bản ghi mới
+                var tenNamHoc = $"{ngayDangKy.Year}-{ngayDangKy.Year + 1}";
+                var newNamHoc = new NamHoc
                 {
-                    message = $"Không tìm thấy mã năm học '{maNamHoc}' trong hệ thống."
-                });
+                    MaNamHoc = maNamHoc,
+                    TenNamHoc = tenNamHoc
+                };
+
+                _context.NamHoc.Add(newNamHoc);
+                await _context.SaveChangesAsync();
+
+                // Gán lại biến namHoc nếu bạn cần dùng tiếp
+                namHoc = newNamHoc;
             }
 
             try
@@ -70,7 +80,7 @@ namespace APIWebsiteKTX.Controllers
                 _context.HopDongNoiTru.Add(hopDong);
                 await _context.SaveChangesAsync();
 
-                return Ok(new { message = "Đăng ký hợp đồng thành công" });
+                return Ok(new { message = "Đăng ký thành công" });
             }
             catch (Exception ex)
             {
@@ -95,7 +105,7 @@ namespace APIWebsiteKTX.Controllers
             var hopDong = await _context.HopDongNoiTru
                 .Where(hd => hd.MaSV == request.MaSV
                     && hd.TrangThaiDuyet == "Đã duyệt"
-                    && hd.TrangThai != "Đã kết thúc"
+                    && hd.TrangThai != "Kết thúc"
                     && hd.NgayBatDau <= DateTime.Today)
                 .Include(hd => hd.Phong)
                 .FirstOrDefaultAsync();
@@ -121,9 +131,9 @@ namespace APIWebsiteKTX.Controllers
             {
                 return BadRequest(new { message = "Thời gian gia hạn vượt quá giới hạn tối đa (12 tháng)." });
             }
-            //không thể gia hạn nếu phòng đã đủ chỗ hoặc đang sửa chữa
+            //không thể gia hạn nếu phòng đã đủ chỗ hoặc ngừng hoạt động
             var phong = hopDong.Phong;
-            if (phong == null || phong.TrangThai == "Đã đủ chỗ" || phong.TrangThai == "Đang sửa chữa")
+            if (phong == null || phong.TrangThai == "2" || phong.TrangThai == "0")
             {
                 return BadRequest(new { message = "Phòng hiện không khả dụng để gia hạn." });
             }
@@ -141,15 +151,26 @@ namespace APIWebsiteKTX.Controllers
             // Kiểm tra mã năm học tồn tại
             var namHoc = await _context.NamHoc
                 .FirstOrDefaultAsync(nh => nh.MaNamHoc == maNamHoc);
+
             if (namHoc == null)
             {
-                return BadRequest(new { message = $"Mã năm học '{maNamHoc}' không tồn tại trong hệ thống." });
+                // Tự động thêm năm học mới
+                var tenNamHoc = $"{currentYear}-{currentYear + 1}";
+
+                namHoc = new NamHoc
+                {
+                    MaNamHoc = maNamHoc,
+                    TenNamHoc = tenNamHoc
+                };
+
+                _context.NamHoc.Add(namHoc);
+                await _context.SaveChangesAsync();
             }
 
             // Cập nhật hợp đồng
             hopDong.NgayKetThuc = request.NgayKetThucMoi;
             hopDong.TrangThaiDuyet = "Chờ duyệt";
-            hopDong.TrangThai = "Chờ Thanh Toán";
+            hopDong.TrangThai = "Chưa duyệt";
             hopDong.DotDangKy = dotDangKy;
             hopDong.MaNamHoc = maNamHoc;
             hopDong.MaNV = null; // reset người duyệt

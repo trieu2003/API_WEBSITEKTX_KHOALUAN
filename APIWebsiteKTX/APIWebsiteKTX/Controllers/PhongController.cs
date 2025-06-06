@@ -50,7 +50,7 @@ namespace APIWebsiteKTX.Controllers
                 var hopDong = await _context.HopDongNoiTru
                     .Where(hd => hd.MaSV == request.MaSV
                         && hd.TrangThaiDuyet == "Đã duyệt"
-                        && hd.TrangThai != "Đã nhận phòng")
+                        && hd.TrangThai != "Đang sử dụng")// 3 trạng thái Đang sử dụng, Hủy, Kết thúc
                     .Include(hd => hd.Phong)
                         .ThenInclude(p => p.LoaiPhong)
                     .Include(hd => hd.Phong)
@@ -63,7 +63,7 @@ namespace APIWebsiteKTX.Controllers
                 }
 
                 // Check if already checked in
-                if (hopDong.TrangThai == "Đã nhận phòng")
+                if (hopDong.TrangThai == "Đang sử dụng")
                 {
                     return BadRequest(new { message = "Bạn đã nhận phòng trước đó. Không thể thực hiện lại thao tác." });
                 }
@@ -95,14 +95,14 @@ namespace APIWebsiteKTX.Controllers
                 //        .Where(ctp => ctp.MaChiTietPhong == datChoTruoc.MaChiTietPhong)
                 //        .FirstOrDefaultAsync();
 
-                //    if (chiTietPhong == null || chiTietPhong.TrangThai == "Đã sử dụng")
+                //    if (chiTietPhong == null || chiTietPhong.TrangThai == "Đang sử dụng")
                 //    {
                 //        return BadRequest(new { message = "Giường được phân từ đặt trước đã được sử dụng. Vui lòng liên hệ nhân viên." });
                 //    }
                 //}
 
                 // Check room status
-                if (hopDong.Phong.TrangThai == "Đã đủ người")
+                if (hopDong.Phong.TrangThai == "2")
                 {
                     return BadRequest(new { message = "Phòng đã đủ người. Vui lòng liên hệ nhân viên." });
                 }
@@ -124,7 +124,7 @@ namespace APIWebsiteKTX.Controllers
                 }
 
                 // Update contract status
-                hopDong.TrangThai = "Đã nhận phòng";
+                hopDong.TrangThai = "Đang sử dụng";
 
                 // Update reservation status if applicable
                 //if (datChoTruoc != null)
@@ -134,7 +134,7 @@ namespace APIWebsiteKTX.Controllers
 
                 // Update room status
                 var currentOccupants = await _context.HopDongNoiTru
-                    .Where(hd => hd.MaPhong == hopDong.MaPhong && hd.TrangThai == "Đã nhận phòng")
+                    .Where(hd => hd.MaPhong == hopDong.MaPhong && hd.TrangThai == "Đang sử dụng")
                     .CountAsync();
 
                 // Include the current student in the count
@@ -142,11 +142,11 @@ namespace APIWebsiteKTX.Controllers
 
                 if (hopDong.Phong.LoaiPhong?.SucChua != null && currentOccupants >= hopDong.Phong.LoaiPhong.SucChua)
                 {
-                    hopDong.Phong.TrangThai = "Đã đủ người";
+                    hopDong.Phong.TrangThai = "2";//Đã đủ người (đầy)
                 }
                 else
                 {
-                    hopDong.Phong.TrangThai = "Chưa đủ người";
+                    hopDong.Phong.TrangThai = "1";//Chưa đầy
                 }
 
                 await _context.SaveChangesAsync();
@@ -218,7 +218,7 @@ namespace APIWebsiteKTX.Controllers
                     .Include(hd => hd.Phong)
                     .FirstOrDefaultAsync(hd => hd.MaSV == request.MaSV
                         && hd.TrangThaiDuyet == "Đã duyệt"
-                        && hd.TrangThai != "Đã kết thúc");
+                        && hd.TrangThai != "Kết thúc");
 
                 if (contract == null)
                 {
@@ -226,7 +226,7 @@ namespace APIWebsiteKTX.Controllers
                 }
 
                 // Validate contract validity
-                if (contract.TrangThai == "Đã kết thúc" || (contract.NgayKetThuc != null && contract.NgayKetThuc < DateTime.Today))
+                if (contract.TrangThai == "Kết thúc" || (contract.NgayKetThuc != null && contract.NgayKetThuc < DateTime.Today))
                 {
                     return BadRequest(new { message = "Hợp đồng không hợp lệ hoặc đã kết thúc." });
                 }
@@ -245,7 +245,7 @@ namespace APIWebsiteKTX.Controllers
                 try
                 {
                     // Update contract status
-                    contract.TrangThai = "Đã kết thúc";
+                    contract.TrangThai = "Kết thúc";
                     contract.NgayKetThuc = DateTime.Today; // Adjust end date to current date
 
                     // Update bed status if assigned
@@ -259,19 +259,19 @@ namespace APIWebsiteKTX.Controllers
 
                         if (bedDetail?.Giuong != null)
                         {
-                            bedDetail.Giuong.TrangThai = "Trống";
+                            bedDetail.Giuong.TrangThai = "1";
                         }
                     }
 
                     // Update room status
                     var remainingOccupants = await _context.HopDongNoiTru
                         .CountAsync(hd => hd.MaPhong == contract.MaPhong
-                            && hd.TrangThai != "Đã kết thúc"
+                            && hd.TrangThai != "Kết thúc"
                             && (hd.NgayKetThuc == null || hd.NgayKetThuc >= DateTime.Today));
 
                     if (remainingOccupants == 0 && contract.Phong != null)
                     {
-                        contract.Phong.TrangThai = "Trống";
+                        contract.Phong.TrangThai = "1";
                     }
 
                     // Remove or cancel reservation if applicable

@@ -27,7 +27,7 @@ namespace APIWebsiteKTX.Controllers
 
             // 1. Xác minh trưởng nhóm
             var hopDongTruongNhom = await _context.HopDongNoiTru
-                .Where(h => h.MaSV == maSV && h.TrangThai == "Đã nhận phòng" && h.NhomTruong.Trim().ToLower() == "true")
+                .Where(h => h.MaSV == maSV && h.TrangThai == "Đang sử dụng" && h.NhomTruong.Trim().ToLower() == "1")
                 .FirstOrDefaultAsync();
 
             if (hopDongTruongNhom == null)
@@ -37,7 +37,7 @@ namespace APIWebsiteKTX.Controllers
 
             // 2. Lấy danh sách sinh viên cùng phòng
             var danhSachHopDong = await _context.HopDongNoiTru
-                .Where(h => h.MaPhong == maPhong && h.TrangThai == "Đã nhận phòng")
+                .Where(h => h.MaPhong == maPhong && h.TrangThai == "Đang sử dụng")
                 .ToListAsync();
 
             var danhSachMaHopDong = danhSachHopDong.Select(h => h.MaHopDong).ToList();
@@ -84,7 +84,7 @@ namespace APIWebsiteKTX.Controllers
         [HttpGet("{maSV}/hopdong-phong-phieuthu")]
         public async Task<IActionResult> XemHopDongVaPhieuThuPhong(string maSV)
         {
-            // Tìm hợp đồng với trạng thái "Đã nhận phòng"
+            // Tìm hợp đồng với trạng thái "Đang sử dụng"
             var hopDong = await _context.HopDongNoiTru
                 .Where(h => h.MaSV == maSV && h.TrangThai != "Hủy")
                 .FirstOrDefaultAsync();
@@ -148,7 +148,7 @@ namespace APIWebsiteKTX.Controllers
                     {
                         // Verify student and contract
                         var contract = await _context.HopDongNoiTru
-                            .Where(h => h.MaSV == request.MaSV && h.TrangThaiDuyet == "Đã duyệt" && h.TrangThai == "Chờ Thanh Toán")
+                            .Where(h => h.MaSV == request.MaSV && h.TrangThaiDuyet == "Đã duyệt" && h.TrangThai == "Chờ duyệt")
                             .FirstOrDefaultAsync();
 
                         if (contract == null)
@@ -187,8 +187,8 @@ namespace APIWebsiteKTX.Controllers
                         _context.ChiTietPhieuThu.AddRange(chiTietPhieuThus);
 
                         // Update HopDongNoiTru
-                        contract.TrangThai = "Đã thanh toán";
-                        contract.MinhChungThanhToan = "Đã minh chứng";
+                        //contract.TrangThai = "Đã thanh toán";
+                        //contract.MinhChungThanhToan = "Đã minh chứng";
                         contract.PhuongThucThanhToan = request.PhuongThucThanhToan;
 
                         await _context.SaveChangesAsync();

@@ -26,7 +26,7 @@ namespace APIWebsiteKTX.Controllers
             var maSV = request.MaSV;
 
             var hopDong = await _context.HopDongNoiTru
-                .Where(h => h.MaSV == maSV && h.TrangThai == "Đã nhận phòng")
+                .Where(h => h.MaSV == maSV && h.TrangThai == "Đang sử dụng")
                 .FirstOrDefaultAsync();
 
             if (hopDong == null)
@@ -34,10 +34,10 @@ namespace APIWebsiteKTX.Controllers
 
             List<string> danhSachMaSV;
 
-            if (hopDong.NhomTruong.Trim().ToLower() == "true")
+            if (hopDong.NhomTruong.Trim().ToLower() == "1")
             {
                 danhSachMaSV = await _context.HopDongNoiTru
-                    .Where(h => h.MaPhong == hopDong.MaPhong && h.TrangThai == "Đã nhận phòng")
+                    .Where(h => h.MaPhong == hopDong.MaPhong && h.TrangThai == "Đang sử dụng")
                     .Select(h => h.MaSV)
                     .ToListAsync();
             }
@@ -98,20 +98,47 @@ namespace APIWebsiteKTX.Controllers
 
             return Ok(result);
         }
+        [HttpGet("sinh-vien/{maSV}")]
+        public async Task<IActionResult> GetPhieuThuTheoSinhVien(string maSV)
+        {
+            // Tìm tất cả hợp đồng của sinh viên đó
+            var maHopDongs = await _context.HopDongNoiTru
+                .Where(h => h.MaSV == maSV)
+                .Select(h => h.MaHopDong)
+                .ToListAsync();
+
+            if (maHopDongs == null || maHopDongs.Count == 0)
+            {
+                return NotFound(new { message = "Sinh viên chưa có hợp đồng." });
+            }
+
+            // Lấy các phiếu thu ứng với các hợp đồng đó
+            var danhSachPhieuThu = await _context.PhieuThu
+                .Where(p => p.MaHopDong != null && maHopDongs.Contains(p.MaHopDong))
+                .OrderByDescending(p => p.NgayLap)
+                .ToListAsync();
+
+            if (danhSachPhieuThu == null || danhSachPhieuThu.Count == 0)
+            {
+                return NotFound(new { message = "Không có phiếu thu nào." });
+            }
+
+            return Ok(danhSachPhieuThu);
+        }
         [HttpPost("phieuthu/loc-nang-cao")]
         public async Task<IActionResult> LocPhieuThuNangCao([FromBody] LocPhieuThuRequestDTO request)
         {
             var maSV = request.MaSV;
 
             var hopDong = await _context.HopDongNoiTru
-                .FirstOrDefaultAsync(h => h.MaSV == maSV && h.TrangThai == "Đã nhận phòng");
+                .FirstOrDefaultAsync(h => h.MaSV == maSV && h.TrangThai == "Đang sử dụng");
 
             if (hopDong == null)
                 return NotFound("Không tìm thấy hợp đồng hiện tại của sinh viên.");
             var maPhong = hopDong.MaPhong;
             // Lấy danh sách sinh viên cùng phòng
             var danhSachHopDong = await _context.HopDongNoiTru
-                .Where(h => h.MaPhong == maPhong && h.TrangThai == "Đã nhận phòng")
+                .Where(h => h.MaPhong == maPhong && h.TrangThai == "Đang sử dụng")
                 .ToListAsync();
 
             var maSVs = danhSachHopDong.Select(h => h.MaSV).ToList();
@@ -131,10 +158,10 @@ namespace APIWebsiteKTX.Controllers
             }
             List<string> danhSachMaSV;
 
-            if (hopDong.NhomTruong.Trim().ToLower() == "true")
+            if (hopDong.NhomTruong.Trim().ToLower() == "1")
             {
                 danhSachMaSV = await _context.HopDongNoiTru
-                    .Where(h => h.MaPhong == hopDong.MaPhong && h.TrangThai == "Đã nhận phòng")
+                    .Where(h => h.MaPhong == hopDong.MaPhong && h.TrangThai == "Đang sử dụng")
                     .Select(h => h.MaSV)
                     .ToListAsync();
             }
