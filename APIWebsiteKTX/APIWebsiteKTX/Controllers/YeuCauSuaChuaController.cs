@@ -110,5 +110,58 @@ namespace APIWebsiteKTX.Controllers
 
             return Ok(new { message = "Yêu cầu sửa chữa đã được gửi thành công và đang chờ xử lý." });
         }
+        [HttpPost("cancel")]
+        public async Task<ActionResult<CancelRepairResponse>> CancelRepairRequest([FromBody] CancelRepairRequest request)
+        {
+            // Kiểm tra request hợp lệ
+            if (string.IsNullOrEmpty(request.MaSV) || request.MaYCSC <= 0)
+            {
+                return BadRequest(new CancelRepairResponse
+                {
+                    Success = false,
+                    Message = "Mã sinh viên hoặc mã yêu cầu sửa chữa không hợp lệ."
+                });
+            }
+
+            // Tìm yêu cầu sửa chữa
+            var repairRequest = await _context.YeuCauSuaChua
+                .FirstOrDefaultAsync(y => y.MaYCSC == request.MaYCSC && y.MaSV == request.MaSV);
+
+            if (repairRequest == null)
+            {
+                return NotFound(new CancelRepairResponse
+                {
+                    Success = false,
+                    Message = "Không tìm thấy yêu cầu sửa chữa hoặc yêu cầu không thuộc sinh viên này."
+                });
+            }
+
+            // Kiểm tra trạng thái yêu cầu
+            if (repairRequest.TrangThai != "Chờ xử lý")
+            {
+                return BadRequest(new CancelRepairResponse
+                {
+                    Success = false,
+                    Message = "Yêu cầu sửa chữa không thể hủy vì đã được xử lý hoặc đã hủy."
+                });
+            }
+
+            // Cập nhật trạng thái thành "Đã hủy"
+            repairRequest.TrangThai = "Đã hủy";
+            _context.YeuCauSuaChua.Update(repairRequest);
+
+            // Xóa các bản ghi trong ChiTietSuaChua liên quan
+            var repairDetails = _context.ChiTietSuaChua.Where(c => c.MaYCSC == request.MaYCSC);
+            _context.ChiTietSuaChua.RemoveRange(repairDetails);
+
+            // Lưu thay đổi vào cơ sở dữ liệu
+            await _context.SaveChangesAsync();
+
+            return Ok(new CancelRepairResponse
+            {
+                Success = true,
+                Message = "Yêu cầu sửa chữa đã được hủy thành công."
+            });
+        }
     }
 }
