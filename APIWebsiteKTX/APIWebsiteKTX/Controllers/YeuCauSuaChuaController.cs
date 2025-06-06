@@ -151,7 +151,7 @@ namespace APIWebsiteKTX.Controllers
             _context.YeuCauSuaChua.Update(repairRequest);
 
             // Xóa các bản ghi trong ChiTietSuaChua liên quan
-            var repairDetails = _context.ChiTietSuaChua.Where(c => c.MaYCSC == request.MaYCSC);
+            var repairDetails = _context.ChiTietSuaChua.Where(c => c.MaYCSC == request.MaYCSC); 
             _context.ChiTietSuaChua.RemoveRange(repairDetails);
 
             // Lưu thay đổi vào cơ sở dữ liệu
@@ -162,6 +162,44 @@ namespace APIWebsiteKTX.Controllers
                 Success = true,
                 Message = "Yêu cầu sửa chữa đã được hủy thành công."
             });
+        }
+        [HttpGet("list/{maSV}")]
+        public async Task<ActionResult<IEnumerable<RepairRequestResponse>>> GetRepairRequests(string maSV)
+        {
+            if (string.IsNullOrEmpty(maSV))
+            {
+                return BadRequest("Mã sinh viên không hợp lệ.");
+            }
+
+            // Lấy danh sách yêu cầu sửa chữa và chi tiết
+            var repairRequests = await (
+                from ycsc in _context.YeuCauSuaChua
+                where ycsc.MaSV == maSV
+                select new RepairRequestResponse
+                {
+                    MaYCSC = ycsc.MaYCSC,
+                    MaPhong = ycsc.MaPhong,
+                    MoTa = ycsc.MoTa,
+                    NgayGui = ycsc.NgayGui,
+                    TrangThai = ycsc.TrangThai,
+                    MaNV = ycsc.MaNV,
+                    ChiTietSuaChua = (
+                        from ctsc in _context.ChiTietSuaChua
+                        where ctsc.MaYCSC == ycsc.MaYCSC
+                        select new RepairDetailResponse
+                        {
+                            MaChiTiet = ctsc.MaChiTiet,
+                            MaThietBi = ctsc.MaThietBi,
+                            MoTaLoi = ctsc.MoTaLoi
+                        }).ToList()
+                }).ToListAsync();
+
+            if (!repairRequests.Any())
+            {
+                return NotFound("Không tìm thấy yêu cầu sửa chữa nào của sinh viên này.");
+            }
+
+            return Ok(repairRequests);
         }
     }
 }
