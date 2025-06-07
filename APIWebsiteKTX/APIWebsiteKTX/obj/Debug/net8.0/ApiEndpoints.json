@@ -43,8 +43,8 @@
   },
   {
     "ContainingType": "APIWebsiteKTX.Controllers.AuthController",
-    "Method": "UpdatePasswords",
-    "RelativePath": "api/Auth/update-passwords",
+    "Method": "Logout",
+    "RelativePath": "api/Auth/logout",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -52,9 +52,51 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "APIWebsiteKTX.Controllers.AuthController",
+    "Method": "UpdatePasswords",
+    "RelativePath": "api/Auth/MaHoa-MatKhau",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.AuthController",
+    "Method": "RequestOtp",
+    "RelativePath": "api/Auth/request-otp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "APIWebsiteKTX.DTO.RequestOtpDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.AuthController",
+    "Method": "VerifyOtp",
+    "RelativePath": "api/Auth/verify-otp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "APIWebsiteKTX.DTO.VerifyOtpDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "APIWebsiteKTX.Controllers.DatChoTruocController",
-    "Method": "ReserveDormitory",
-    "RelativePath": "api/DatChoTruoc/DatChoTruoc",
+    "Method": "DatChoTruoc",
+    "RelativePath": "api/DatChoTruoc/dat-cho",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -62,6 +104,38 @@
       {
         "Name": "request",
         "Type": "APIWebsiteKTX.DTO.DatChoTruocRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.DiemDanhController",
+    "Method": "GetDiemDanhTheoSinhVien",
+    "RelativePath": "api/DiemDanh/sinhvien/{maSV}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maSV",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.DienNuocController",
+    "Method": "XemDienNuocCuaPhong",
+    "RelativePath": "api/DienNuoc/sinhvien/{maSV}/dien-nuoc",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maSV",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],
@@ -89,6 +163,32 @@
   },
   {
     "ContainingType": "APIWebsiteKTX.Controllers.HopDongNoiTruController",
+    "Method": "CheckContract",
+    "RelativePath": "api/HopDongNoiTru/check/{maSV}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maSV",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ContractStatusResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.HopDongNoiTruController",
     "Method": "DangKyHopDong",
     "RelativePath": "api/HopDongNoiTru/DangKyHopDong",
     "HttpMethod": "POST",
@@ -97,7 +197,7 @@
     "Parameters": [
       {
         "Name": "model",
-        "Type": "APIWebsiteKTX.Models.HopDongNoiTru",
+        "Type": "APIWebsiteKTX.Models.HopDongNoiTruRequest",
         "IsRequired": true
       }
     ],
@@ -117,6 +217,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.MucGiaDienNuocController",
+    "Method": "GetDanhSachMucGiaDienNuoc",
+    "RelativePath": "api/MucGiaDienNuoc/muc-gia-dien-nuoc",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -240,6 +350,86 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "APIWebsiteKTX.Controllers.PayOSController",
+    "Method": "TaoDonThanhToan",
+    "RelativePath": "api/PayOS/thanh-toan",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "APIWebsiteKTX.Controllers.HoaDonModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.PhieuThuController",
+    "Method": "LocPhieuThuNangCao",
+    "RelativePath": "api/PhieuThu/phieuthu/loc-nang-cao",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "APIWebsiteKTX.DTO.LocPhieuThuRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.PhieuThuController",
+    "Method": "GetPhieuThuTheoSinhVien",
+    "RelativePath": "api/PhieuThu/sinh-vien/{maSV}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maSV",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.PhieuThuController",
+    "Method": "ThanhToanTheoPhieuThu",
+    "RelativePath": "api/PhieuThu/thanh-toan/{maPhieuThu}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maPhieuThu",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.PhieuThuController",
+    "Method": "XemPhieuThu",
+    "RelativePath": "api/PhieuThu/xem-phieu-thu",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "APIWebsiteKTX.DTO.PhieuThuRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "APIWebsiteKTX.Controllers.PhongController",
     "Method": "CheckIn",
     "RelativePath": "api/Phong/nhan-phong",
@@ -272,113 +462,162 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "APIWebsiteKTX.Controllers.ViPhamController",
-    "Method": "GetAll",
-    "RelativePath": "api/ViPham",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.Models.ViPham, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.ViPhamController",
-    "Method": "Post",
-    "RelativePath": "api/ViPham",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.ViPham",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.ViPham",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.ViPhamController",
-    "Method": "Get",
-    "RelativePath": "api/ViPham/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "APIWebsiteKTX.Models.ViPham",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.ViPhamController",
-    "Method": "Put",
-    "RelativePath": "api/ViPham/{id}",
+    "ContainingType": "APIWebsiteKTX.Controllers.SinhVienController",
+    "Method": "CapNhatSinhVien",
+    "RelativePath": "api/SinhVien/cap-nhat",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "model",
-        "Type": "APIWebsiteKTX.Models.ViPham",
+        "Name": "request",
+        "Type": "APIWebsiteKTX.DTO.SinhVienRequestDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "APIWebsiteKTX.Controllers.ViPhamController",
-    "Method": "Delete",
-    "RelativePath": "api/ViPham/{id}",
-    "HttpMethod": "DELETE",
+    "ContainingType": "APIWebsiteKTX.Controllers.ThanhToanController",
+    "Method": "XemHopDongVaPhieuThuPhong",
+    "RelativePath": "api/ThanhToan/{maSV}/hopdong-phong-phieuthu",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "maSV",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.ThanhToanController",
+    "Method": "ProcessPayment",
+    "RelativePath": "api/ThanhToan/room-payment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "APIWebsiteKTX.DTO.ThanhToanRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.ThanhToanController",
+    "Method": "TruongNhomThanhToanDienNuoc",
+    "RelativePath": "api/ThanhToan/truongnhom/thanh-toan-dien-nuoc",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "APIWebsiteKTX.DTO.PhieuThuRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.TrangThietBiController",
+    "Method": "GetThietBiBySinhVien",
+    "RelativePath": "api/TrangThietBi/thietbi-phong-sinhvien/{maSV}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maSV",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.DTO.TrangThietBiDTO, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.ViPhamController",
+    "Method": "GetViPhamCuaSinhVien",
+    "RelativePath": "api/ViPham/vipham/sinhvien/{maSV}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maSV",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.YeuCauSuaChuaController",
+    "Method": "CancelRepairRequest",
+    "RelativePath": "api/YeuCauSuaChua/cancel",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CancelRepairRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "CancelRepairResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.YeuCauSuaChuaController",
+    "Method": "GetRepairRequests",
+    "RelativePath": "api/YeuCauSuaChua/list/{maSV}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maSV",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[APIWebsiteKTX.DTO.RepairRequestResponse, APIWebsiteKTX, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "APIWebsiteKTX.Controllers.YeuCauSuaChuaController",
@@ -391,6 +630,22 @@
       {
         "Name": "request",
         "Type": "APIWebsiteKTX.DTO.RepairRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.DiemDanhController",
+    "Method": "TimKiemDiemDanhTheoSinhVien",
+    "RelativePath": "tim-kiem",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "DiemDanhFilterRequestDTO",
         "IsRequired": true
       }
     ],

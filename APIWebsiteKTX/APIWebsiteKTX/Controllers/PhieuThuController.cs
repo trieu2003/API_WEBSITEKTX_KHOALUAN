@@ -4,6 +4,8 @@ using APIWebsiteKTX.DTO;
 using APIWebsiteKTX.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Net.payOS;
+using Net.payOS.Types;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -223,7 +225,7 @@ namespace APIWebsiteKTX.Controllers
 
                 var chiTiet = await chiTietQuery
                     .Select(c => new ChiTietPhieuThuDTO
-                    {
+                    {   
                         LoaiKhoanThu = c.LoaiKhoanThu,
                         SoTien = c.SoTien
                     }).ToListAsync();
@@ -255,6 +257,54 @@ namespace APIWebsiteKTX.Controllers
                 totalRecords,
                 data = result
             });
+
         }
+        [HttpPost("thanh-toan/{maPhieuThu}")]
+        public async Task<IActionResult> ThanhToanTheoPhieuThu(int maPhieuThu)
+        {
+            var phieuThu = await _context.PhieuThu.FindAsync(maPhieuThu);
+            if (phieuThu == null)
+            {
+                return NotFound(new { message = "Không tìm thấy phiếu thu." });
+            }
+
+            if (phieuThu.TongTien == null || phieuThu.TongTien <= 0)
+            {
+                return BadRequest(new { message = "Tổng tiền không hợp lệ." });
+            }
+
+            // Cấu hình PayOS
+            var payos = new PayOS(
+                "32542182-51db-48cf-8d7a-6d8a18d599b5",  // clientId
+                "dc3def5d-79e6-4b24-9c21-5ab24f9481c2",  // apiKey
+                "162ea9960c0fb31f3f6267f89d5c2788da5cfc623ad1311e1baa800f386ef229" // checksumKey
+            );
+
+            var orderCode = new Random().Next(100000, 999999);
+            var items = new List<ItemData>
+            {
+                new ItemData($"Thanh toán phiếu thu #{phieuThu.MaPhieuThu}", 1, (int)phieuThu.TongTien)
+            };
+
+            var paymentData = new PaymentData(
+                orderCode: orderCode,
+                amount: (int)phieuThu.TongTien,
+                description: $"Thanh toán phiếu thu #{phieuThu.MaPhieuThu}",
+                items: items,
+                cancelUrl: "http://localhost:5173/huy",
+                returnUrl: "http://localhost:5173/ket-qua"
+            );
+
+            var result = await payos.createPaymentLink(paymentData);
+
+            return Ok(new
+            {
+                url = result.checkoutUrl,
+                maPhieuThu = phieuThu.MaPhieuThu,
+                tongTien = phieuThu.TongTien,
+                trangThai = phieuThu.TrangThai
+            });
+        }
+
     }
 }
