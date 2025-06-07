@@ -201,10 +201,8 @@ namespace APIWebsiteKTX.Controllers
             }
 
             // Generate JWT token
-            var token = GenerateJwtToken(user);
 
             // Save token to database
-            user.Token = token;
             _context.NguoiDung.Update(user);
             await _context.SaveChangesAsync();
 
@@ -228,34 +226,12 @@ namespace APIWebsiteKTX.Controllers
                 AnhDaiDien = student.AnhDaiDien,
                 MaKhoa = student.MaKhoa,
                 TenKhoa = student.Khoa?.TenKhoa,
-                Token = token
             };
 
             return Ok(response);
         }
 
-        private string GenerateJwtToken(NguoiDung user)
-        {
-            var claims = new[]
-            {
-            new Claim(JwtRegisteredClaimNames.Sub, user.MaNguoiDung.ToString()),
-            new Claim(JwtRegisteredClaimNames.Name, user.TenDangNhap),
-            new Claim(ClaimTypes.Role, user.VaiTro ?? "Sinh viên"),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(int.Parse(_configuration["Jwt:ExpiryMinutes"])),
-                signingCredentials: creds);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+        
 
         [HttpPut("change-password")]
         public async Task<ActionResult<ChangePasswordResponseDTO>> ChangePassword([FromBody] DoiMatKhauDTO request)
@@ -349,7 +325,6 @@ namespace APIWebsiteKTX.Controllers
             }
 
             // Xóa token khỏi DB
-            user.Token = null;
             _context.NguoiDung.Update(user);
             await _context.SaveChangesAsync();
 
