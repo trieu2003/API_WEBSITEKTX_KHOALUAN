@@ -125,8 +125,40 @@ namespace APIWebsiteKTX.Controllers
                 return NotFound(new { message = "Không có phiếu thu nào." });
             }
 
-            return Ok(danhSachPhieuThu);
+            // Lấy mã phiếu thu để truy vấn chi tiết và nhân viên
+            var maPhieuThus = danhSachPhieuThu.Select(p => p.MaPhieuThu).ToList();
+
+            // Lấy chi tiết phiếu thu
+            var chiTietPhieuThus = await _context.ChiTietPhieuThu
+                .Where(c => maPhieuThus.Contains(c.MaPhieuThu))
+                .ToListAsync();
+
+            // Lấy danh sách mã nhân viên
+            var maNVs = danhSachPhieuThu.Select(p => p.MaNV).Distinct().ToList();
+
+            // Lấy tên nhân viên
+            var nhanViens = await _context.Set<NhanVien>()
+                .Where(nv => maNVs.Contains(nv.MaNV))
+                .ToDictionaryAsync(nv => nv.MaNV, nv => nv.HoTen);
+
+            // Chuẩn bị kết quả trả về
+            var result = danhSachPhieuThu.Select(p => new
+            {
+                p.MaPhieuThu,
+                p.NgayLap,
+                p.TongTien,
+                p.TrangThai,
+                p.MaNV,
+                TenNhanVien = nhanViens.ContainsKey(p.MaNV) ? nhanViens[p.MaNV] : null,
+                LoaiKhoanThu = chiTietPhieuThus
+                    .Where(c => c.MaPhieuThu == p.MaPhieuThu)
+                    .Select(c => c.LoaiKhoanThu)
+                    .ToList()
+            }).ToList();
+
+            return Ok(result);
         }
+ 
         [HttpPost("phieuthu/loc-nang-cao")]
         public async Task<IActionResult> LocPhieuThuNangCao([FromBody] LocPhieuThuRequestDTO request)
         {
@@ -305,6 +337,5 @@ namespace APIWebsiteKTX.Controllers
                 trangThai = phieuThu.TrangThai
             });
         }
-
     }
 }

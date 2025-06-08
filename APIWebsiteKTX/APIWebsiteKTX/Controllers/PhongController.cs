@@ -107,7 +107,7 @@ namespace APIWebsiteKTX.Controllers
                     return BadRequest(new { message = "Phòng đã đủ người. Vui lòng liên hệ nhân viên." });
                 }
                 // Update bed status if assigned
-                if (!string.IsNullOrEmpty(hopDong.MaGiuong))
+                if (!string.IsNullOrEmpty(hopDong.MaGiuong)) 
                 {
                     var chiTietPhong = await _context.ChiTietPhong
                         .Include(ctp => ctp.Giuong)
@@ -273,7 +273,7 @@ namespace APIWebsiteKTX.Controllers
                     {
                         contract.Phong.TrangThai = "1";
                     }
-
+                    contract.NhomTruong = null; // Clear room leader if no occupants left
                     // Remove or cancel reservation if applicable
                     //var reservations = await _context.DatChoTruoc
                     //    .Where(dct => dct.MaSV == request.MaSV)

@@ -31,7 +31,12 @@ namespace APIWebsiteKTX.Controllers
             {
                 return BadRequest(new { message = "Mã sinh viên, mã giường hoặc mã phòng không hợp lệ." });
             }
-
+            // Kiểm tra sinh viên đã tồn tài hợp đồng chưa
+            var hopdong = await _context.HopDongNoiTru.FirstOrDefaultAsync(s => s.MaSV == model.MaSV && s.TrangThai != "Hủy");
+            if (hopdong != null)
+            {
+                return BadRequest(new { message = "Sinh viên đang có hợp và không đăng kí thêm." });
+            }
             // Kiểm tra giường
             var giuong = await _context.Giuong.FirstOrDefaultAsync(g => g.MaGiuong == model.MaGiuong);
             if (giuong == null)
