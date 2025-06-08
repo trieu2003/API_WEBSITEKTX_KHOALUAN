@@ -200,12 +200,6 @@ namespace APIWebsiteKTX.Controllers
                 return Unauthorized(new { message = "User is not registered as a student" });
             }
 
-            // Generate JWT token
-
-            // Save token to database
-            _context.NguoiDung.Update(user);
-            await _context.SaveChangesAsync();
-
             // Create response
             var response = new SinhVienResponseDTO
             {
@@ -304,31 +298,6 @@ namespace APIWebsiteKTX.Controllers
                 });
             }
         }
-        [Authorize(Roles = "Sinh viên")]
-        [HttpPost("logout")]
-        public async Task<IActionResult> Logout()
-        {
-            // Lấy user ID từ JWT token
-            var userIdString = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
-
-            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
-            {
-                return Unauthorized(new { message = "Token không hợp lệ hoặc không tìm thấy người dùng." });
-            }
-
-            // Tìm người dùng theo ID
-            var user = await _context.NguoiDung.FindAsync(userId);
-
-            if (user == null)
-            {
-                return NotFound(new { message = "Người dùng không tồn tại." });
-            }
-
-            // Xóa token khỏi DB
-            _context.NguoiDung.Update(user);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { message = "Đăng xuất thành công." });
-        }
+        
     }
 }

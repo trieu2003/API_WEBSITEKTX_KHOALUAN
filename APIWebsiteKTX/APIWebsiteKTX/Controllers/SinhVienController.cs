@@ -34,14 +34,10 @@ namespace APIWebsiteKTX.Controllers
                     return NotFound(new { message = "Không tìm thấy sinh viên." });
                 }
 
-                // Cập nhật thông tin
-                sinhVien.HoTen = request.HoTen;
-                sinhVien.GioiTinh = request.GioiTinh;
-                sinhVien.Lop = request.Lop;
-                sinhVien.SDT = request.SDT;
-                sinhVien.Email = request.Email;
-                sinhVien.SDTGiaDinh = request.SDTGiaDinh;
-                sinhVien.AnhDaiDien = request.AnhDaiDien;
+                // Chỉ cập nhật các trường được cho phép
+                sinhVien.SDT = request.SDT ?? sinhVien.SDT;
+                sinhVien.Email = request.Email ?? sinhVien.Email;
+                sinhVien.SDTGiaDinh = request.SDTGiaDinh ?? sinhVien.SDTGiaDinh;
 
                 await _context.SaveChangesAsync();
 
