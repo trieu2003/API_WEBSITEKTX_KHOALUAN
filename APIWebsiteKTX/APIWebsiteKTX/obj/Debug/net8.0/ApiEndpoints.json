@@ -43,16 +43,6 @@
   },
   {
     "ContainingType": "APIWebsiteKTX.Controllers.AuthController",
-    "Method": "Logout",
-    "RelativePath": "api/Auth/logout",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "APIWebsiteKTX.Controllers.AuthController",
     "Method": "UpdatePasswords",
     "RelativePath": "api/Auth/MaHoa-MatKhau",
     "HttpMethod": "POST",
@@ -198,6 +188,22 @@
       {
         "Name": "model",
         "Type": "APIWebsiteKTX.Models.HopDongNoiTruRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.HopDongNoiTruController",
+    "Method": "GetAllContractsByMaSV",
+    "RelativePath": "api/HopDongNoiTru/GetAllByMaSV/{maSV}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maSV",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],

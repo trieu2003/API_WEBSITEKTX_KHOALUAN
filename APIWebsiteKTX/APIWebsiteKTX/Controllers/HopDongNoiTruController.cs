@@ -32,7 +32,7 @@ namespace APIWebsiteKTX.Controllers
                 return BadRequest(new { message = "Mã sinh viên, mã giường hoặc mã phòng không hợp lệ." });
             }
             // Kiểm tra sinh viên đã tồn tài hợp đồng chưa
-            var hopdong = await _context.HopDongNoiTru.FirstOrDefaultAsync(s => s.MaSV == model.MaSV && s.TrangThai != "Hủy");
+            var hopdong = await _context.HopDongNoiTru.FirstOrDefaultAsync(s => s.MaSV == model.MaSV && s.TrangThai != "Hủy" && s.TrangThai != "Hết hạn sử dụng");
             if (hopdong != null)
             {
                 return BadRequest(new { message = "Sinh viên đang có hợp và không đăng kí thêm." });
@@ -92,9 +92,10 @@ namespace APIWebsiteKTX.Controllers
                     NgayKetThuc = ngayBatDau.AddYears(1),
                     DotDangKy = dotDangKy,
                     NhomTruong = null,
-                    TrangThai = "Chưa duyệt",
+                    TrangThai = "Chờ nhận phòng",
                     TrangThaiDuyet = "Chờ duyệt",
-                    MaNamHoc = maNamHoc
+                    MaNamHoc = maNamHoc,
+                    MaNV="NV001"
                 };
 
                 _context.HopDongNoiTru.Add(hopDong);
@@ -244,5 +245,43 @@ namespace APIWebsiteKTX.Controllers
 
             return Ok(response);
         }
+
+        [HttpGet("GetAllByMaSV/{maSV}")]
+        public async Task<IActionResult> GetAllContractsByMaSV(string maSV)
+        {
+            if (string.IsNullOrEmpty(maSV))
+            {
+                return BadRequest(new { message = "Mã sinh viên không được để trống." });
+            }
+
+            var hopDongList = await _context.HopDongNoiTru
+                .Where(hd => hd.MaSV == maSV)
+                .Select(hd => new
+                {
+                    hd.MaHopDong,
+                    hd.MaSV,
+                    hd.MaGiuong,
+                    hd.MaPhong,
+                    hd.NgayDangKy,
+                    hd.NgayBatDau,
+                    hd.NgayKetThuc,
+                    hd.DotDangKy,
+                    hd.NhomTruong,
+                    hd.TrangThai,
+                    hd.TrangThaiDuyet,
+                    hd.PhuongThucThanhToan,
+                    hd.MinhChungThanhToan,
+                    hd.MaNamHoc
+                })
+                .ToListAsync();
+
+            if (hopDongList == null || hopDongList.Count == 0)
+            {
+                return NotFound(new { message = "Không tìm thấy hợp đồng nội trú nào của sinh viên này." });
+            }
+
+            return Ok(hopDongList);
+        }
+
     }
 }

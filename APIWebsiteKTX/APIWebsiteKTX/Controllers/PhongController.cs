@@ -69,7 +69,7 @@ namespace APIWebsiteKTX.Controllers
                 }
 
                 // Validate check-in date
-                if (hopDong.NgayBatDau > DateTime.Today || (hopDong.NgayKetThuc != null && hopDong.NgayKetThuc < DateTime.Today))
+                if (hopDong.TrangThai == "Chờ nhận phòng" && (hopDong.NgayBatDau > DateTime.Today || (hopDong.NgayKetThuc != null && hopDong.NgayKetThuc < DateTime.Today)))
                 {
                     return BadRequest(new { message = $"Thời gian nhận phòng không hợp lệ. Vui lòng nhận phòng trong khoảng từ {hopDong.NgayBatDau:yyyy-MM-dd} đến {hopDong.NgayKetThuc:yyyy-MM-dd}." });
                 }
@@ -102,84 +102,70 @@ namespace APIWebsiteKTX.Controllers
                 //}
 
                 // Check room status
-                if (hopDong.Phong.TrangThai == "2")
+              
+                if (hopDong.Phong.TrangThai !="0" || hopDong.Phong.TrangThai != "1")
                 {
-                    return BadRequest(new { message = "Phòng đã đủ người. Vui lòng liên hệ nhân viên." });
-                }
-                // Update bed status if assigned
-                if (!string.IsNullOrEmpty(hopDong.MaGiuong)) 
-                {
-                    var chiTietPhong = await _context.ChiTietPhong
-                        .Include(ctp => ctp.Giuong)
-                        .FirstOrDefaultAsync(ctp =>
-                            ctp.MaPhong == hopDong.MaPhong &&
-                            ctp.MaGiuong == hopDong.MaGiuong);
+                    // Update contract status
+                    hopDong.TrangThai = "Đang sử dụng";
 
-                    if (chiTietPhong == null || chiTietPhong.Giuong.TrangThai == "Đã sử dụng")
+                    // Update reservation status if applicable
+                    //if (datChoTruoc != null)
+                    //{
+                    //    datChoTruoc.TrangThai = "Đã nhận phòng";
+                    //}
+
+                    // Update room status
+                    var currentOccupants = await _context.HopDongNoiTru
+                        .Where(hd => hd.MaPhong == hopDong.MaPhong && hd.TrangThai == "Đang sử dụng")
+                        .CountAsync();
+
+                    // Include the current student in the count
+                    currentOccupants += 1;
+
+                    if (hopDong.Phong.LoaiPhong?.SucChua != null && currentOccupants >= hopDong.Phong.LoaiPhong.SucChua)
                     {
-                        return BadRequest(new { message = "Giường được phân đã được sử dụng. Vui lòng liên hệ nhân viên." });
+                        hopDong.Phong.TrangThai = "2";//Đã đủ người (đầy)
+                    }
+                    else
+                    {
+                        hopDong.Phong.TrangThai = "1";//Chưa đầy
                     }
 
-                    chiTietPhong.Giuong.TrangThai = "Đã sử dụng";
-                }
+                    await _context.SaveChangesAsync();
 
-                // Update contract status
-                hopDong.TrangThai = "Đang sử dụng";
+                    // Prepare room details response
+                    var giuong = await _context.ChiTietPhong
+                        .Include(ctp => ctp.Giuong)
+                        .Where(ctp => ctp.MaPhong == hopDong.MaPhong && ctp.MaGiuong == hopDong.MaGiuong)
+                        .Select(ctp => new Giuong
+                        {
+                            MaGiuong = ctp.MaGiuong,
+                            TrangThai = ctp.Giuong.TrangThai
+                        })
+                        .FirstOrDefaultAsync();
 
-                // Update reservation status if applicable
-                //if (datChoTruoc != null)
-                //{
-                //    datChoTruoc.TrangThai = "Đã nhận phòng";
-                //}
+                    var danhSachThietBi = await _context.ChiTietPhong
+                            .Where(ctp => ctp.MaPhong == hopDong.MaPhong && ctp.MaThietBi != null)
+                            .Select(ctp => ctp.TrangThietBi)
+                            .Distinct()
+                            .ToListAsync();
 
-                // Update room status
-                var currentOccupants = await _context.HopDongNoiTru
-                    .Where(hd => hd.MaPhong == hopDong.MaPhong && hd.TrangThai == "Đang sử dụng")
-                    .CountAsync();
-
-                // Include the current student in the count
-                currentOccupants += 1;
-
-                if (hopDong.Phong.LoaiPhong?.SucChua != null && currentOccupants >= hopDong.Phong.LoaiPhong.SucChua)
-                {
-                    hopDong.Phong.TrangThai = "2";//Đã đủ người (đầy)
-                }
-                else
-                {
-                    hopDong.Phong.TrangThai = "1";//Chưa đầy
-                }
-
-                await _context.SaveChangesAsync();
-
-                // Prepare room details response
-                var giuong = await _context.ChiTietPhong
-                    .Include(ctp => ctp.Giuong)
-                    .Where(ctp => ctp.MaPhong == hopDong.MaPhong && ctp.MaGiuong == hopDong.MaGiuong)
-                    .Select(ctp => new Giuong
+                    var response = new NhanPhongResponseDTO
                     {
-                        MaGiuong = ctp.MaGiuong,
-                        TrangThai = ctp.Giuong.TrangThai
-                    })
-                    .FirstOrDefaultAsync();
+                        MaPhong = hopDong.MaPhong,
+                        TenPhong = hopDong.Phong.TenPhong,
+                        TenTang = hopDong.Phong.Tang.TenTang,
+                        TenLoaiPhong = hopDong.Phong.LoaiPhong.TenLoai,
+                        SucChua = hopDong.Phong.LoaiPhong.SucChua,
+                        MaGiuong = giuong?.MaGiuong,
+                        DanhSachThietBi = danhSachThietBi
+                    };
 
-                var danhSachThietBi = await _context.ChiTietPhong
-                        .Where(ctp => ctp.MaPhong == hopDong.MaPhong && ctp.MaThietBi != null)
-                        .Select(ctp => ctp.TrangThietBi)
-                        .Distinct()
-                        .ToListAsync();
+                    return Ok(new { message = "Nhận phòng thành công.", details = response });
+                }
 
-                var response = new NhanPhongResponseDTO
-                {
-                    MaPhong = hopDong.MaPhong,
-                    TenPhong = hopDong.Phong.TenPhong,
-                    TenTang = hopDong.Phong.Tang.TenTang,
-                    TenLoaiPhong = hopDong.Phong.LoaiPhong.TenLoai,
-                    SucChua = hopDong.Phong.LoaiPhong.SucChua,
-                    MaGiuong = giuong?.MaGiuong,
-                    DanhSachThietBi = danhSachThietBi
-                };
 
-                return Ok(new { message = "Nhận phòng thành công.", details = response });
+                return BadRequest(new { message = "Phòng đã đủ người. Vui lòng liên hệ nhân viên." });
             }
             catch (Exception ex)
             {
