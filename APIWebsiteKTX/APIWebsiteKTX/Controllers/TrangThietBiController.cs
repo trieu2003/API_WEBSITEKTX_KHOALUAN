@@ -68,5 +68,14 @@ namespace APIWebsiteKTX.Controllers
                 return StatusCode(500, new { message = "Lỗi khi lấy danh sách thiết bị.", error = ex.Message });
             }
         }
+        [HttpGet("danh-sach")]
+        public async Task<IActionResult> GetAllTrangThietBi()
+        {
+            var list = await _context.TrangThietBi.ToListAsync();
+            if (list == null || list.Count == 0)
+                return NotFound(new { message = "Không có trang thiết bị nào." });
+
+            return Ok(list);
+        }
     }
 }

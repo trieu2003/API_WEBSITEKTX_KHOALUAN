@@ -114,15 +114,17 @@ namespace APIWebsiteKTX.Controllers
                 return NotFound(new { message = "Sinh viên chưa có hợp đồng." });
             }
 
-            // Lấy các phiếu thu ứng với các hợp đồng đó
+            // Lấy các phiếu thu ứng với các hợp đồng đó và chưa thanh toán
             var danhSachPhieuThu = await _context.PhieuThu
-                .Where(p => p.MaHopDong != null && maHopDongs.Contains(p.MaHopDong))
+                .Where(p => p.MaHopDong != null
+                    && maHopDongs.Contains(p.MaHopDong)
+                    && p.TrangThai == "Chưa thanh toán")
                 .OrderByDescending(p => p.NgayLap)
                 .ToListAsync();
 
             if (danhSachPhieuThu == null || danhSachPhieuThu.Count == 0)
             {
-                return NotFound(new { message = "Không có phiếu thu nào." });
+                return NotFound(new { message = "Không có phiếu thu chưa thanh toán nào." });
             }
 
             // Lấy mã phiếu thu để truy vấn chi tiết và nhân viên
@@ -158,7 +160,7 @@ namespace APIWebsiteKTX.Controllers
 
             return Ok(result);
         }
- 
+
         [HttpPost("phieuthu/loc-nang-cao")]
         public async Task<IActionResult> LocPhieuThuNangCao([FromBody] LocPhieuThuRequestDTO request)
         {
@@ -338,11 +340,22 @@ namespace APIWebsiteKTX.Controllers
             });
         }
         [HttpGet("phieu-thu-da-thanh-toan")]
-        public async Task<IActionResult> GetPhieuThuDaThanhToan()
+        public async Task<IActionResult> GetPhieuThuDaThanhToan([FromQuery] string maSV)
         {
-            // Lấy tất cả phiếu thu có trạng thái "Đã thanh toán"
+            // Lấy tất cả hợp đồng của sinh viên đó
+            var maHopDongs = await _context.HopDongNoiTru
+                .Where(h => h.MaSV == maSV)
+                .Select(h => h.MaHopDong)
+                .ToListAsync();
+
+            if (maHopDongs == null || maHopDongs.Count == 0)
+            {
+                return NotFound(new { message = "Sinh viên chưa có hợp đồng." });
+            }
+
+            // Lấy tất cả phiếu thu đã thanh toán của các hợp đồng này
             var danhSachPhieuThu = await _context.PhieuThu
-                .Where(p => p.TrangThai == "Đã thanh toán")
+                .Where(p => p.TrangThai == "Đã thanh toán" && maHopDongs.Contains(p.MaHopDong))
                 .OrderByDescending(p => p.NgayLap)
                 .ToListAsync();
 
@@ -385,6 +398,7 @@ namespace APIWebsiteKTX.Controllers
 
             return Ok(result);
         }
+
         [HttpGet("chi-tiet-phieu-thu/{maPhieuThu}")]
         public async Task<IActionResult> GetChiTietPhieuThu(int maPhieuThu)
         {
