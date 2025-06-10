@@ -337,5 +337,105 @@ namespace APIWebsiteKTX.Controllers
                 trangThai = phieuThu.TrangThai
             });
         }
+        [HttpGet("phieu-thu-da-thanh-toan")]
+        public async Task<IActionResult> GetPhieuThuDaThanhToan()
+        {
+            // Lấy tất cả phiếu thu có trạng thái "Đã thanh toán"
+            var danhSachPhieuThu = await _context.PhieuThu
+                .Where(p => p.TrangThai == "Đã thanh toán")
+                .OrderByDescending(p => p.NgayLap)
+                .ToListAsync();
+
+            if (danhSachPhieuThu == null || danhSachPhieuThu.Count == 0)
+            {
+                return NotFound(new { message = "Không có phiếu thu đã thanh toán nào." });
+            }
+
+            // Lấy mã phiếu thu để truy vấn chi tiết và nhân viên
+            var maPhieuThus = danhSachPhieuThu.Select(p => p.MaPhieuThu).ToList();
+
+            // Lấy chi tiết phiếu thu
+            var chiTietPhieuThus = await _context.ChiTietPhieuThu
+                .Where(c => maPhieuThus.Contains(c.MaPhieuThu))
+                .ToListAsync();
+
+            // Lấy danh sách mã nhân viên
+            var maNVs = danhSachPhieuThu.Select(p => p.MaNV).Distinct().ToList();
+
+            // Lấy tên nhân viên
+            var nhanViens = await _context.NhanVien
+                .Where(nv => maNVs.Contains(nv.MaNV))
+                .ToDictionaryAsync(nv => nv.MaNV, nv => nv.HoTen);
+
+            // Chuẩn bị kết quả trả về
+            var result = danhSachPhieuThu.Select(p => new
+            {
+                p.MaPhieuThu,
+                p.NgayLap,
+                p.TongTien,
+                p.TrangThai,
+                p.MaHopDong,
+                p.MaNV,
+                TenNhanVien = nhanViens.ContainsKey(p.MaNV) ? nhanViens[p.MaNV] : null,
+                LoaiKhoanThu = chiTietPhieuThus
+                    .Where(c => c.MaPhieuThu == p.MaPhieuThu)
+                    .Select(c => c.LoaiKhoanThu)
+                    .ToList()
+            }).ToList();
+
+            return Ok(result);
+        }
+        [HttpGet("chi-tiet-phieu-thu/{maPhieuThu}")]
+        public async Task<IActionResult> GetChiTietPhieuThu(int maPhieuThu)
+        {
+            // Lấy phiếu thu
+            var phieuThu = await _context.PhieuThu
+                .FirstOrDefaultAsync(p => p.MaPhieuThu == maPhieuThu);
+
+            if (phieuThu == null)
+            {
+                return NotFound(new { message = "Không tìm thấy phiếu thu." });
+            }
+
+            // Lấy hợp đồng liên quan
+            var hopDong = await _context.HopDongNoiTru
+                .FirstOrDefaultAsync(h => h.MaHopDong == phieuThu.MaHopDong);
+
+            // Lấy chi tiết phiếu thu
+            var chiTietPhieuThu = await _context.ChiTietPhieuThu
+                .Where(c => c.MaPhieuThu == maPhieuThu)
+                .Select(c => new
+                {
+                    c.LoaiKhoanThu,
+                    c.SoTien
+                })
+                .ToListAsync();
+
+            // Lấy tên nhân viên lập phiếu (nếu có)
+            string tenNhanVien = null;
+            if (!string.IsNullOrEmpty(phieuThu.MaNV))
+            {
+                tenNhanVien = await _context.NhanVien
+                    .Where(nv => nv.MaNV == phieuThu.MaNV)
+                    .Select(nv => nv.HoTen)
+                    .FirstOrDefaultAsync();
+            }
+
+            return Ok(new
+            {
+                PhieuThu = new
+                {
+                    phieuThu.MaPhieuThu,
+                    phieuThu.NgayLap,
+                    phieuThu.TongTien,
+                    phieuThu.TrangThai,
+                    phieuThu.MaNV,
+                    TenNhanVien = tenNhanVien,
+                    phieuThu.MaHopDong,
+                    ChiTietPhieuThu = chiTietPhieuThu
+                },
+                HopDong = hopDong // trả về toàn bộ thông tin hợp đồng, có thể chọn lọc trường nếu muốn
+            });
+        }
     }
 }
