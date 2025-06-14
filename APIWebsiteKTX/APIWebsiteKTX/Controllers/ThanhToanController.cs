@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Net.payOS;
+using Net.payOS.Types;
 
 namespace APIWebsiteKTX.Controllers
 {
@@ -47,40 +49,74 @@ namespace APIWebsiteKTX.Controllers
             var phieuThuDienNuoc = await _context.PhieuThu
                 .Where(p => danhSachMaHopDong.Contains(p.MaHopDong))
                 .Where(p => _context.ChiTietPhieuThu
-                    .Any(c => c.MaPhieuThu == p.MaPhieuThu && c.LoaiKhoanThu == "Phí điện" || c.LoaiKhoanThu == "Phí nước"))
+                    .Any(c => c.MaPhieuThu == p.MaPhieuThu && (c.LoaiKhoanThu == "Tiền Điện" || c.LoaiKhoanThu == "Tiền Nước")))
                 .ToListAsync();
 
-            // 4. Cập nhật trạng thái phiếu thu
+            if (!phieuThuDienNuoc.Any())
+                return BadRequest("Không có phiếu thu điện nước nào cần thanh toán.");
+
+            // 4. Tổng tiền và danh sách item
+            var tongTien = 0;
+            var items = new List<ItemData>();
             var ketQua = new List<ThanhToanDienNuocReponseDTO>();
 
             foreach (var pt in phieuThuDienNuoc)
             {
                 pt.TrangThai = "Đã thanh toán";
 
-                var tongTien = pt.TongTien;
+                tongTien += (int)(pt.TongTien);
                 var maHopDong = pt.MaHopDong;
-                var maSinhVien = maSVTheoHopDong.ContainsKey(maHopDong)
-                    ? maSVTheoHopDong[maHopDong]
-                    : "";
+                var maSinhVien = maSVTheoHopDong.ContainsKey(maHopDong) ? maSVTheoHopDong[maHopDong] : "";
+
+                // Ghi chi tiết đầy đủ vào item
+                items.Add(new ItemData(
+                    name: $"PT{pt.MaPhieuThu}_SV{maSinhVien}", // <= tối đa 100 ký tự tuỳ PayOS
+                    quantity: 1,
+                    price: (int)(pt.TongTien)
+                ));
 
                 ketQua.Add(new ThanhToanDienNuocReponseDTO
                 {
                     MaPhieuThu = pt.MaPhieuThu,
                     MaSV = maSinhVien,
-                    TongTien = tongTien
+                    TongTien = pt.TongTien
                 });
             }
+
+            // 5. Cấu hình PayOS
+            var payos = new PayOS(
+                "32542182-51db-48cf-8d7a-6d8a18d599b5",  // clientId
+                "dc3def5d-79e6-4b24-9c21-5ab24f9481c2",  // apiKey
+                "162ea9960c0fb31f3f6267f89d5c2788da5cfc623ad1311e1baa800f386ef229" // checksumKey
+            );
+            var moTaThanhToan = $"Dien nuoc P{maPhong}";
+            if (moTaThanhToan.Length > 25)
+                moTaThanhToan = moTaThanhToan.Substring(0, 25);
+
+            var orderCode = new Random().Next(100000, 999999);
+            var paymentData = new PaymentData(
+                orderCode: orderCode,
+                amount: tongTien,
+                description: moTaThanhToan,
+                items: items,
+                cancelUrl: "http://localhost:5173/huy",
+                returnUrl: "http://localhost:5173/ket-qua"
+            );
+
+            var result = await payos.createPaymentLink(paymentData);
 
             await _context.SaveChangesAsync();
 
             return Ok(new
             {
-                message = "Thanh toán thành công.",
+                message = "Tạo liên kết thanh toán thành công.",
                 tongSoPhieu = ketQua.Count,
-                tongTienThanhToan = ketQua.Sum(x => x.TongTien),
-                chiTiet = ketQua
+                tongTienThanhToan = tongTien,
+                chiTiet = ketQua,
+                url = result.checkoutUrl
             });
         }
+
         [HttpGet("{maSV}/hopdong-phong-phieuthu")]
         public async Task<IActionResult> XemHopDongVaPhieuThuPhong(string maSV)
         {
@@ -94,7 +130,7 @@ namespace APIWebsiteKTX.Controllers
 
             // Tìm các mã phiếu thu thuộc hợp đồng
             var maPhieuThuPhong = await _context.ChiTietPhieuThu
-                .Where(c => c.LoaiKhoanThu == "Phí phòng")
+                .Where(c => c.LoaiKhoanThu == "Hợp Đồng Nội Trú")
                 .Join(_context.PhieuThu,
                       c => c.MaPhieuThu,
                       p => p.MaPhieuThu,
@@ -104,7 +140,7 @@ namespace APIWebsiteKTX.Controllers
                 .Distinct()
                 .ToListAsync();
 
-            // Lấy danh sách phiếu thu liên quan đến khoản "Phí phòng"
+            // Lấy danh sách phiếu thu liên quan đến khoản "Hợp Đồng Nội Trú"
             var phieuThus = await _context.PhieuThu
                 .Where(p => maPhieuThuPhong.Contains(p.MaPhieuThu))
                 .Select(p => new PhieuThuResponseDTO
@@ -115,7 +151,7 @@ namespace APIWebsiteKTX.Controllers
                     TrangThai = p.TrangThai,
                     MaNV = p.MaNV,
                     ChiTietPhieuThu = _context.ChiTietPhieuThu
-                        .Where(c => c.MaPhieuThu == p.MaPhieuThu && c.LoaiKhoanThu == "Phí phòng")
+                        .Where(c => c.MaPhieuThu == p.MaPhieuThu && c.LoaiKhoanThu == "Hợp Đồng Nội Trú")
                         .Select(c => new ChiTietPhieuThuDTO
                         {
                             LoaiKhoanThu = c.LoaiKhoanThu,
@@ -179,7 +215,7 @@ namespace APIWebsiteKTX.Controllers
                         new ChiTietPhieuThu
                         {
                             MaPhieuThu = phieuThu.MaPhieuThu,
-                            LoaiKhoanThu = "Phí phòng",
+                            LoaiKhoanThu = "Hợp Đồng Nội Trú",
                             SoTien = tongTien // Simplified, adjust as needed
                         }
                         // Add more ChiTietPhieuThu items if needed based on actual fee structure
