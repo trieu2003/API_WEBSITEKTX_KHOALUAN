@@ -70,5 +70,67 @@ namespace APIWebsiteKTX.Controllers
 
             return Ok(result);
         }
+        [HttpGet("advanced-search")]
+        public async Task<ActionResult<IEnumerable<object>>> AdvancedSearchBeds(
+     [FromQuery] string? tenLoai,
+     [FromQuery] string? tenTang,
+     [FromQuery] string? maPhong)
+        {
+            var query =
+                from g in _context.Giuong
+                join ctp in _context.ChiTietPhong on g.MaGiuong equals ctp.MaGiuong
+                join p in _context.Phong on ctp.MaPhong equals p.MaPhong
+                join lp in _context.LoaiPhong on p.MaLoaiPhong equals lp.MaLoaiPhong
+                join t in _context.Tang on p.MaTang equals t.MaTang
+                where g.TrangThai == "Trống"
+                select new
+                {
+                    maGiuong = g.MaGiuong,
+                    maPhong = p.MaPhong,
+                    tenPhong = p.TenPhong,
+                    tenLoai = lp.TenLoai,
+                    tenTang = t.TenTang,
+                    trangThai = g.TrangThai
+                };
+
+            if (!string.IsNullOrEmpty(tenLoai))
+                query = query.Where(x => x.tenLoai.Contains(tenLoai));
+            if (!string.IsNullOrEmpty(tenTang))
+                query = query.Where(x => x.tenTang.Contains(tenTang));
+            if (!string.IsNullOrEmpty(maPhong))
+                query = query.Where(x => x.maPhong.Contains(maPhong));
+
+            var beds = await query.Distinct().ToListAsync();
+
+            var thietBiTheoGiuong = await (
+                from ctp in _context.ChiTietPhong
+                where ctp.MaThietBi != null
+                join tb in _context.TrangThietBi on ctp.MaThietBi equals tb.MaThietBi
+                select new
+                {
+                    maGiuong = ctp.MaGiuong,
+                    tenThietBi = tb.TenThietBi
+                }).ToListAsync();
+
+            var result = beds.Select(b => new
+            {
+                b.maGiuong,
+                b.maPhong,
+                b.tenPhong,
+                b.tenLoai,
+                b.tenTang,
+                b.trangThai,
+                danhSachThietBi = thietBiTheoGiuong
+                    .Where(t => t.maGiuong == b.maGiuong)
+                    .Select(t => t.tenThietBi)
+                    .Distinct()
+                    .ToList()
+            });
+
+            return Ok(result);
+        }
+
+
+
     }
 }
