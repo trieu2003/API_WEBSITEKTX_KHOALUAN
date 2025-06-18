@@ -254,25 +254,9 @@ namespace APIWebsiteKTX.Controllers
                 return BadRequest(new { message = "Mã sinh viên không được để trống." });
             }
 
+            // Lấy danh sách hợp đồng của sinh viên
             var hopDongList = await _context.HopDongNoiTru
                 .Where(hd => hd.MaSV == maSV)
-                .Select(hd => new
-                {
-                    hd.MaHopDong,
-                    hd.MaSV,
-                    hd.MaGiuong,
-                    hd.MaPhong,
-                    hd.NgayDangKy,
-                    hd.NgayBatDau,
-                    hd.NgayKetThuc,
-                    hd.DotDangKy,
-                    hd.NhomTruong,
-                    hd.TrangThai,
-                    hd.TrangThaiDuyet,
-                    hd.PhuongThucThanhToan,
-                    hd.MinhChungThanhToan,
-                    hd.MaNamHoc
-                })
                 .ToListAsync();
 
             if (hopDongList == null || hopDongList.Count == 0)
@@ -280,8 +264,144 @@ namespace APIWebsiteKTX.Controllers
                 return NotFound(new { message = "Không tìm thấy hợp đồng nội trú nào của sinh viên này." });
             }
 
-            return Ok(hopDongList);
+            var maHopDongList = hopDongList.Select(hd => hd.MaHopDong).ToList();
+
+            // Lấy các phiếu thu liên quan đến các hợp đồng này
+            var phieuThus = await _context.PhieuThu
+                .Where(pt => maHopDongList.Contains(pt.MaHopDong))
+                .Select(pt => new { pt.MaPhieuThu, pt.MaHopDong, pt.TrangThai })
+                .ToListAsync();
+
+            if (phieuThus == null || phieuThus.Count == 0)
+            {
+                return NotFound(new { message = "Không tìm thấy phiếu thu nào liên quan đến hợp đồng của sinh viên này." });
+            }
+
+            var maPhieuThuList = phieuThus.Select(pt => pt.MaPhieuThu).ToList();
+
+            // Lấy chi tiết phiếu thu loại "Hợp Đồng Nội Trú"
+            var chiTietPhieuThus = await _context.ChiTietPhieuThu
+                .Where(ct => maPhieuThuList.Contains(ct.MaPhieuThu) && ct.LoaiKhoanThu == "Hợp Đồng Nội Trú")
+                .Select(ct => new { ct.MaPhieuThu })
+                .ToListAsync();
+
+            // Xác định hợp đồng nào đã thanh toán khoản "Hợp Đồng Nội Trú"
+            var hopDongDaThanhToan = phieuThus
+                .Where(pt => pt.TrangThai == "Đã thanh toán" && chiTietPhieuThus.Any(ct => ct.MaPhieuThu == pt.MaPhieuThu))
+                .Select(pt => pt.MaHopDong)
+                .Distinct()
+                .ToHashSet();
+
+            // Gộp kết quả trả về
+            var result = hopDongList.Select(hd => new
+            {
+                hd.MaHopDong,
+                hd.MaSV,
+                hd.MaGiuong,
+                hd.MaPhong,
+                hd.NgayDangKy,
+                hd.NgayBatDau,
+                hd.NgayKetThuc,
+                hd.DotDangKy,
+                hd.NhomTruong,
+                hd.TrangThai,
+                hd.TrangThaiDuyet,
+                hd.PhuongThucThanhToan,
+                hd.MinhChungThanhToan,
+                hd.MaNamHoc,
+                DaThanhToanHopDongNoiTru = hopDongDaThanhToan.Contains(hd.MaHopDong)
+            }).ToList();
+
+            return Ok(result);
         }
+        [HttpGet("GetContractIfFullyPaid/{maSV}")]
+        public async Task<IActionResult> GetContractIfFullyPaid(string maSV)
+        {
+            if (string.IsNullOrEmpty(maSV))
+                return BadRequest(new { message = "Mã sinh viên không được để trống." });
+
+            // Lấy hợp đồng nội trú mới nhất của sinh viên
+            var hopDong = await _context.HopDongNoiTru
+                .Where(hd => hd.MaSV == maSV)
+                .OrderByDescending(hd => hd.NgayDangKy)
+                .FirstOrDefaultAsync();
+
+            if (hopDong == null)
+                return NotFound(new { message = "Không tìm thấy hợp đồng nội trú cho sinh viên này." });
+
+            // Lấy các phiếu thu liên quan đến hợp đồng này
+            var phieuThus = await _context.PhieuThu
+                .Where(pt => pt.MaHopDong == hopDong.MaHopDong)
+                .ToListAsync();
+
+            if (phieuThus == null || phieuThus.Count == 0)
+                return NotFound(new { message = "Không tìm thấy phiếu thu cho hợp đồng này." });
+
+            var maPhieuThuList = phieuThus.Select(pt => pt.MaPhieuThu).ToList();
+
+            // Lấy chi tiết phiếu thu loại "Hợp Đồng Nội Trú"
+            var chiTietPhieuThus = await _context.ChiTietPhieuThu
+                .Where(ct => maPhieuThuList.Contains(ct.MaPhieuThu) && ct.LoaiKhoanThu == "Hợp Đồng Nội Trú")
+                .ToListAsync();
+
+            if (chiTietPhieuThus == null || chiTietPhieuThus.Count == 0)
+                return NotFound(new { message = "Không có khoản thu 'Hợp Đồng Nội Trú' nào cho hợp đồng này." });
+
+            // Kiểm tra tất cả các phiếu thu loại "Hợp Đồng Nội Trú" đã được thanh toán chưa
+            var phieuThuIdsWithHDNT = chiTietPhieuThus.Select(ct => ct.MaPhieuThu).Distinct().ToList();
+            var allPaid = phieuThus
+                .Where(pt => phieuThuIdsWithHDNT.Contains(pt.MaPhieuThu))
+                .All(pt => pt.TrangThai == "Đã thanh toán");
+
+            if (!allPaid)
+                return BadRequest(new { message = "Sinh viên chưa thanh toán đầy đủ các khoản 'Hợp Đồng Nội Trú'." });
+
+            // Lấy thông tin sinh viên
+            var sinhVien = await _context.SinhVien
+                .FirstOrDefaultAsync(sv => sv.MaSV == hopDong.MaSV);
+
+            // Lấy thông tin phòng và loại phòng để lấy MucPhi
+            var phong = await _context.Phong
+                .FirstOrDefaultAsync(p => p.MaPhong == hopDong.MaPhong);
+
+            decimal? mucPhi = null;
+            if (phong != null)
+            {
+                var loaiPhong = await _context.LoaiPhong
+                    .FirstOrDefaultAsync(lp => lp.MaLoaiPhong == phong.MaLoaiPhong);
+                mucPhi = loaiPhong?.MucPhi;
+            }
+
+            // Trả về thông tin hợp đồng + sinh viên + mức phí phòng
+            return Ok(new
+            {
+                hopDong.MaHopDong,
+                hopDong.MaSV,
+                hopDong.MaGiuong,
+                hopDong.MaPhong,
+                hopDong.NgayDangKy,
+                hopDong.NgayBatDau,
+                hopDong.NgayKetThuc,
+                hopDong.DotDangKy,
+                hopDong.NhomTruong,
+                hopDong.TrangThai,
+                hopDong.TrangThaiDuyet,
+                hopDong.PhuongThucThanhToan,
+                hopDong.MinhChungThanhToan,
+                hopDong.MaNamHoc,
+                // Thông tin sinh viên
+                GioiTinh = sinhVien?.GioiTinh,
+                SoHoKhau = sinhVien?.SoHoKhau,
+                SoCanCuoc = sinhVien?.SoCanCuoc,
+                Lop = sinhVien?.Lop,
+                MaKhoa = sinhVien?.MaKhoa,
+                SDT = sinhVien?.SDT,
+                Email = sinhVien?.Email,
+                // Mức phí phòng
+                MucPhi = mucPhi
+            });
+        }
+
 
     }
 }
