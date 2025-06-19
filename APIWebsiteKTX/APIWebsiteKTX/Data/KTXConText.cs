@@ -30,6 +30,7 @@ namespace APIWebsiteKTX.Data
         public DbSet<Tang> Tang { get; set; }
         public DbSet<TrangThietBi> TrangThietBi { get; set; }
         public DbSet<ViPham> ViPham { get; set; }
+        public DbSet<CT_ViPham> CT_ViPham { get; set; }
         public DbSet<YeuCauSuaChua> YeuCauSuaChua { get; set; }
         public DbSet<ChiTietSuaChua> ChiTietSuaChua { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

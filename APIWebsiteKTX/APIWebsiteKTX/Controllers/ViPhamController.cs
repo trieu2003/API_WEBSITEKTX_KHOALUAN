@@ -1,4 +1,4 @@
-
+﻿
 using APIWebsiteKTX.Data;
 using APIWebsiteKTX.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,30 +20,53 @@ namespace APIWebsiteKTX.Controllers
             _context = context;
         }
 
-        [HttpGet("vipham/sinhvien/{maSV}")]
-        public async Task<IActionResult> GetViPhamCuaSinhVien(string maSV)
+        [HttpGet("sinhvien/{maSV}/ds-chi-tiet-vi-pham")]
+        public async Task<IActionResult> LayDanhSachChiTietViPhamTheoMaSV(string maSV)
         {
-            var danhSachViPham = await _context.ViPham
-                .Where(v => v.MaSV == maSV)
-                .Join(
-                    _context.NoiQuy,
-                    v => v.MaNoiQuy,
-                    nq => nq.MaNoiQuy,
-                    (v, nq) => new ViPhamResponseDTO
-                    {
-                        MaViPham = v.MaViPham,
-                        MaSV = v.MaSV,
-                        NoiDung = nq.NoiDung ?? "",
-                        GhiChu = v.GhiChu ?? "",
-                        HinhThucXuLy = v.HinhThucXuLy ?? "",
-                        MucDoXuLy = v.MucDoXuLy ?? "",
-                        MaNV = v.MaNV ?? "",
-                        FileBienBan = v.FileBienBan ?? ""
-                    }
-                )
+            if (string.IsNullOrEmpty(maSV))
+                return BadRequest(new { message = "Mã sinh viên không được để trống." });
+
+            var chiTietViPhams = await _context.CT_ViPham
+                .Where(ct => ct.MaSV == maSV)
+                .OrderByDescending(ct => ct.MaViPham)
+                .Select(ct => new
+                {
+                    ct.MaViPham,
+                    ct.MaSV,
+                    ct.HinhThucXuLy,
+                    ct.MucDoXuLy,
+                    ct.GhiChu,
+                    ct.MaNV
+                })
                 .ToListAsync();
 
-            return Ok(danhSachViPham);
+            if (chiTietViPhams == null || !chiTietViPhams.Any())
+                return NotFound(new { message = "Không tìm thấy vi phạm nào cho sinh viên này." });
+
+            return Ok(chiTietViPhams);
         }
+
+        [HttpGet("chi-tiet/{maChiTietViPham}")]
+        public async Task<IActionResult> LayChiTietViPhamTheoMa(int maChiTietViPham)
+        {
+            var chiTiet = await _context.CT_ViPham
+                .Where(ct => ct.MaViPham == maChiTietViPham)
+                .Select(ct => new
+                {
+                    ct.MaViPham,
+                    ct.MaSV,
+                    ct.HinhThucXuLy,
+                    ct.MucDoXuLy,
+                    ct.GhiChu,
+                    ct.MaNV
+                })
+                .FirstOrDefaultAsync();
+
+            if (chiTiet == null)
+                return NotFound(new { message = "Không tìm thấy chi tiết vi phạm với mã này." });
+
+            return Ok(chiTiet);
+        }
+
     }
 }

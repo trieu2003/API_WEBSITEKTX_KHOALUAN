@@ -45,7 +45,26 @@ namespace APIWebsiteKTX.Controllers
                 return StatusCode(500, new { status = "error", message = "Lỗi server", error = ex.Message });
             }
         }
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<NoiQuyDTO>>> SearchRules([FromQuery] string keyword = "")
+        {
+            var query = _context.NoiQuy.AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                query = query.Where(nq => nq.NoiDung.Contains(keyword));
+            }
+
+            var result = await query
+                .Select(nq => new NoiQuyDTO
+                {
+                    MaNoiQuy = nq.MaNoiQuy,
+                    NoiDung = nq.NoiDung
+                })
+                .ToListAsync();
+
+            return Ok(new { status = "success", data = result });
+        }
         // trieeu
         //API 1 – Lấy danh sách tầng
         [HttpGet("tang")]
