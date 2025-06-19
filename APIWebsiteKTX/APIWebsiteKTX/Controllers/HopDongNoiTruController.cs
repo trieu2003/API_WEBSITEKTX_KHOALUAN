@@ -91,7 +91,7 @@ namespace APIWebsiteKTX.Controllers
                     NgayBatDau = ngayBatDau,
                     NgayKetThuc = ngayBatDau.AddYears(1),
                     DotDangKy = dotDangKy,
-                    NhomTruong = null,
+                    NhomTruong = "0",
                     TrangThai = "Chờ nhận phòng",
                     TrangThaiDuyet = "Chờ duyệt",
                     MaNamHoc = maNamHoc,
