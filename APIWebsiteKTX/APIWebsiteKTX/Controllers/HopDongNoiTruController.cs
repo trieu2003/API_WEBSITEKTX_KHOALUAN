@@ -201,7 +201,7 @@ namespace APIWebsiteKTX.Controllers
             // Cập nhật hợp đồng
             hopDong.NgayKetThuc = request.NgayKetThucMoi;
             hopDong.TrangThaiDuyet = "Chờ duyệt";
-            hopDong.TrangThai = "Chưa duyệt";
+            hopDong.TrangThai = "Chờ nhận phòng";
             hopDong.DotDangKy = dotDangKy;
             hopDong.MaNamHoc = maNamHoc;
             hopDong.MaNV = null; // reset người duyệt

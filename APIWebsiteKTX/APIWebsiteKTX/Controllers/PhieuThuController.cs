@@ -326,8 +326,9 @@ namespace APIWebsiteKTX.Controllers
                 description: $"Thanh toán phiếu thu #{phieuThu.MaPhieuThu}",
                 items: items,
                 cancelUrl: "http://localhost:5173/huy",
-                returnUrl: "http://localhost:5173/ket-qua"
+                returnUrl: $"http://localhost:5173/ket-qua?maPhieuThu={phieuThu.MaPhieuThu}" // ✅ THÊM MA PHIẾU
             );
+
 
             var result = await payos.createPaymentLink(paymentData);
 
@@ -339,6 +340,23 @@ namespace APIWebsiteKTX.Controllers
                 trangThai = phieuThu.TrangThai
             });
         }
+        [HttpPost("xac-nhan-thanh-toan")]
+        public async Task<IActionResult> XacNhanThanhToan([FromBody] int maPhieuThu)
+        {
+            var phieuThu = await _context.PhieuThu.FindAsync(maPhieuThu);
+            if (phieuThu == null)
+            {
+                return NotFound(new { message = "Không tìm thấy phiếu thu." });
+            }
+
+            // Cập nhật trạng thái sau khi người dùng quay lại từ PayOS
+            phieuThu.TrangThai = "Đã thanh toán";
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Đã cập nhật trạng thái phiếu thu thành công." });
+        }
+
+
         [HttpGet("phieu-thu-da-thanh-toan")]
         public async Task<IActionResult> GetPhieuThuDaThanhToan([FromQuery] string maSV)
         {
@@ -453,3 +471,4 @@ namespace APIWebsiteKTX.Controllers
         }
     }
 }
+
