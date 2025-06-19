@@ -373,6 +373,38 @@
   },
   {
     "ContainingType": "APIWebsiteKTX.Controllers.PhieuThuController",
+    "Method": "GetChiTietPhieuThu",
+    "RelativePath": "api/PhieuThu/chi-tiet-phieu-thu/{maPhieuThu}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maPhieuThu",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.PhieuThuController",
+    "Method": "GetPhieuThuDaThanhToan",
+    "RelativePath": "api/PhieuThu/phieu-thu-da-thanh-toan",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maSV",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.PhieuThuController",
     "Method": "LocPhieuThuNangCao",
     "RelativePath": "api/PhieuThu/phieuthu/loc-nang-cao",
     "HttpMethod": "POST",
@@ -407,6 +439,22 @@
     "ContainingType": "APIWebsiteKTX.Controllers.PhieuThuController",
     "Method": "ThanhToanTheoPhieuThu",
     "RelativePath": "api/PhieuThu/thanh-toan/{maPhieuThu}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maPhieuThu",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.PhieuThuController",
+    "Method": "XacNhanThanhToan",
+    "RelativePath": "api/PhieuThu/xac-nhan-thanh-toan",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -529,6 +577,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "APIWebsiteKTX.Controllers.TrangThietBiController",
+    "Method": "GetAllTrangThietBi",
+    "RelativePath": "api/TrangThietBi/danh-sach",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
