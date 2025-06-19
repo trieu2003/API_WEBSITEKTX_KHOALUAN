@@ -95,7 +95,9 @@ namespace APIWebsiteKTX.Controllers
                     TrangThai = "Chờ nhận phòng",
                     TrangThaiDuyet = "Chờ duyệt",
                     MaNamHoc = maNamHoc,
-                    MaNV="NV001"
+                    MaNV = "NV001",
+                    PhuongThucThanhToan = "",
+                    MinhChungThanhToan = ""
                 };
 
                 _context.HopDongNoiTru.Add(hopDong);
