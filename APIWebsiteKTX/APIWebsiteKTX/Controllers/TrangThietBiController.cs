@@ -27,7 +27,7 @@ namespace APIWebsiteKTX.Controllers
             {
                 // Find the active contract for the student to get MaPhong
                 var hopDong = await _context.HopDongNoiTru
-                    .Where(hd => hd.MaSV == maSV && hd.TrangThai == "Đang sử dụng")
+                    .Where(hd => hd.MaSV == maSV && hd.TrangThai == "Đang Sử Dụng")
                     .Select(hd => hd.MaPhong)
                     .FirstOrDefaultAsync();
 

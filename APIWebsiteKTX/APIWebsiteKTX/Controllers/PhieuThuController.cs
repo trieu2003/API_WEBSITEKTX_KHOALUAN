@@ -264,14 +264,14 @@ namespace APIWebsiteKTX.Controllers
             var maSV = request.MaSV;
 
             var hopDong = await _context.HopDongNoiTru
-                .FirstOrDefaultAsync(h => h.MaSV == maSV && h.TrangThai == "Đang sử dụng");
+                .FirstOrDefaultAsync(h => h.MaSV == maSV && h.TrangThai == "Đang Sử Dụng");
 
             if (hopDong == null)
                 return NotFound("Không tìm thấy hợp đồng hiện tại của sinh viên.");
             var maPhong = hopDong.MaPhong;
             // Lấy danh sách sinh viên cùng phòng
             var danhSachHopDong = await _context.HopDongNoiTru
-                .Where(h => h.MaPhong == maPhong && h.TrangThai == "Đang sử dụng")
+                .Where(h => h.MaPhong == maPhong && h.TrangThai == "Đang Sử Dụng")
                 .ToListAsync();
 
             var maSVs = danhSachHopDong.Select(h => h.MaSV).ToList();
@@ -294,7 +294,7 @@ namespace APIWebsiteKTX.Controllers
             if (hopDong.NhomTruong.Trim().ToLower() == "1")
             {
                 danhSachMaSV = await _context.HopDongNoiTru
-                    .Where(h => h.MaPhong == hopDong.MaPhong && h.TrangThai == "Đang sử dụng")
+                    .Where(h => h.MaPhong == hopDong.MaPhong && h.TrangThai == "Đang Sử Dụng")
                     .Select(h => h.MaSV)
                     .ToListAsync();
             }

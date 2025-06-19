@@ -50,7 +50,7 @@ namespace APIWebsiteKTX.Controllers
                 var hopDong = await _context.HopDongNoiTru
                     .Where(hd => hd.MaSV == request.MaSV
                         && hd.TrangThaiDuyet == "Đã duyệt"
-                        && hd.TrangThai != "Đang sử dụng")// 3 trạng thái Đang sử dụng, Hủy, Kết thúc
+                        && hd.TrangThai != "Đang Sử Dụng")// 3 trạng thái Đang Sử Dụng, Hủy, Kết thúc
                     .Include(hd => hd.Phong)
                         .ThenInclude(p => p.LoaiPhong)
                     .Include(hd => hd.Phong)
@@ -63,7 +63,7 @@ namespace APIWebsiteKTX.Controllers
                 }
 
                 // Check if already checked in
-                if (hopDong.TrangThai == "Đang sử dụng")
+                if (hopDong.TrangThai == "Đang Sử Dụng")
                 {
                     return BadRequest(new { message = "Bạn đã nhận phòng trước đó. Không thể thực hiện lại thao tác." });
                 }
@@ -95,7 +95,7 @@ namespace APIWebsiteKTX.Controllers
                 //        .Where(ctp => ctp.MaChiTietPhong == datChoTruoc.MaChiTietPhong)
                 //        .FirstOrDefaultAsync();
 
-                //    if (chiTietPhong == null || chiTietPhong.TrangThai == "Đang sử dụng")
+                //    if (chiTietPhong == null || chiTietPhong.TrangThai == "Đang Sử Dụng")
                 //    {
                 //        return BadRequest(new { message = "Giường được phân từ đặt trước đã được sử dụng. Vui lòng liên hệ nhân viên." });
                 //    }
@@ -106,7 +106,7 @@ namespace APIWebsiteKTX.Controllers
                 if (hopDong.Phong.TrangThai !="0" || hopDong.Phong.TrangThai != "1")
                 {
                     // Update contract status
-                    hopDong.TrangThai = "Đang sử dụng";
+                    hopDong.TrangThai = "Đang Sử Dụng";
 
                     // Update reservation status if applicable
                     //if (datChoTruoc != null)
@@ -116,7 +116,7 @@ namespace APIWebsiteKTX.Controllers
 
                     // Update room status
                     var currentOccupants = await _context.HopDongNoiTru
-                        .Where(hd => hd.MaPhong == hopDong.MaPhong && hd.TrangThai == "Đang sử dụng")
+                        .Where(hd => hd.MaPhong == hopDong.MaPhong && hd.TrangThai == "Đang Sử Dụng")
                         .CountAsync();
 
                     // Include the current student in the count

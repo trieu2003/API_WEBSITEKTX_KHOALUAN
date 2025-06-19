@@ -29,7 +29,7 @@ namespace APIWebsiteKTX.Controllers
 
             // 1. Xác minh trưởng nhóm
             var hopDongTruongNhom = await _context.HopDongNoiTru
-                .Where(h => h.MaSV == maSV && h.TrangThai == "Đang sử dụng" && h.NhomTruong.Trim().ToLower() == "1")
+                .Where(h => h.MaSV == maSV && h.TrangThai == "Đang Sử Dụng" && h.NhomTruong.Trim().ToLower() == "1")
                 .FirstOrDefaultAsync();
 
             if (hopDongTruongNhom == null)
@@ -39,7 +39,7 @@ namespace APIWebsiteKTX.Controllers
 
             // 2. Lấy danh sách sinh viên cùng phòng
             var danhSachHopDong = await _context.HopDongNoiTru
-                .Where(h => h.MaPhong == maPhong && h.TrangThai == "Đang sử dụng")
+                .Where(h => h.MaPhong == maPhong && h.TrangThai == "Đang Sử Dụng")
                 .ToListAsync();
 
             var danhSachMaHopDong = danhSachHopDong.Select(h => h.MaHopDong).ToList();

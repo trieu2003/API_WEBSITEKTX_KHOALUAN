@@ -24,7 +24,7 @@ namespace APIWebsiteKTX.Controllers
         {
             // Tìm hợp đồng hiện tại của sinh viên
             var hopDong = await _context.HopDongNoiTru
-                .Where(h => h.MaSV == maSV && h.TrangThai == "Đang sử dụng")
+                .Where(h => h.MaSV == maSV && h.TrangThai == "Đang Sử Dụng")
                 .FirstOrDefaultAsync();
 
             if (hopDong == null)
